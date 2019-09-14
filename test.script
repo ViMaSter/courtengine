@@ -5,27 +5,27 @@ CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 
 // Comments also work!
-CUTTO COURT_DEFENSE
-SPEAK Phoenix 
-"hello again edgeworth"
 
-CUTTO COURT_PROSECUTION
+JUMPCUT COURT_DEFENSE
+SPEAK Phoenix 
+    "hello again edgeworth"
+
+JUMPCUT COURT_PROSECUTION
 SPEAK Edgeworth 
-"hello, peenix"
+    "hello, peenix"
 
-CUTTO COURT_DEFENSE
+JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 
-"i am not a gay man"
+    "edgeworth, why am i always followed by ghosts?"
 
-SPEAK Phoenix 
-"however..."
+JUMPCUT COURT_PROSECUTION
+SPEAK Edgeworth 
+    "..."
 
+JUMPCUT COURT_DEFENSE
 POSE Phoenix POINT
+OBJECTION Phoenix
 SPEAK Phoenix 
-"edgeworth i love you!"
+    "shut your mouth edgeworth!"
 
-CUTTO COURT_PROSECUTION
-//POSE Edgeworth HURT
-SPEAK Edgeworth
-"wright, i am not GAY!"
 

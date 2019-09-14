@@ -24,11 +24,14 @@ function LoadScript(scriptPath)
                 if lineParts[1] == "CHARACTER_LOCATION" then
                     table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
                 end
-                if lineParts[1] == "CUTTO" then
+                if lineParts[1] == "JUMPCUT" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
                 end
                 if lineParts[1] == "POSE" then
                     table.insert(events, NewPoseEvent(lineParts[2], lineParts[3]))
+                end
+                if lineParts[1] == "OBJECTION" then
+                    table.insert(events, NewObjectionEvent(lineParts[2]))
                 end
 
                 if lineParts[1] == "SPEAK" then
@@ -46,26 +49,44 @@ function DisectLine(line)
     local wordStart = 1
     local inDialogue = false
     local isComment = false
+    local wasWord = false
 
     for i=1, #line do
         local thisChar = string.sub(line, i,i)
 
         if not isComment then
             if not inDialogue then
+                local wordCharacter = true
+
+                -- spaces determine where words stop
+                -- but only advance to the next word if there was a word there to begin with
+                -- this allows for indentation
                 if thisChar == " " then
-                    table.insert(words, string.sub(line, wordStart, i-1))
-                    wordStart = i+1
+                    if wasWord then
+                        table.insert(words, string.sub(line, wordStart, i-1))
+                        wordStart = i+1
+                    end
+                    wasWord = false
+                    wordCharacter = false
                 end
 
+                -- handle quotation marks, they denote dialogue
+                -- they also act as one whole word
                 if thisChar == '"' then
                     inDialogue = true
                     wordStart = i+1
                 end
 
+                -- double slash is a comment, so disregard this line
                 if i < #line 
                 and string.sub(line,i,i) == "/" 
                 and string.sub(line,i+1,i+1) == "/" then
                     isComment = true
+                    wordCharacter = false
+                end
+
+                if wordCharacter then
+                    wasWord = true
                 end
             else
                 -- treat what is in "" as one big word
@@ -151,16 +172,40 @@ function NewSpeakEvent(who, text)
     local self = {}
     self.text = text
     self.textScroll = 1
+    self.wasPressing = true
 
     self.update = function (self, scene, dt)
         self.textScroll = math.min(self.textScroll + dt*20, #self.text)
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
-        if love.keyboard.isDown("x") and self.textScroll >= #self.text then
+        local pressing = love.keyboard.isDown("x")
+        if pressing and not self.wasPressing and self.textScroll >= #self.text then
             return false
         end
+        self.wasPressing = pressing
 
         return true
+    end
+
+    return self
+end
+
+function NewObjectionEvent(who)
+    local self = {}
+    self.timer = 0
+    self.x,self.y = 0,0
+
+    self.update = function (self, scene, dt)
+        scene.textHidden = true
+        self.timer = self.timer + dt
+        self.x = self.x + love.math.random()*choose{1,-1}*2
+        self.y = self.y + love.math.random()*choose{1,-1}*2
+
+        return self.timer < 0.5
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.draw(ObjectionSprite, self.x,self.y)
     end
 
     return self

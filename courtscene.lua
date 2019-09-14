@@ -4,10 +4,12 @@ function NewCourtScene(scriptPath)
     self.characterLocations = {}
     self.characters = {}
 
+    self.textHidden = false
     self.text = "empty"
     self.events = LoadScript(scriptPath)
 
     self.update = function (self, dt)
+        self.textHidden = false
         if #self.events >= 1 then
             if not self.events[1]:update(self, dt) then
                 table.remove(self.events, 1)
@@ -29,13 +31,18 @@ function NewCourtScene(scriptPath)
             love.graphics.draw(background[2])
         end
 
-        -- draw the textbox
-        love.graphics.setColor(0,0,0, 0.65)
-        love.graphics.rectangle("fill", 0,GraphicsHeight()-64,GraphicsWidth(),GraphicsHeight())
+        if #self.events >= 1 then
+            if self.events[1].draw ~= nil then
+                self.events[1]:draw(scene)
+            end
+        end
 
-        -- draw the text
-        love.graphics.setColor(1,1,1)
-        love.graphics.print(self.text, 4, GraphicsHeight()-60)
+        -- draw the textbox
+        if not self.textHidden then
+            love.graphics.setColor(1,1,1)
+            love.graphics.draw(TextBox,0,GraphicsHeight()-TextBox:getHeight())
+            love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
+        end
     end
 
     return self
