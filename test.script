@@ -6,6 +6,8 @@ CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 
 // Comments also work!
 
+PLAY_MUSIC TRIAL
+
 JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 
     "hello again edgeworth"
@@ -24,6 +26,7 @@ SPEAK Edgeworth
 
 JUMPCUT COURT_DEFENSE
 POSE Phoenix POINT
+PLAY_MUSIC OBJECTION
 OBJECTION Phoenix
 SPEAK Phoenix 
     "shut your mouth edgeworth!"

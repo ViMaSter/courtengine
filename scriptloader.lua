@@ -33,6 +33,9 @@ function LoadScript(scriptPath)
                 if lineParts[1] == "OBJECTION" then
                     table.insert(events, NewObjectionEvent(lineParts[2]))
                 end
+                if lineParts[1] == "PLAY_MUSIC" then
+                    table.insert(events, NewPlayMusicEvent(lineParts[2]))
+                end
 
                 if lineParts[1] == "SPEAK" then
                     queuedSpeak = {lineParts[2]}
@@ -173,10 +176,12 @@ function NewSpeakEvent(who, text)
     self.text = text
     self.textScroll = 1
     self.wasPressing = true
+    self.who = who
 
     self.update = function (self, scene, dt)
         self.textScroll = math.min(self.textScroll + dt*20, #self.text)
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
+        scene.textTalker = self.who
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then
@@ -206,6 +211,23 @@ function NewObjectionEvent(who)
 
     self.draw = function (self, scene)
         love.graphics.draw(ObjectionSprite, self.x,self.y)
+    end
+
+    return self
+end
+
+function NewPlayMusicEvent(music)
+    local self = {}
+    self.music = music
+
+    self.update = function (self, scene, dt)
+        for i,v in pairs(Music) do
+            v:stop()
+        end
+
+        Music[self.music]:play()
+
+        return false
     end
 
     return self

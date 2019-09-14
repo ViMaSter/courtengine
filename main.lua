@@ -6,6 +6,7 @@ function love.load()
     love.graphics.setDefaultFilter("nearest")
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
     GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
+    MasterVolume = 0.25
     --love.graphics.setFont(GameFont)
 
     Backgrounds = {
@@ -13,6 +14,21 @@ function love.load()
         COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
         COURT_JUDGE = {love.graphics.newImage("backgrounds/judgestand.png")},
     }
+    Music = {
+        TRIAL = love.audio.newSource("music/trial.mp3", "static"),
+        OBJECTION = love.audio.newSource("music/objection.mp3", "static"),
+        SUSPENCE = love.audio.newSource("music/suspence.mp3", "static"),
+        QUESTIONING_ALLEGRO = love.audio.newSource("music/questioning_allegro.mp3", "static"),
+        QUESTIONING = love.audio.newSource("music/questioning.mp3", "static"),
+        PRELUDE = love.audio.newSource("music/prelude.mp3", "static"),
+        LOGIC_AND_TRICK = love.audio.newSource("music/logic_and_trick.mp3", "static"),
+    }
+
+    for i,v in pairs(Music) do
+        v:setLooping(true)
+        v:setVolume(MasterVolume)
+    end
+    
     TextBox = love.graphics.newImage("sprites/chatbox.png")
     ObjectionSprite = love.graphics.newImage("sprites/objection.png")
 

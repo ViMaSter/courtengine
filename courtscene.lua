@@ -6,6 +6,7 @@ function NewCourtScene(scriptPath)
 
     self.textHidden = false
     self.text = "empty"
+    self.textTalker = ""
     self.events = LoadScript(scriptPath)
 
     self.update = function (self, dt)
@@ -42,6 +43,7 @@ function NewCourtScene(scriptPath)
             love.graphics.setColor(1,1,1)
             love.graphics.draw(TextBox,0,GraphicsHeight()-TextBox:getHeight())
             love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
+            love.graphics.print(self.textTalker, 4, GraphicsHeight()-TextBox:getHeight())
         end
     end
 
