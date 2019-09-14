@@ -21,6 +21,13 @@ SPEAK Judge
 SPEAK Judge 
     "defense are you ready?"
 
+JUMPCUT COURT_WITNESS
+PLAY_MUSIC QUESTIONING
+CROSS_EXAMINATION Gumshoe "cross examination title"
+    "the victim died from huffing spraypaint" 
+    "at 4:30 pm on the 19th"
+    "and daniel sexbang was there at the scene of the crime when we arrived"
+
 JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 
     "i'm always ready your honor"
@@ -44,6 +51,7 @@ SPEAK Edgeworth
 JUMPCUT COURT_WITNESS
 SPEAK Gumshoe
     "hey there pals. is it time for another cross examination?"
+
 
 //JUMPCUT COURT_DEFENSE
 //POSE Phoenix POINT

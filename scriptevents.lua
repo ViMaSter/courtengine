@@ -46,7 +46,7 @@ function NewSpeakEvent(who, text)
     self.who = who
 
     self.update = function (self, scene, dt)
-        self.textScroll = math.min(self.textScroll + dt*20, #self.text)
+        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = self.who
 
@@ -107,6 +107,44 @@ function NewCourtRecordAddEvent(evidence)
     self.update = function (self, scene, dt)
         table.insert(scene.courtRecord, scene.evidence[self.evidence])
         return false
+    end
+
+    return self
+end
+
+function NewCrossExaminationEvent(queue)
+    local self = {}
+    self.queue = queue
+    self.textScroll = 1
+    self.textIndex = 2
+    self.wasPressing = true
+    self.who = queue[1]
+
+    for i,v in pairs(queue) do
+        print(i,v)
+    end
+
+    self.update = function (self, scene, dt)
+        local text = self.queue[self.textIndex]
+
+        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
+        scene.text = string.sub(text, 1, math.floor(self.textScroll))
+        scene.textTalker = self.who
+
+        local pressing = love.keyboard.isDown("x")
+        if pressing 
+        and not self.wasPressing 
+        and self.textScroll >= #text then
+            self.textIndex = self.textIndex + 1
+            self.textScroll = 1
+
+            if self.textIndex > #self.queue then
+                self.textIndex = 1
+            end
+        end
+        self.wasPressing = pressing
+
+        return true
     end
 
     return self

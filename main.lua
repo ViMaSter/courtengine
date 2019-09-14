@@ -8,6 +8,7 @@ function love.load()
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
     GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
     MasterVolume = 0.25
+    TextScrollSpeed = 20
     --love.graphics.setFont(GameFont)
 
     Backgrounds = {

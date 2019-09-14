@@ -3,6 +3,7 @@ function LoadScript(scriptPath)
     local events = {}
 
     local queuedSpeak = nil
+    local crossExaminationQueue = nil
 
     local canRead = true
     while canRead do
@@ -12,11 +13,29 @@ function LoadScript(scriptPath)
             canRead = false
         else
             local lineParts = DisectLine(line)
+            local canExecuteLine = true
 
-            if queuedSpeak ~= nil then
+            if crossExaminationQueue ~= nil then
+                if #lineParts > 0 then
+                    for i=1, #lineParts do
+                        table.insert(crossExaminationQueue, lineParts[i])
+                    end
+                else
+                    table.insert(events, NewCrossExaminationEvent(crossExaminationQueue))
+                    crossExaminationQueue = nil
+                end
+
+                canExecuteLine = false
+            end
+
+            if canExecuteLine and queuedSpeak ~= nil then
                 table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1]))
                 queuedSpeak = nil
-            else
+
+                canExecuteLine = false
+            end
+
+            if canExecuteLine then
                 if lineParts[1] == "CHARACTER_INITIALIZE" then
                     table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3]))
                 end
@@ -43,6 +62,10 @@ function LoadScript(scriptPath)
                     table.insert(events, NewPlayMusicEvent(lineParts[2]))
                 end
 
+                if lineParts[1] == "CROSS_EXAMINATION" then
+                    crossExaminationQueue = {lineParts[2]}
+                end
+
                 if lineParts[1] == "SPEAK" then
                     queuedSpeak = {lineParts[2]}
                 end
@@ -55,62 +78,50 @@ end
 
 function DisectLine(line)
     local words = {}
-    local wordStart = 1
-    local inDialogue = false
+    local isDialogue = false
     local isComment = false
-    local wasWord = false
+    local wordBuild = ""
 
     for i=1, #line do
         local thisChar = string.sub(line, i,i)
+        local thisDoubleChar = string.sub(line, i,i+1)
+        local canAddToWord = true
 
-        if not isComment then
-            if not inDialogue then
-                local wordCharacter = true
+        if thisDoubleChar == "//" then
+            isComment = true
+        end
 
-                -- spaces determine where words stop
-                -- but only advance to the next word if there was a word there to begin with
-                -- this allows for indentation
-                if thisChar == " " then
-                    if wasWord then
-                        table.insert(words, string.sub(line, wordStart, i-1))
-                    end
-                    wordStart = i+1
-                    wasWord = false
-                    wordCharacter = false
-                end
+        if isComment then
+            canAddToWord = false
+        end
 
-                -- handle quotation marks, they denote dialogue
-                -- they also act as one whole word
-                if thisChar == '"' then
-                    inDialogue = true
-                    wordStart = i+1
-                    wordCharacter = false
-                end
+        if canAddToWord and thisChar == '"' then
+            canAddToWord = false
 
-                -- double slash is a comment, so disregard this line
-                if i < #line 
-                and string.sub(line,i,i) == "/" 
-                and string.sub(line,i+1,i+1) == "/" then
-                    isComment = true
-                    wordCharacter = false
-                end
+            if isDialogue then
+                table.insert(words, wordBuild)
+                wordBuild = ""
+            end
 
-                if wordCharacter then
-                    wasWord = true
-                end
-            else
-                -- treat what is in "" as one big word
-                if thisChar == '"' then
-                    inDialogue = false
-                    table.insert(words, string.sub(line, wordStart, i-1))
-                    wordStart = i+1
-                end
+            isDialogue = not isDialogue
+        end
+
+        if canAddToWord and not isDialogue and thisChar == " " then
+            canAddToWord = false
+            if #wordBuild > 0 then
+                table.insert(words, wordBuild)
+                wordBuild = ""
             end
         end
 
-        if i == #line then
-            table.insert(words, string.sub(line, wordStart, i))
+        if canAddToWord then
+            wordBuild = wordBuild .. thisChar
         end
+    end
+
+    if #wordBuild > 0 then
+        table.insert(words, wordBuild)
+        wordBuild = ""
     end
 
     return words
@@ -144,10 +155,6 @@ function NewEvidenceInitEvent(name, externalName, info, file)
     self.externalName = name
     self.info = info
     self.file = file
-    print("name " .. name)
-    print("externalName " .. externalName)
-    print("info " .. info)
-    print("file " .. file)
 
     self.update = function (self, scene, dt)
         scene.evidence[self.name] = {
