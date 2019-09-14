@@ -1,0 +1,15 @@
+MUSIC courtTheme
+
+SPEAK DEFENSE "i am not a gay man"
+
+CUTTO courtProsecution
+SPEAK DEFENSE "however..."
+CUTTO courtDefense
+
+ACTION DEFENSE OBJECTION
+MUSIC objectionTheme
+SPEAK DEFENSE "edgeworth i love you!"
+
+
+ACTION PROSECUTION HURT
+SPEAK PROSECUTION "i love you too, wright"
