@@ -2,7 +2,7 @@ function NewCourtScene(scriptPath)
     local self = {}
     self.background = Backgrounds.courtDefense
 
-    self.text = "hello wordl"
+    self.text = "empty"
     self.events = LoadScript(scriptPath)
 
     self.update = function (self, dt)

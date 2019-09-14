@@ -5,6 +5,8 @@ function love.load()
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
     love.graphics.setDefaultFilter("nearest")
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
+    GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
+    love.graphics.setFont(GameFont)
 
     Backgrounds = {
         courtDefense = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
