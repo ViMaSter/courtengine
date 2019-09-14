@@ -5,19 +5,27 @@ CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 
 // Comments also work!
+CUTTO COURT_DEFENSE
+SPEAK Phoenix 
+"hello again edgeworth"
 
+CUTTO COURT_PROSECUTION
+SPEAK Edgeworth 
+"hello, peenix"
+
+CUTTO COURT_DEFENSE
 SPEAK Phoenix 
 "i am not a gay man"
 
-CUTTO COURT_PROSECUTION
 SPEAK Phoenix 
 "however..."
 
-ACTION Phoenix OBJECTION
+POSE Phoenix POINT
 SPEAK Phoenix 
 "edgeworth i love you!"
 
+CUTTO COURT_PROSECUTION
+//POSE Edgeworth HURT
+SPEAK Edgeworth
+"wright, i am not GAY!"
 
-ACTION PROSECUTION HURT
-SPEAK PROSECUTION
-"i love you too, wright"

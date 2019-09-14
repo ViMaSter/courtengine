@@ -14,7 +14,7 @@ function LoadScript(scriptPath)
             local lineParts = DisectLine(line)
 
             if queuedSpeak ~= nil then
-                print(queuedSpeak[1], lineParts[1])
+                --print(queuedSpeak[1], lineParts[1])
                 table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1]))
                 queuedSpeak = nil
             else
@@ -26,6 +26,9 @@ function LoadScript(scriptPath)
                 end
                 if lineParts[1] == "CUTTO" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
+                end
+                if lineParts[1] == "POSE" then
+                    table.insert(events, NewPoseEvent(lineParts[2], lineParts[3]))
                 end
 
                 if lineParts[1] == "SPEAK" then
@@ -89,7 +92,13 @@ function NewCharInitEvent(name, location)
 
     self.update = function (self, scene, dt)
         scene.characters[self.name] = {
-            NORMAL = love.graphics.newImage(self.location.."/normal.png"),
+            poses = {
+                NORMAL = love.graphics.newImage(self.location.."/normal.png"),
+                POINT = love.graphics.newImage(self.location.."/point.png"),
+            },
+
+            name = self.name,
+            frame = "NORMAL",
         }
 
         return false
@@ -104,7 +113,21 @@ function NewCharLocationEvent(name, location)
     self.location = location
 
     self.update = function (self, scene, dt)
-        scene.characterLocations[self.location] = self.name
+        scene.characterLocations[self.location] = scene.characters[self.name]
+
+        return false
+    end
+
+    return self
+end
+
+function NewPoseEvent(name, pose)
+    local self = {}
+    self.name = name
+    self.pose = pose
+
+    self.update = function (self, scene, dt)
+        scene.characters[self.name].frame = self.pose
 
         return false
     end

@@ -22,7 +22,7 @@ function NewCourtScene(scriptPath)
 
         local character = self.characterLocations[self.location]
         if character ~= nil then
-            love.graphics.draw(self.characters[character].NORMAL)
+            love.graphics.draw(self.characters[character.name].poses[character.frame])
         end
 
         if background[2] ~= nil then
