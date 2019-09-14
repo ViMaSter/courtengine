@@ -1,32 +1,75 @@
+// Characters and evidence must be initialized before they are used
+// I recommend initializing as many as you can at the beginnning
+
+// CHARACTER_INITIALIZE format: 
+// name, folder location
 CHARACTER_INITIALIZE Phoenix characters/phoenix 
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
 CHARACTER_INITIALIZE Judge characters/judge 
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
 
+// set characters to a background, so when you cut to that background they are there
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Gumshoe COURT_WITNESS
 
+// initalize evidence:
+// internal name, external name, description, artwork
 EVIDENCE_INITIALIZE BrokenWineGlass "Broken Wine Glass" "It's sharp and pointy, useful for murder." evidence/broken_wine_glass.png
 COURT_RECORD_ADD BrokenWineGlass
-
-// Comments also work!
 
 PLAY_MUSIC TRIAL
 
 JUMPCUT COURT_JUDGE
 SPEAK Judge 
-    "now starting this trial of whodunit"
+    "now starting a trial"
 SPEAK Judge 
-    "defense are you ready?"
+    "on to the cross examination"
+
+// whenever you "press" a witness, the events that happen when they are press must be defined
+// BEFORE the cross examination starts!
+
+DEFINE PressA1
+    HOLD_IT Phoenix
+    JUMPCUT COURT_DEFENSE
+    SPEAK Phoenix
+        "what type of spraypaint?"
+
+    JUMPCUT COURT_WITNESS
+    SPEAK Gumshoe
+        "it was silver spraypaint, if you really must know"
+    SPEAK Gumshoe
+        "the spraypaint was all over the victim's mouth, pal"
+    SPEAK Gumshoe
+        "it looked like they were on the set for some sort of show..."
+END_DEFINE
+
+DEFINE PressA2
+    HOLD_IT Phoenix
+    JUMPCUT COURT_DEFENSE
+    SPEAK Phoenix
+        "are you sure it was 4:30 pm?"
+
+    JUMPCUT COURT_WITNESS
+    SPEAK Gumshoe
+        "the time sounds about right, pal. the body was still slightly warm when we got there"
+
+    JUMPCUT COURT_DEFENSE
+    SPEAK Phoenix
+        "when did you get there?"
+
+    JUMPCUT COURT_WITNESS
+    SPEAK Gumshoe
+        "just before 4:45, and you won't believe this..."
+END_DEFINE
 
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
-CROSS_EXAMINATION Gumshoe "cross examination title"
-    "the victim died from huffing spraypaint" 
-    "at 4:30 pm on the 19th"
-    "and daniel sexbang was there at the scene of the crime when we arrived"
+CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --"
+    "the victim died from huffing spraypaint" PressA1 BrokenWineGlass
+    "at 4:30 pm on the 19th" PressA2 0
+    "daniel sexbang was there at the scene of the crime when we arrived" PressA3 0
 
 JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 

@@ -1,6 +1,10 @@
-function LoadScript(scriptPath)
+function LoadScript(scene, scriptPath)
+    scene.events = {}
+    scene.definitions = {}
+
     local script = io.open(scriptPath)
-    local events = {}
+    local events = scene.events
+    local definitions = {}
 
     local queuedSpeak = nil
     local crossExaminationQueue = nil
@@ -49,21 +53,33 @@ function LoadScript(scriptPath)
                     table.insert(events, NewCourtRecordAddEvent(lineParts[2]))
                 end
 
+                if lineParts[1] == "DEFINE" then
+                    scene.definitions[lineParts[2]] = {}
+                    events = scene.definitions[lineParts[2]]
+                end
+                if lineParts[1] == "END_DEFINE" then
+                    events = scene.events
+                end
+
                 if lineParts[1] == "JUMPCUT" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
                 end
                 if lineParts[1] == "POSE" then
                     table.insert(events, NewPoseEvent(lineParts[2], lineParts[3]))
                 end
-                if lineParts[1] == "OBJECTION" then
-                    table.insert(events, NewObjectionEvent(lineParts[2]))
-                end
                 if lineParts[1] == "PLAY_MUSIC" then
                     table.insert(events, NewPlayMusicEvent(lineParts[2]))
                 end
 
+                if lineParts[1] == "OBJECTION" then
+                    table.insert(events, NewObjectionEvent(lineParts[2]))
+                end
+                if lineParts[1] == "HOLD_IT" then
+                    table.insert(events, NewHoldItEvent(lineParts[2]))
+                end
+
                 if lineParts[1] == "CROSS_EXAMINATION" then
-                    crossExaminationQueue = {lineParts[2]}
+                    crossExaminationQueue = {lineParts[2], lineParts[3]}
                 end
 
                 if lineParts[1] == "SPEAK" then
@@ -72,8 +88,6 @@ function LoadScript(scriptPath)
             end
         end
     end
-
-    return events
 end
 
 function DisectLine(line)

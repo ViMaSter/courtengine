@@ -9,9 +9,18 @@ function NewCourtScene(scriptPath)
     self.textHidden = false
     self.text = "empty"
     self.textTalker = ""
-    self.events = LoadScript(scriptPath)
+    self.textColor = {1,1,1}
     self.showCourtRecord = false
     self.wasPressingCourtRecord = false
+
+    LoadScript(self, scriptPath)
+
+    self.runDefinition = function (self, defName)
+        local definition = self.definitions[defName]
+        for i=#definition, 1, -1 do
+            table.insert(self.events, 1, definition[i])
+        end
+    end
 
     self.update = function (self, dt)
         self.textHidden = false
@@ -56,8 +65,10 @@ function NewCourtScene(scriptPath)
         if not self.textHidden then
             love.graphics.setColor(1,1,1)
             love.graphics.draw(TextBox,0,GraphicsHeight()-TextBox:getHeight())
-            love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
             love.graphics.print(self.textTalker, 4, GraphicsHeight()-TextBox:getHeight())
+
+            love.graphics.setColor(unpack(self.textColor))
+            love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
         end
     end
 
