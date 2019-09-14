@@ -10,12 +10,20 @@ function NewCourtScene(scriptPath)
     self.text = "empty"
     self.textTalker = ""
     self.events = LoadScript(scriptPath)
+    self.showCourtRecord = false
+    self.wasPressingCourtRecord = false
 
     self.update = function (self, dt)
         self.textHidden = false
         while #self.events >= 1 and not self.events[1]:update(self, dt) do
             table.remove(self.events, 1)
         end
+
+        local pressingCourtRecord = love.keyboard.isDown("z")
+        if pressingCourtRecord and not self.wasPressingCourtRecord then
+            self.showCourtRecord = not self.showCourtRecord
+        end
+        self.wasPressingCourtRecord = pressingCourtRecord
     end
 
     self.draw = function (self, dt)
@@ -35,6 +43,12 @@ function NewCourtScene(scriptPath)
         if #self.events >= 1 then
             if self.events[1].draw ~= nil then
                 self.events[1]:draw(scene)
+            end
+        end
+
+        if self.showCourtRecord then
+            for i=1, #self.courtRecord do
+                love.graphics.draw(self.courtRecord[i].sprite,(i-1)*64,0)
             end
         end
 

@@ -14,7 +14,6 @@ function LoadScript(scriptPath)
             local lineParts = DisectLine(line)
 
             if queuedSpeak ~= nil then
-                --print(queuedSpeak[1], lineParts[1])
                 table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1]))
                 queuedSpeak = nil
             else
@@ -26,6 +25,9 @@ function LoadScript(scriptPath)
                 end
                 if lineParts[1] == "EVIDENCE_INITIALIZE" then
                     table.insert(events, NewEvidenceInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5]))
+                end
+                if lineParts[1] == "COURT_RECORD_ADD" then
+                    table.insert(events, NewCourtRecordAddEvent(lineParts[2]))
                 end
 
                 if lineParts[1] == "JUMPCUT" then

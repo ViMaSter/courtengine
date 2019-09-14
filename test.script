@@ -1,37 +1,55 @@
 CHARACTER_INITIALIZE Phoenix characters/phoenix 
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
+CHARACTER_INITIALIZE Judge characters/judge 
+CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
 
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
+CHARACTER_LOCATION Judge COURT_JUDGE
+CHARACTER_LOCATION Gumshoe COURT_WITNESS
 
-EVIDENCE_INITIALIZE BrokenWineGlass "Broken Wine Glass" "It's sharp and pointy, useful for murder." test.png
+EVIDENCE_INITIALIZE BrokenWineGlass "Broken Wine Glass" "It's sharp and pointy, useful for murder." evidence/broken_wine_glass.png
 COURT_RECORD_ADD BrokenWineGlass
 
 // Comments also work!
 
 PLAY_MUSIC TRIAL
 
+JUMPCUT COURT_JUDGE
+SPEAK Judge 
+    "now starting this trial of whodunit"
+SPEAK Judge 
+    "defense are you ready?"
+
 JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 
-    "hello again edgeworth"
+    "i'm always ready your honor"
+
+JUMPCUT COURT_JUDGE
+SPEAK Judge 
+    "prosecution are you ready?"
 
 JUMPCUT COURT_PROSECUTION
 SPEAK Edgeworth 
-    "hello, peenix"
+    "yeah, i guess."
 
 JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 
-    "edgeworth, why am i always followed by ghosts?"
+    "cross examination?"
 
 JUMPCUT COURT_PROSECUTION
 SPEAK Edgeworth 
-    "..."
+    "cross examination."
 
-JUMPCUT COURT_DEFENSE
-POSE Phoenix POINT
-PLAY_MUSIC OBJECTION
-OBJECTION Phoenix
-SPEAK Phoenix 
-    "shut your mouth edgeworth!"
+JUMPCUT COURT_WITNESS
+SPEAK Gumshoe
+    "hey there pals. is it time for another cross examination?"
+
+//JUMPCUT COURT_DEFENSE
+//POSE Phoenix POINT
+//PLAY_MUSIC OBJECTION
+//OBJECTION Phoenix
+//SPEAK Phoenix 
+    //"shut your mouth edgeworth!"
 
 

@@ -14,7 +14,10 @@ function love.load()
         COURT_DEFENSE = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
         COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
         COURT_JUDGE = {love.graphics.newImage("backgrounds/judgestand.png")},
+        COURT_WITNESS = {love.graphics.newImage("backgrounds/witnessempty.png"), love.graphics.newImage("backgrounds/stand.png")},
+        COURT_ASSISTANT = {love.graphics.newImage("backgrounds/helperstand.png")},
     }
+
     Music = {
         TRIAL = love.audio.newSource("music/trial.mp3", "static"),
         OBJECTION = love.audio.newSource("music/objection.mp3", "static"),

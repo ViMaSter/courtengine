@@ -100,12 +100,12 @@ function NewPlayMusicEvent(music)
     return self
 end
 
-function NewCourtRecordAdd(evidence)
+function NewCourtRecordAddEvent(evidence)
     local self = {}
     self.evidence = evidence
 
     self.update = function (self, scene, dt)
-        table.insert(scene.courtRecord, self.evidence)
+        table.insert(scene.courtRecord, scene.evidence[self.evidence])
         return false
     end
 
