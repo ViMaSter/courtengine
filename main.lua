@@ -1,5 +1,6 @@
 require "courtscene"
 require "scriptloader"
+require "scriptevents"
 
 function love.load()
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})

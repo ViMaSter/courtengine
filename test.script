@@ -4,6 +4,9 @@ CHARACTER_INITIALIZE Edgeworth characters/edgeworth
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 
+EVIDENCE_INITIALIZE BrokenWineGlass "Broken Wine Glass" "It's sharp and pointy, useful for murder." test.png
+COURT_RECORD_ADD BrokenWineGlass
+
 // Comments also work!
 
 PLAY_MUSIC TRIAL

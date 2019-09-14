@@ -3,6 +3,8 @@ function NewCourtScene(scriptPath)
     self.location = "COURT_DEFENSE"
     self.characterLocations = {}
     self.characters = {}
+    self.evidence = {}
+    self.courtRecord = {}
 
     self.textHidden = false
     self.text = "empty"
@@ -11,10 +13,8 @@ function NewCourtScene(scriptPath)
 
     self.update = function (self, dt)
         self.textHidden = false
-        if #self.events >= 1 then
-            if not self.events[1]:update(self, dt) then
-                table.remove(self.events, 1)
-            end
+        while #self.events >= 1 and not self.events[1]:update(self, dt) do
+            table.remove(self.events, 1)
         end
     end
 

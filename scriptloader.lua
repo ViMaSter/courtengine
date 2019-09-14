@@ -24,6 +24,10 @@ function LoadScript(scriptPath)
                 if lineParts[1] == "CHARACTER_LOCATION" then
                     table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
                 end
+                if lineParts[1] == "EVIDENCE_INITIALIZE" then
+                    table.insert(events, NewEvidenceInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5]))
+                end
+
                 if lineParts[1] == "JUMPCUT" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
                 end
@@ -67,8 +71,8 @@ function DisectLine(line)
                 if thisChar == " " then
                     if wasWord then
                         table.insert(words, string.sub(line, wordStart, i-1))
-                        wordStart = i+1
                     end
+                    wordStart = i+1
                     wasWord = false
                     wordCharacter = false
                 end
@@ -78,6 +82,7 @@ function DisectLine(line)
                 if thisChar == '"' then
                     inDialogue = true
                     wordStart = i+1
+                    wordCharacter = false
                 end
 
                 -- double slash is a comment, so disregard this line
@@ -131,101 +136,23 @@ function NewCharInitEvent(name, location)
     return self
 end
 
-function NewCharLocationEvent(name, location)
+function NewEvidenceInitEvent(name, externalName, info, file)
     local self = {}
     self.name = name
-    self.location = location
+    self.externalName = name
+    self.info = info
+    self.file = file
+    print("name " .. name)
+    print("externalName " .. externalName)
+    print("info " .. info)
+    print("file " .. file)
 
     self.update = function (self, scene, dt)
-        scene.characterLocations[self.location] = scene.characters[self.name]
-
-        return false
-    end
-
-    return self
-end
-
-function NewPoseEvent(name, pose)
-    local self = {}
-    self.name = name
-    self.pose = pose
-
-    self.update = function (self, scene, dt)
-        scene.characters[self.name].frame = self.pose
-
-        return false
-    end
-
-    return self
-end
-
-function NewCutToEvent(cutTo)
-    local self = {}
-    self.cutTo = cutTo
-
-    self.update = function (self, scene, dt)
-        scene.location = self.cutTo
-        return false
-    end
-
-    return self
-end
-
-function NewSpeakEvent(who, text)
-    local self = {}
-    self.text = text
-    self.textScroll = 1
-    self.wasPressing = true
-    self.who = who
-
-    self.update = function (self, scene, dt)
-        self.textScroll = math.min(self.textScroll + dt*20, #self.text)
-        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
-        scene.textTalker = self.who
-
-        local pressing = love.keyboard.isDown("x")
-        if pressing and not self.wasPressing and self.textScroll >= #self.text then
-            return false
-        end
-        self.wasPressing = pressing
-
-        return true
-    end
-
-    return self
-end
-
-function NewObjectionEvent(who)
-    local self = {}
-    self.timer = 0
-    self.x,self.y = 0,0
-
-    self.update = function (self, scene, dt)
-        scene.textHidden = true
-        self.timer = self.timer + dt
-        self.x = self.x + love.math.random()*choose{1,-1}*2
-        self.y = self.y + love.math.random()*choose{1,-1}*2
-
-        return self.timer < 0.5
-    end
-
-    self.draw = function (self, scene)
-        love.graphics.draw(ObjectionSprite, self.x,self.y)
-    end
-
-    return self
-end
-
-function NewPlayMusicEvent(music)
-    local self = {}
-    self.music = music
-
-    self.update = function (self, scene, dt)
-        for i,v in pairs(Music) do
-            v:stop()
-        end
-
-        Music[self.music]:play()
+        scene.evidence[self.name] = {
+            externalName = self.externalName,
+            info = self.info,
+            sprite = love.graphics.newImage(self.file),
+        }
 
         return false
     end
