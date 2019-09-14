@@ -1,15 +1,23 @@
-MUSIC courtTheme
+CHARACTER_INITIALIZE Phoenix characters/phoenix 
+CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
 
-SPEAK DEFENSE "i am not a gay man"
+CHARACTER_LOCATION Phoenix COURT_DEFENSE
+CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 
-CUTTO courtProsecution
-SPEAK DEFENSE "however..."
-CUTTO courtDefense
+// Comments also work!
 
-ACTION DEFENSE OBJECTION
-MUSIC objectionTheme
-SPEAK DEFENSE "edgeworth i love you!"
+SPEAK Phoenix 
+"i am not a gay man"
+
+CUTTO COURT_PROSECUTION
+SPEAK Phoenix 
+"however..."
+
+ACTION Phoenix OBJECTION
+SPEAK Phoenix 
+"edgeworth i love you!"
 
 
 ACTION PROSECUTION HURT
-SPEAK PROSECUTION "i love you too, wright"
+SPEAK PROSECUTION
+"i love you too, wright"

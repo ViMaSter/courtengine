@@ -9,9 +9,9 @@ function love.load()
     love.graphics.setFont(GameFont)
 
     Backgrounds = {
-        courtDefense = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
-        courtProsecution = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
-        courtJudge = {love.graphics.newImage("backgrounds/judgestand.png")},
+        COURT_DEFENSE = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
+        COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
+        COURT_JUDGE = {love.graphics.newImage("backgrounds/judgestand.png")},
     }
 
     CurrentScene = NewCourtScene("test.script")

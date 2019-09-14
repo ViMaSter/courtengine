@@ -2,6 +2,8 @@ function LoadScript(scriptPath)
     local script = io.open(scriptPath)
     local events = {}
 
+    local queuedSpeak = nil
+
     local canRead = true
     while canRead do
         local line = script:read("*l")
@@ -11,12 +13,23 @@ function LoadScript(scriptPath)
         else
             local lineParts = DisectLine(line)
 
-            for i=1, #lineParts do
-                if lineParts[i] == "SPEAK" then
-                    table.insert(events, NewSpeakEvent(lineParts[2], lineParts[3]))
+            if queuedSpeak ~= nil then
+                print(queuedSpeak[1], lineParts[1])
+                table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1]))
+                queuedSpeak = nil
+            else
+                if lineParts[1] == "CHARACTER_INITIALIZE" then
+                    table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3]))
                 end
-                if lineParts[i] == "CUTTO" then
+                if lineParts[1] == "CHARACTER_LOCATION" then
+                    table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
+                end
+                if lineParts[1] == "CUTTO" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
+                end
+
+                if lineParts[1] == "SPEAK" then
+                    queuedSpeak = {lineParts[2]}
                 end
             end
         end
@@ -29,25 +42,35 @@ function DisectLine(line)
     local words = {}
     local wordStart = 1
     local inDialogue = false
+    local isComment = false
 
     for i=1, #line do
         local thisChar = string.sub(line, i,i)
 
-        if not inDialogue then
-            if thisChar == " " then
-                table.insert(words, string.sub(line, wordStart, i-1))
-                wordStart = i+1
-            end
+        if not isComment then
+            if not inDialogue then
+                if thisChar == " " then
+                    table.insert(words, string.sub(line, wordStart, i-1))
+                    wordStart = i+1
+                end
 
-            if thisChar == '"' then
-                inDialogue = true
-                wordStart = i+1
-            end
-        else
-            if thisChar == '"' then
-                inDialogue = false
-                table.insert(words, string.sub(line, wordStart, i-1))
-                wordStart = i+1
+                if thisChar == '"' then
+                    inDialogue = true
+                    wordStart = i+1
+                end
+
+                if i < #line 
+                and string.sub(line,i,i) == "/" 
+                and string.sub(line,i+1,i+1) == "/" then
+                    isComment = true
+                end
+            else
+                -- treat what is in "" as one big word
+                if thisChar == '"' then
+                    inDialogue = false
+                    table.insert(words, string.sub(line, wordStart, i-1))
+                    wordStart = i+1
+                end
             end
         end
 
@@ -59,12 +82,42 @@ function DisectLine(line)
     return words
 end
 
+function NewCharInitEvent(name, location)
+    local self = {}
+    self.name = name
+    self.location = location
+
+    self.update = function (self, scene, dt)
+        scene.characters[self.name] = {
+            NORMAL = love.graphics.newImage(self.location.."/normal.png"),
+        }
+
+        return false
+    end
+
+    return self
+end
+
+function NewCharLocationEvent(name, location)
+    local self = {}
+    self.name = name
+    self.location = location
+
+    self.update = function (self, scene, dt)
+        scene.characterLocations[self.location] = self.name
+
+        return false
+    end
+
+    return self
+end
+
 function NewCutToEvent(cutTo)
     local self = {}
     self.cutTo = cutTo
 
     self.update = function (self, scene, dt)
-        scene.background = Backgrounds[self.cutTo]
+        scene.location = self.cutTo
         return false
     end
 
