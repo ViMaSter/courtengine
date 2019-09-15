@@ -16,11 +16,11 @@ Visit the Github Repository to download, clone, or fork: https://github.com/grov
 
 Download Love2D: https://love2d.org/
 
-on MacOS:Recommended to add 'alias love="/Applications/love.app/Contents/MacOS/love"' to your '~/.bash_profile'see https://love2d.org/wiki/Getting_Startedfor more information
-
 - Clone the repository
-- Drag and drop it onto Love2D, or run it from the command line
-- To run from the command line on MacOS, cd into the directory and use `love .`
+- Drag and drop the unzipped folder onto the Love2D application icon, or run it from the command line
+- To run from the command line on MacOS, first make sure you have Love2D in your Applications folder. Then open Terminal, cd into the directory and paste this command: `/Applications/love.app/Contents/MacOS/love .`
+
+See https://love2d.org/wiki/Getting_Started for more detailed information, and for other operating systems not listed.
 
 
 

@@ -9,7 +9,6 @@ function LoadScript(scene, scriptPath)
     local crossExaminationQueue = nil
 
     for line in love.filesystem.lines(scriptPath) do
-
         if line == nil then
             canRead = false
         else
