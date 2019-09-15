@@ -38,18 +38,24 @@ function NewCutToEvent(cutTo)
     return self
 end
 
-function NewSpeakEvent(who, text)
+function NewSpeakEvent(who, text, locorlit)
     local self = {}
     self.text = text
     self.textScroll = 1
     self.wasPressing = true
     self.who = who
+    self.locorlit = locorlit
 
     self.update = function (self, scene, dt)
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
         scene.textColor = {1,1,1}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
-        scene.textTalker = self.who
+
+        if self.locorlit == "literal" then
+            scene.textTalker = self.who
+        else
+            scene.textTalker = scene.characterLocations[self.who].name
+        end
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then
@@ -227,6 +233,23 @@ function NewIssuePenaltyEvent()
     
     self.update = function (self, scene, dt)
         scene.penalties = scene.penalties - 1
+        return false
+    end
+
+    return self
+end
+
+function NewExecuteDefinitionEvent(def)
+    local self = {}
+    self.def = def
+    self.hasRun = false
+
+    self.update = function (self, scene, dt)
+        if not self.hasRun then
+            self.hasRun = true
+            scene:runDefinition(self.def)
+        end
+
         return false
     end
 

@@ -43,28 +43,26 @@ SPEAK Judge
 SPEAK Judge 
     "defense, are you ready?"
 
-JUMPCUT COURT_DEFENSE
-SPEAK Phoenix 
+// SPEAK_FROM is a shortcut
+// it combines JUMPCUT and SPEAK into one line
+// so you don't have to jumpcut and speak every time a character talks
+// you still can though, if you want more control
+SPEAK_FROM COURT_DEFENSE 
     "i'm always ready your honor"
 
-JUMPCUT COURT_JUDGE
-SPEAK Judge 
+SPEAK_FROM COURT_JUDGE 
     "prosecution are you ready?"
 
-JUMPCUT COURT_PROSECUTION
-SPEAK Edgeworth 
+SPEAK_FROM COURT_PROSECUTION
     "yeah, i guess."
 
-JUMPCUT COURT_DEFENSE
-SPEAK Phoenix 
+SPEAK_FROM COURT_DEFENSE 
     "cross examination?"
 
-JUMPCUT COURT_PROSECUTION
-SPEAK Edgeworth 
+SPEAK_FROM COURT_PROSECUTION
     "cross examination."
 
-JUMPCUT COURT_WITNESS
-SPEAK Gumshoe
+SPEAK_FROM COURT_WITNESS
     "hey there pals. is it time for another cross examination?"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +108,7 @@ END_DEFINE
 
 DEFINE PressA3
     HOLD_IT Phoenix
-    JUMPCUT COURT_DEFENSE
-    SPEAK Phoenix
+    SPEAK_FROM COURT_DEFENSE
         "was it really him?"
 
     JUMPCUT COURT_WITNESS
@@ -133,8 +130,9 @@ DEFINE CrossExamineFail
     JUMPCUT COURT_WITNESS
 END_DEFINE
 
-
 // jumpcut to the witness and actually do the cross examination!
+// definitions can also be arbitrarily executed at any time by writing @ and name of the definition
+// @CrossExamineFail would run the cross examination fail protocol, for example
 
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
@@ -151,21 +149,17 @@ CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFa
 OBJECTION Phoenix
 PLAY_MUSIC OBJECTION
 POSE Phoenix POINT
-JUMPCUT COURT_DEFENSE
-SPEAK Phoenix
+SPEAK_FROM COURT_DEFENSE
     "detective gumshoe, you are WRONG!"
 
-JUMPCUT COURT_WITNESS
-SPEAK Gumshoe
+SPEAK_FROM COURT_WITNESS
     "what do you mean, pal?"
 
-JUMPCUT COURT_DEFENSE
 POSE Phoenix NORMAL
-SPEAK Phoenix
+SPEAK_FROM COURT_DEFENSE
     "the victim was not killed by huffing spraypaint."
-SPEAK Phoenix
+SPEAK_FROM COURT_DEFENSE
     "he was killed with this broken wine glass!"
 
-JUMPCUT COURT_WITNESS
-SPEAK Gumshoe
+SPEAK_FROM COURT_WITNESS
     "ahhhhhhhh the french"

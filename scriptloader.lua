@@ -33,7 +33,7 @@ function LoadScript(scene, scriptPath)
             end
 
             if canExecuteLine and queuedSpeak ~= nil then
-                table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1]))
+                table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2]))
                 queuedSpeak = nil
 
                 canExecuteLine = false
@@ -59,6 +59,9 @@ function LoadScript(scene, scriptPath)
                 end
                 if lineParts[1] == "END_DEFINE" then
                     events = scene.events
+                end
+                if lineParts[1] == "@" then
+                    table.insert(events, NewExecuteDefinitionEvent(lineParts[2]))
                 end
 
                 if lineParts[1] == "JUMPCUT" then
@@ -86,7 +89,11 @@ function LoadScript(scene, scriptPath)
                 end
 
                 if lineParts[1] == "SPEAK" then
-                    queuedSpeak = {lineParts[2]}
+                    queuedSpeak = {lineParts[2], "literal"}
+                end
+                if lineParts[1] == "SPEAK_FROM" then
+                    table.insert(events, NewCutToEvent(lineParts[2]))
+                    queuedSpeak = {lineParts[2], "location"}
                 end
             end
         end
@@ -112,6 +119,14 @@ function DisectLine(line)
             canAddToWord = false
         end
 
+        if canAddToWord 
+        and thisChar == "@"
+        and not isDialogue then
+            canAddToWord = false
+
+            table.insert(words, "@")
+        end
+
         if canAddToWord and thisChar == '"' then
             canAddToWord = false
 
@@ -125,6 +140,7 @@ function DisectLine(line)
 
         if canAddToWord and not isDialogue and thisChar == " " then
             canAddToWord = false
+
             if #wordBuild > 0 then
                 table.insert(words, wordBuild)
                 wordBuild = ""
