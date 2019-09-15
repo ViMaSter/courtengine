@@ -33,7 +33,6 @@ Example:
 
 
 ### Evidence
-**Note:** Evidence must be initialized before they are used.
 
     EVIDENCE_INITIALIZE [internal name] [external name] [description] [asset file]
     COURT_RECORD_ADD [internal name]
