@@ -21,8 +21,58 @@ EVIDENCE_INITIALIZE Grapes "Grapes" "Looks pretty tasty." evidence/grapes.png
 COURT_RECORD_ADD BrokenWineGlass
 COURT_RECORD_ADD Grapes
 
+// Every trial needs a fail condition, when you run out of exclamation points
+// it must be named TRIAL_FAIL and must be defined at the start of the trial
+DEFINE TRIAL_FAIL
+    JUMPCUT COURT_JUDGE
+    SPEAK Judge
+        "yooooooo phoenix you lost bro"
+
+    GAME_OVER
+END_DEFINE
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START OF TRIAL
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 PLAY_MUSIC TRIAL
 
+JUMPCUT COURT_JUDGE
+SPEAK Judge 
+    "now starting a trial"
+SPEAK Judge 
+    "defense, are you ready?"
+
+JUMPCUT COURT_DEFENSE
+SPEAK Phoenix 
+    "i'm always ready your honor"
+
+JUMPCUT COURT_JUDGE
+SPEAK Judge 
+    "prosecution are you ready?"
+
+JUMPCUT COURT_PROSECUTION
+SPEAK Edgeworth 
+    "yeah, i guess."
+
+JUMPCUT COURT_DEFENSE
+SPEAK Phoenix 
+    "cross examination?"
+
+JUMPCUT COURT_PROSECUTION
+SPEAK Edgeworth 
+    "cross examination."
+
+JUMPCUT COURT_WITNESS
+SPEAK Gumshoe
+    "hey there pals. is it time for another cross examination?"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CROSS EXAMINATION 1
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// whenever you "press" a witness, the events that happen when they are press must be defined
+// BEFORE the cross examination starts!
 
 DEFINE PressA1
     HOLD_IT Phoenix
@@ -70,6 +120,11 @@ DEFINE PressA3
 END_DEFINE
 
 DEFINE CrossExamineFail
+    OBJECTION Phoenix
+    JUMPCUT COURT_DEFENSE
+    SPEAK Phoenix
+        "i uhhhh object to that!"
+
     JUMPCUT COURT_JUDGE
     SPEAK Judge
         "hahaha phoenix you wrong"
@@ -78,43 +133,39 @@ DEFINE CrossExamineFail
     JUMPCUT COURT_WITNESS
 END_DEFINE
 
+
+// jumpcut to the witness and actually do the cross examination!
+
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
+
 CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFail
     "the victim died from huffing spraypaint" PressA1 BrokenWineGlass
     "at 4:30 pm on the 19th" PressA2 0
     "daniel sexbang was there at the scene of the crime when we arrived!" PressA3 0
 
-JUMPCUT COURT_JUDGE
-SPEAK Judge 
-    "now starting a trial"
-SPEAK Judge 
-    "defense, are you ready?"
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TRIAL PART 2
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+OBJECTION Phoenix
+PLAY_MUSIC OBJECTION
+POSE Phoenix POINT
 JUMPCUT COURT_DEFENSE
-SPEAK Phoenix 
-    "i'm always ready your honor"
-
-JUMPCUT COURT_JUDGE
-SPEAK Judge 
-    "prosecution are you ready?"
-
-JUMPCUT COURT_PROSECUTION
-SPEAK Edgeworth 
-    "yeah, i guess."
-
-JUMPCUT COURT_DEFENSE
-SPEAK Phoenix 
-    "cross examination?"
-
-JUMPCUT COURT_PROSECUTION
-SPEAK Edgeworth 
-    "cross examination."
+SPEAK Phoenix
+    "detective gumshoe, you are WRONG!"
 
 JUMPCUT COURT_WITNESS
 SPEAK Gumshoe
-    "hey there pals. is it time for another cross examination?"
+    "what do you mean, pal?"
 
-// whenever you "press" a witness, the events that happen when they are press must be defined
-// BEFORE the cross examination starts!
+JUMPCUT COURT_DEFENSE
+POSE Phoenix NORMAL
+SPEAK Phoenix
+    "the victim was not killed by huffing spraypaint."
+SPEAK Phoenix
+    "he was killed with this broken wine glass!"
+
+JUMPCUT COURT_WITNESS
+SPEAK Gumshoe
+    "ahhhhhhhh the french"
