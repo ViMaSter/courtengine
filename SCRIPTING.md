@@ -42,7 +42,7 @@ Example:
     EVIDENCE_INITIALIZE BrokenWineGlass "Broken Wine Glass" "It's sharp and pointy, useful for murder." evidence/broken_wine_glass.png
     COURT_RECORD_ADD BrokenWineGlass
 
-## Definitions
+## Cross-Examination and Definitions
 
 Similar to Initializations, these *must* be configured prior to their use.
 
@@ -53,7 +53,7 @@ Every trial **must** have TRIAL_FAIL defined at the start of the trial; this det
     DEFINE_TRIAL_FAIL
         [Actions that should happen]
         GAME_OVER
-
+    
     END_DEFINE
 
 Example:
@@ -62,7 +62,7 @@ Example:
         JUMPCUT COURT_JUDGE
         SPEAK Judge
             "yooooooo phoenix you lost bro"
-
+    
         GAME_OVER
     END_DEFINE
 
@@ -75,7 +75,7 @@ If the press is considered valid (i.e. it won't issue a penalty), you can define
     DEFINE [internal name for this Press]
         HOLD_IT [character name]
         [Actions that should happen]
-
+    
     END DEFINE
 
 Example:
@@ -85,29 +85,31 @@ Example:
         JUMPCUT COURT_DEFENSE
         SPEAK Phoenix
             "Are you sure it was 4:30PM?"
-
+    
         JUMPCUT COURT_WITNESS
         SPEAK Gumshoe
             "The time sounds about right, pal. the body was still slightly warm when we got there"
-
+    
         JUMPCUT COURT_DEFENSE
         SPEAK Phoenix
             "When did you get there?"
-
+    
         JUMPCUT COURT_WITNESS
         SPEAK Gumshoe
             "Just before 4:45, and you won't believe this..."
-
+    
     END_DEFINE
 
 **Note**: The "Press" actions should end with the camera on the court witness, so that the cross examination should continue.
 
-If the press will issue a penalty, this is defined with a slight difference:
+### Cross Examination Presenting Evidence
+
+Presenting the wrong evidence will warrant a penalty, and this action is defined as follows:
 
     DEFINE [internal name for this Press]
         OBJECTION [character name]
         [Actions that should happen]
-
+    
         ISSUE_PENALTY
         JUMPCUT COURT_WITNESS
     END_DEFINE
@@ -121,14 +123,30 @@ Example:
         JUMPCUT COURT_DEFENSE
         SPEAK Phoenix
             "i uhhhh object to that!"
-
+    
         JUMPCUT COURT_JUDGE
         SPEAK Judge
             "hahaha phoenix you wrong"
-
+    
         ISSUE_PENALTY
         JUMPCUT COURT_WITNESS
     END_DEFINE
+
+## Cross Examination
+
+The cross examination phase will be a block formatted like the following:
+
+    CROSS_EXAMINATION [name] "[initial text]" [name of failure definition]
+        "[statement 1]" [name of corresponding Press] [conflicting evidence (or 0 if none)]
+
+Example:
+
+    CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFail
+        "the victim died from huffing spraypaint" PressA1 BrokenWineGlass
+        "at 4:30 pm on the 19th" PressA2 0
+        "daniel sexbang was there at the scene of the crime when we arrived!" PressA3 0
+
+Once the correct conflicting evidence is presented, the script will continue on past the `CROSS_EXAMINATION`
 
 ## Available Actions
 
@@ -164,20 +182,23 @@ Example:
         "Now starting a trial."
 
 
-## Switch Characters and also trigger dialogue from the character assigned to that location
+### Switch Characters and also trigger dialogue from the character assigned to that location
+This function is just JUMPCUT and SPEAK combined into one, because it can be tedious writing both every time.
 
     SPEAK_FROM [location]
-
-## Cross Examination
-
-The cross examination phase will be a block formatted like the following:
-
-    CROSS_EXAMINATION [name] "[initial text]" [name of failure Press]
-        "[statement 1]" [name of corresponding Press] [conflicting evidence (or 0 if none)]
+        "[dialogue]"
 
 Example:
 
-    CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFail
-        "the victim died from huffing spraypaint" PressA1 BrokenWineGlass
-        "at 4:30 pm on the 19th" PressA2 0
-        "daniel sexbang was there at the scene of the crime when we arrived!" PressA3 0
+    SPEAK_FROM COURT_WITNESS
+        "time for a cross examination!"
+
+### Raise an objection
+[name] is who is objecting.
+
+    OBJECTION [name]
+
+### Yell "hold it!"
+[name] is who is yelling it.
+
+    HOLD_IT [name]
