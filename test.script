@@ -3,13 +3,13 @@
 
 // CHARACTER_INITIALIZE format: 
 // name, folder location
-CHARACTER_INITIALIZE Phoenix characters/phoenix 
+CHARACTER_INITIALIZE Arin characters/arin 
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
 CHARACTER_INITIALIZE Judge characters/judge 
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
 
 // set characters to a background, so when you cut to that background they are there
-CHARACTER_LOCATION Phoenix COURT_DEFENSE
+CHARACTER_LOCATION Arin COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Gumshoe COURT_WITNESS
@@ -26,7 +26,7 @@ COURT_RECORD_ADD Grapes
 DEFINE TRIAL_FAIL
     JUMPCUT COURT_JUDGE
     SPEAK Judge
-        "yooooooo phoenix you lost bro"
+        "yooooooo arin you lost bro"
 
     GAME_OVER
 END_DEFINE
@@ -73,9 +73,9 @@ SPEAK_FROM COURT_WITNESS
 // BEFORE the cross examination starts!
 
 DEFINE PressA1
-    HOLD_IT Phoenix
+    HOLD_IT Arin
     JUMPCUT COURT_DEFENSE
-    SPEAK Phoenix
+    SPEAK Arin
         "what type of spraypaint?"
 
     JUMPCUT COURT_WITNESS
@@ -88,9 +88,9 @@ DEFINE PressA1
 END_DEFINE
 
 DEFINE PressA2
-    HOLD_IT Phoenix
+    HOLD_IT Arin
     JUMPCUT COURT_DEFENSE
-    SPEAK Phoenix
+    SPEAK Arin
         "are you sure it was 4:30 pm?"
 
     JUMPCUT COURT_WITNESS
@@ -98,7 +98,7 @@ DEFINE PressA2
         "the time sounds about right, pal. the body was still slightly warm when we got there"
 
     JUMPCUT COURT_DEFENSE
-    SPEAK Phoenix
+    SPEAK Arin
         "when did you get there?"
 
     JUMPCUT COURT_WITNESS
@@ -107,7 +107,7 @@ DEFINE PressA2
 END_DEFINE
 
 DEFINE PressA3
-    HOLD_IT Phoenix
+    HOLD_IT Arin
     SPEAK_FROM COURT_DEFENSE
         "was it really him?"
 
@@ -117,14 +117,14 @@ DEFINE PressA3
 END_DEFINE
 
 DEFINE CrossExamineFail
-    OBJECTION Phoenix
+    OBJECTION Arin
     JUMPCUT COURT_DEFENSE
-    SPEAK Phoenix
+    SPEAK Arin
         "i uhhhh object to that!"
 
     JUMPCUT COURT_JUDGE
     SPEAK Judge
-        "hahaha phoenix you wrong"
+        "hahaha arin you wrong"
 
     ISSUE_PENALTY
     JUMPCUT COURT_WITNESS
@@ -146,16 +146,16 @@ CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFa
 // TRIAL PART 2
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-OBJECTION Phoenix
+OBJECTION Arin
 PLAY_MUSIC OBJECTION
-POSE Phoenix POINT
+POSE Arin POINT
 SPEAK_FROM COURT_DEFENSE
     "detective gumshoe, you are WRONG!"
 
 SPEAK_FROM COURT_WITNESS
     "what do you mean, pal?"
 
-POSE Phoenix NORMAL
+POSE Arin NORMAL
 SPEAK_FROM COURT_DEFENSE
     "the victim was not killed by huffing spraypaint."
 SPEAK_FROM COURT_DEFENSE
