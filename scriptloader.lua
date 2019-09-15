@@ -72,6 +72,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "ISSUE_PENALTY" then
                     table.insert(events, NewIssuePenaltyEvent())
                 end
+                if lineParts[1] == "GAME_OVER" then
+                    table.insert(events, NewGameOverEvent())
+                end
 
                 if lineParts[1] == "OBJECTION" then
                     table.insert(events, NewObjectionEvent(lineParts[2]))

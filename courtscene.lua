@@ -26,7 +26,7 @@ function NewCourtScene(scriptPath)
 
     -- run a function definition defined in the script
     self.runDefinition = function (self, defName)
-        local definition = self.definitions[defName]
+        local definition = deepcopy(self.definitions[defName])
         for i=#definition, 1, -1 do
             table.insert(self.events, 1, definition[i])
         end

@@ -228,6 +228,22 @@ function NewIssuePenaltyEvent()
     
     self.update = function (self, scene, dt)
         scene.penalties = scene.penalties - 1
+
+        if scene.penalties <= 0 then
+            scene:runDefinition("TRIAL_FAIL")
+        end
+
+        return false
+    end
+
+    return self
+end
+
+function NewGameOverEvent()
+    local self = {}
+
+    self.update = function (self, scene, dt)
+        love.event.push("quit")
         return false
     end
 
