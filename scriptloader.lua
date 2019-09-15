@@ -2,16 +2,13 @@ function LoadScript(scene, scriptPath)
     scene.events = {}
     scene.definitions = {}
 
-    local script = io.open(scriptPath)
     local events = scene.events
     local definitions = {}
 
     local queuedSpeak = nil
     local crossExaminationQueue = nil
 
-    local canRead = true
-    while canRead do
-        local line = script:read("*l")
+    for line in love.filesystem.lines(scriptPath) do
 
         if line == nil then
             canRead = false
