@@ -148,12 +148,7 @@ function NewCrossExaminationEvent(queue)
     self.wasPressing = true
     self.who = queue[1]
     self.timer = 0
-
     self.animationTime = 1.5
-
-    for i,v in pairs(queue) do
-        print(i,v)
-    end
 
     self.advanceText = function (self)
         if self.textIndex == 2 then

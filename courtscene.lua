@@ -18,8 +18,13 @@ function NewCourtScene(scriptPath)
     self.wasPressingRight = false
     self.wasPressingLeft = false
 
+    -- the script is loaded into the court scene's events table
+    -- function definitions are stored in the court scene's definitions table
+    -- the script is made up of individual "events"
+    -- events are defined in scriptevents.lua
     LoadScript(self, scriptPath)
 
+    -- run a function definition defined in the script
     self.runDefinition = function (self, defName)
         local definition = self.definitions[defName]
         for i=#definition, 1, -1 do
@@ -75,24 +80,30 @@ function NewCourtScene(scriptPath)
 
     self.draw = function (self, dt)
         love.graphics.setColor(1,1,1)
+
+        -- draw the background of the current location
         local background = Backgrounds[self.location]
         love.graphics.draw(background[1])
 
+        -- draw the character who is at the current location
         local character = self.characterLocations[self.location]
         if character ~= nil then
             love.graphics.draw(self.characters[character.name].poses[character.frame])
         end
 
+        -- draw the top layer of the environment, like desk on top of character
         if background[2] ~= nil then
             love.graphics.draw(background[2])
         end
 
+        -- if the current event has an associated graphic, draw it
         if #self.events >= 1 then
             if self.events[1].draw ~= nil then
                 self.events[1]:draw(scene)
             end
         end
 
+        -- draw the court record
         if self.showCourtRecord then
             love.graphics.setColor(0.2,0.2,0.2)
             love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
@@ -114,8 +125,11 @@ function NewCourtScene(scriptPath)
         if not self.textHidden then
             love.graphics.setColor(1,1,1)
             love.graphics.draw(TextBox,0,GraphicsHeight()-TextBox:getHeight())
+
+            -- draw who is talking
             love.graphics.print(self.textTalker, 4, GraphicsHeight()-TextBox:getHeight())
 
+            -- draw the current scrolling text
             love.graphics.setColor(unpack(self.textColor))
             love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
         end

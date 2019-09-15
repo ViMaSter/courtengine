@@ -6,11 +6,16 @@ function love.load()
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
     love.graphics.setDefaultFilter("nearest")
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
-    GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
     MasterVolume = 0.25
     TextScrollSpeed = 30
-    --love.graphics.setFont(GameFont)
 
+    LoadAssets()
+
+    -- set up the current scene
+    CurrentScene = NewCourtScene("test.script")
+end
+
+function LoadAssets()
     Backgrounds = {
         COURT_DEFENSE = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
         COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
@@ -39,9 +44,11 @@ function love.load()
     HoldItSprite = love.graphics.newImage("sprites/holdit.png")
     CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
 
-    CurrentScene = NewCourtScene("test.script")
+    GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
+    --love.graphics.setFont(GameFont)
 end
 
+-- the constants for the resolution of the game
 function GraphicsWidth()
     return 256
 end
@@ -49,6 +56,8 @@ function GraphicsHeight()
     return 192
 end
 
+-- love.update and love.draw get called 60 times per second
+-- transfer the update and draw over to the current game scene 
 function love.update(dt)
     CurrentScene:update(dt)
 end
@@ -65,7 +74,6 @@ function love.draw()
 end
 
 -- utility functions 
-
 function Clamp(n,min,max)
     return math.max(math.min(n,max), min)
 end
