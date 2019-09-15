@@ -87,7 +87,8 @@ function NewCourtScene(scriptPath)
 
         -- draw the character who is at the current location
         local character = self.characterLocations[self.location]
-        if character ~= nil then
+        if character ~= nil 
+        and self.characters[character.name].poses[character.frame] ~= nil then
             love.graphics.draw(self.characters[character.name].poses[character.frame])
         end
 

@@ -4,6 +4,7 @@
 // CHARACTER_INITIALIZE format: 
 // name, folder location
 CHARACTER_INITIALIZE Arin characters/arin 
+CHARACTER_INITIALIZE_POSE Arin Point
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
 CHARACTER_INITIALIZE Judge characters/judge 
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
@@ -148,7 +149,7 @@ CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFa
 
 OBJECTION Arin
 PLAY_MUSIC OBJECTION
-POSE Arin POINT
+POSE Arin Point
 SPEAK_FROM COURT_DEFENSE
     "detective gumshoe, you are WRONG!"
 

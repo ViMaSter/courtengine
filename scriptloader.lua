@@ -39,6 +39,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHARACTER_INITIALIZE" then
                     table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3]))
                 end
+                if lineParts[1] == "CHARACTER_INITIALIZE_POSE" then
+                    table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3]))
+                end
                 if lineParts[1] == "CHARACTER_LOCATION" then
                     table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
                 end
@@ -167,13 +170,33 @@ function NewCharInitEvent(name, location)
     self.update = function (self, scene, dt)
         scene.characters[self.name] = {
             poses = {
-                NORMAL = love.graphics.newImage(self.location.."/normal.png"),
-                POINT = love.graphics.newImage(self.location.."/point.png"),
+                Normal = love.graphics.newImage(self.location.."/Normal.png"),
             },
 
+            location = self.location,
             name = self.name,
-            frame = "NORMAL",
+            frame = "Normal",
         }
+
+        return false
+    end
+
+    return self
+end
+
+function NewCharPoseInitEvent(name, pose)
+    local self = {}
+    self.name = name
+    self.pose = pose
+    print('yes')
+
+    self.update = function(self, scene, dt)
+        local location = scene.characters[self.name].location
+        scene.characters[self.name].poses[self.pose] = love.graphics.newImage(location .. "/" .. self.pose .. ".png")
+
+        for i,v in pairs(scene.characters[self.name].poses) do
+            print(i,v)
+        end
 
         return false
     end

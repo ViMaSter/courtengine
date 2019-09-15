@@ -20,17 +20,26 @@ Additionally, whenever you see `[location]` below, it may be one of the followin
 The following *must* be configured prior to their use.
 
 ### Characters
+
+Characters must first be initialized with `CHARACTER_INITIALIZE` before used. `CHARACTER_INITIALIZE` requires a name and a folder location for their poses and animation assets.
+
+`CHARACTER_INITIALIZE_POSE` is used to initialize poses to characters, so they can be posed accordingly.
+
+```
+CHARACTER_INITIALIZE [name] [folder location]
+CHARACTER_INITIALIZE_POSE [name] [pose]
+```
+
 `CHARACTER_LOCATION` will set characters to a specific background, so when you cut to that background they are there
 
-    CHARACTER_INITIALIZE [name] [folder location]
     CHARACTER_LOCATION [name] [location]
 
 
 Example:
 
     CHARACTER_INITIALIZE Phoenix characters/phoenix
+    CHARACTER_INITIALIZE_POSE Phoenix Point
     CHARACTER_LOCATION Phoenix COURT_DEFENSE
-
 
 ### Evidence
 
