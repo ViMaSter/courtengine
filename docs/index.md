@@ -16,11 +16,14 @@ Visit the Github Repository to download, clone, or fork: https://github.com/grov
 
 Download Love2D: https://love2d.org/
 
-- Clone the repository
-- Drag and drop the unzipped folder onto the Love2D application icon, or run it from the command line
-- To run from the command line on MacOS, first make sure you have Love2D in your Applications folder. Then open Terminal, cd into the directory and paste this command: `/Applications/love.app/Contents/MacOS/love .`
+- Go to the Github Repository, https://github.com/groverburger/courtengine
+- Click the green download button at the top right
+- Extract the downloaded zip
+- Drag the folder onto the Love2D application icon (works on all OSs)
 
-See https://love2d.org/wiki/Getting_Started for more detailed information, and for other operating systems not listed.
+![runtut](runtut.gif)
+
+See https://love2d.org/wiki/Getting_Started for more detailed information.
 
 
 
