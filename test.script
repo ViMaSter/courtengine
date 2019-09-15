@@ -17,18 +17,12 @@ CHARACTER_LOCATION Gumshoe COURT_WITNESS
 // initalize evidence:
 // internal name, external name, description, artwork
 EVIDENCE_INITIALIZE BrokenWineGlass "Broken Wine Glass" "It's sharp and pointy, useful for murder." evidence/broken_wine_glass.png
+EVIDENCE_INITIALIZE Grapes "Grapes" "Looks pretty tasty." evidence/grapes.png
 COURT_RECORD_ADD BrokenWineGlass
+COURT_RECORD_ADD Grapes
 
 PLAY_MUSIC TRIAL
 
-JUMPCUT COURT_JUDGE
-SPEAK Judge 
-    "now starting a trial"
-SPEAK Judge 
-    "on to the cross examination"
-
-// whenever you "press" a witness, the events that happen when they are press must be defined
-// BEFORE the cross examination starts!
 
 DEFINE PressA1
     HOLD_IT Phoenix
@@ -64,12 +58,39 @@ DEFINE PressA2
         "just before 4:45, and you won't believe this..."
 END_DEFINE
 
+DEFINE PressA3
+    HOLD_IT Phoenix
+    JUMPCUT COURT_DEFENSE
+    SPEAK Phoenix
+        "was it really him?"
+
+    JUMPCUT COURT_WITNESS
+    SPEAK Gumshoe
+        "who else could it be pal? i saw him there!"
+END_DEFINE
+
+DEFINE CrossExamineFail
+    JUMPCUT COURT_JUDGE
+    SPEAK Judge
+        "hahaha phoenix you wrong"
+
+    ISSUE_PENALTY
+    JUMPCUT COURT_WITNESS
+END_DEFINE
+
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
-CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --"
+CROSS_EXAMINATION Gumshoe "-- ten minutes is all i need, baby --" CrossExamineFail
     "the victim died from huffing spraypaint" PressA1 BrokenWineGlass
     "at 4:30 pm on the 19th" PressA2 0
-    "daniel sexbang was there at the scene of the crime when we arrived" PressA3 0
+    "daniel sexbang was there at the scene of the crime when we arrived!" PressA3 0
+
+JUMPCUT COURT_JUDGE
+SPEAK Judge 
+    "now starting a trial"
+SPEAK Judge 
+    "defense, are you ready?"
+
 
 JUMPCUT COURT_DEFENSE
 SPEAK Phoenix 
@@ -95,12 +116,5 @@ JUMPCUT COURT_WITNESS
 SPEAK Gumshoe
     "hey there pals. is it time for another cross examination?"
 
-
-//JUMPCUT COURT_DEFENSE
-//POSE Phoenix POINT
-//PLAY_MUSIC OBJECTION
-//OBJECTION Phoenix
-//SPEAK Phoenix 
-    //"shut your mouth edgeworth!"
-
-
+// whenever you "press" a witness, the events that happen when they are press must be defined
+// BEFORE the cross examination starts!

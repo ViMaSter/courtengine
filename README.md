@@ -8,6 +8,11 @@ Created for the Game Grumps Phoenix Wright fan project.
 # How To Run
 Download Love2D: https://love2d.org/
 
+on MacOS:
+    Recommended to add 'alias love="/Applications/love.app/Contents/MacOS/love"' to your '~/.bash_profile'
+    see https://love2d.org/wiki/Getting_Started for more information
+
+
 + Clone the repository
 + Drag and drop it onto Love2D, or run it from the command line
 + To run from the command line on MacOS, cd into the directory and use `love .`

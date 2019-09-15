@@ -8,7 +8,7 @@ function love.load()
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
     GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
     MasterVolume = 0.25
-    TextScrollSpeed = 20
+    TextScrollSpeed = 30
     --love.graphics.setFont(GameFont)
 
     Backgrounds = {
@@ -37,6 +37,7 @@ function love.load()
     TextBox = love.graphics.newImage("sprites/chatbox.png")
     ObjectionSprite = love.graphics.newImage("sprites/objection.png")
     HoldItSprite = love.graphics.newImage("sprites/holdit.png")
+    CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
 
     CurrentScene = NewCourtScene("test.script")
 end

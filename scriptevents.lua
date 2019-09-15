@@ -138,47 +138,96 @@ function NewCrossExaminationEvent(queue)
     local self = {}
     self.queue = queue
     self.textScroll = 1
-    self.textIndex = 3
+    self.textIndex = 2
     self.wasPressing = true
     self.who = queue[1]
+    self.timer = 0
+
+    self.animationTime = 1.5
 
     for i,v in pairs(queue) do
         print(i,v)
     end
 
     self.advanceText = function (self)
-        self.textIndex = self.textIndex + 3
+        if self.textIndex == 2 then
+            self.textIndex = 4
+        else
+            self.textIndex = self.textIndex + 3
+        end
+
         self.textScroll = 1
         self.wasPressing = true
 
         if self.textIndex > #self.queue then
-            self.textIndex = 3
+            self.textIndex = 4
         end
     end
 
     self.update = function (self, scene, dt)
+        self.timer = self.timer + dt
+
+        return self:activeUpdate(scene, dt)
+    end
+
+    self.activeUpdate = function (self, scene, dt)
         local text = self.queue[self.textIndex]
 
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
-        scene.textColor = {0,1,0.25}
+        if self.textIndex == 2 then
+            scene.textColor = {1,0.5,0}
+        else
+            scene.textColor = {0,1,0.25}
+        end
         scene.text = string.sub(text, 1, math.floor(self.textScroll))
         scene.textTalker = self.who
+
+        local canAdvance = self.textScroll >= #text and self.timer > self.animationTime
 
         local pressing = love.keyboard.isDown("x")
         if pressing 
         and not self.wasPressing 
-        and self.textScroll >= #text then
+        and canAdvance then
             self:advanceText()
         end
         self.wasPressing = pressing
 
         if love.keyboard.isDown("c")
-        and self.textScroll >= #text then
+        and canAdvance then
             scene:runDefinition(self.queue[self.textIndex+1])
             self:advanceText()
         end
 
+        if love.keyboard.isDown("up") 
+        and scene.showCourtRecord then
+            scene.showCourtRecord = false
+
+            if scene.courtRecord[scene.courtRecordIndex].name == self.queue[self.textIndex+2] then
+                return false
+            else
+                scene:runDefinition(self.queue[3])
+                self:advanceText()
+            end
+        end
+
         return true
+    end
+
+    self.draw = function (self, scene)
+        if self.timer < self.animationTime then
+            love.graphics.draw(CrossExaminationSprite, GraphicsWidth()/2,GraphicsHeight()/2 -24, 0, 1,1, CrossExaminationSprite:getWidth()/2,CrossExaminationSprite:getHeight()/2)
+        end
+    end
+
+    return self
+end
+
+function NewIssuePenaltyEvent()
+    local self = {}
+    
+    self.update = function (self, scene, dt)
+        scene.penalties = scene.penalties - 1
+        return false
     end
 
     return self

@@ -70,6 +70,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "PLAY_MUSIC" then
                     table.insert(events, NewPlayMusicEvent(lineParts[2]))
                 end
+                if lineParts[1] == "ISSUE_PENALTY" then
+                    table.insert(events, NewIssuePenaltyEvent())
+                end
 
                 if lineParts[1] == "OBJECTION" then
                     table.insert(events, NewObjectionEvent(lineParts[2]))
@@ -79,7 +82,7 @@ function LoadScript(scene, scriptPath)
                 end
 
                 if lineParts[1] == "CROSS_EXAMINATION" then
-                    crossExaminationQueue = {lineParts[2], lineParts[3]}
+                    crossExaminationQueue = {lineParts[2], lineParts[3], lineParts[4]}
                 end
 
                 if lineParts[1] == "SPEAK" then
@@ -166,12 +169,13 @@ end
 function NewEvidenceInitEvent(name, externalName, info, file)
     local self = {}
     self.name = name
-    self.externalName = name
+    self.externalName = externalName
     self.info = info
     self.file = file
 
     self.update = function (self, scene, dt)
         scene.evidence[self.name] = {
+            name = self.name,
             externalName = self.externalName,
             info = self.info,
             sprite = love.graphics.newImage(self.file),
