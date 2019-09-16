@@ -48,6 +48,7 @@ function NewSpeakEvent(who, text, locorlit)
 
     self.color = {1,1,1}
     self.animates = true
+    self.speaks = true
 
     self.update = function (self, scene, dt)
         scene.fullText = self.text
@@ -65,7 +66,7 @@ function NewSpeakEvent(who, text, locorlit)
             scene.textTalker = scene.characterLocations[self.who].name
         end
 
-        if self.textScroll > lastScroll then
+        if self.textScroll > lastScroll and self.speaks then
             if scene.characters[scene.textTalker].gender == "MALE" then
                 Sounds.MALETALK:play()
             else
@@ -84,6 +85,15 @@ function NewSpeakEvent(who, text, locorlit)
 
         return true
     end
+
+    return self
+end
+
+function NewThinkEvent(who, text, locorlit)
+    local self = NewSpeakEvent(who, text, locorlit)
+    self.color = {0, 0.75, 1}
+    self.animates = false
+    self.speaks = false
 
     return self
 end

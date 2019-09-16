@@ -89,7 +89,7 @@ SPEAK_FROM COURT_PROSECUTION
     "Yes, Your Honor."
 
 POSE Phoenix Sweaty
-SPEAK_FROM COURT_DEFENSE 
+THINK_FROM COURT_DEFENSE 
     "(This is bad... What should I do?)"
 
 CHOICE 

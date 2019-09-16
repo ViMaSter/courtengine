@@ -7,6 +7,7 @@ function LoadScript(scene, scriptPath)
     local definitions = {}
 
     local queuedSpeak = nil
+    local queuedThink = nil
     local queuedTypewriter = nil
     local crossExaminationQueue = nil
     local choiceQueue = nil
@@ -62,6 +63,13 @@ function LoadScript(scene, scriptPath)
             if canExecuteLine and queuedSpeak ~= nil then
                 table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2]))
                 queuedSpeak = nil
+
+                canExecuteLine = false
+            end
+
+            if canExecuteLine and queuedThink ~= nil then
+                table.insert(events, NewThinkEvent(queuedThink[1], lineParts[1], queuedThink[2]))
+                queuedThink = nil
 
                 canExecuteLine = false
             end
@@ -169,9 +177,16 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "SPEAK" then
                     queuedSpeak = {lineParts[2], "literal"}
                 end
+                if lineParts[1] == "THINK" then
+                    queuedThink = {lineParts[2], "literal"}
+                end
                 if lineParts[1] == "SPEAK_FROM" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
                     queuedSpeak = {lineParts[2], "location"}
+                end
+                if lineParts[1] == "THINK_FROM" then
+                    table.insert(events, NewCutToEvent(lineParts[2]))
+                    queuedThink = {lineParts[2], "location"}
                 end
                 if lineParts[1] == "TYPEWRITER" then
                     queuedTypewriter = {}
