@@ -70,13 +70,16 @@ POSE Edgeworth Confident
 SPEAK_FROM COURT_PROSECUTION
     "He was killed to death."
 
+WIDESHOT
+GAVEL
+
+SPEAK_FROM COURT_JUDGE
+    "I see. The court accepts this into evidence."
+
 EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
 COURT_RECORD_ADD_ANIMATION Autopsy
     "Autopsy added to Court Record"
-
-WIDESHOT
-GAVEL
 
 SPEAK_FROM COURT_JUDGE 
     "The prosecution may call its witness."
@@ -138,6 +141,10 @@ SPEAK_FROM COURT_WITNESS
 POSE Edgeworth Normal
 SPEAK_FROM COURT_PROSECUTION
     "On with the cross examination then, Wright."
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START OF CROSS EXAMINATION
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEFINE PressA1
     HOLD_IT Phoenix
@@ -207,6 +214,10 @@ CROSS_EXAMINATION Gumshoe "-- Cause of Death --" CrossExamineFail
     "As you can plainly see on the autopsy, the victim died." PressA1 0
     "He had really cool curly hair, too." PressA2 0
     "Our team arrived at the scene a little late though." PressA3 Autopsy
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// AFTER CROSS EXAMINATION
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 PLAY_MUSIC OBJECTION
 
