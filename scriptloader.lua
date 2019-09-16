@@ -86,6 +86,9 @@ function LoadCourtScript(scene, scriptPath)
                 if lineParts[1] == "SET_SCENE_TYPE" then
                     scene.type = lineParts[2]
                 end
+                if lineParts[1] == "END_SCENE" then
+                    table.insert(events, NewSceneEndEvent())
+                end
 
                 if lineParts[1] == "DEFINE" then
                     scene.definitions[lineParts[2]] = {}
@@ -94,8 +97,8 @@ function LoadCourtScript(scene, scriptPath)
                 if lineParts[1] == "END_DEFINE" then
                     events = scene.events
                 end
-                if lineParts[1] == "@" then
-                    --table.insert(events, NewExecuteDefinitionEvent(lineParts[2]))
+                if lineParts[1] == "JUMP" then
+                    table.insert(events, NewClearExecuteDefinitionEvent(lineParts[2]))
                 end
 
                 if lineParts[1] == "JUMPCUT" then

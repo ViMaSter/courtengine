@@ -12,11 +12,33 @@ function love.load()
     LoadAssets()
 
     -- set up the current scene
-    CurrentScene = NewCourtScene("generalscript.script")
+    Episode = {
+        "general2.script",
+        "general2.script"
+    }
+    SceneIndex = 0
+    NextScene()
+end
+
+function NextScene()
+    SceneIndex = SceneIndex + 1
+
+    for i,v in pairs(Music) do
+        v:stop()
+    end
+    
+    if SceneIndex <= #Episode then
+        CurrentScene = NewCourtScene(Episode[SceneIndex])
+        CurrentScene:update(0)
+    else
+        love.event.push("quit")
+    end
 end
 
 function LoadAssets()
     Backgrounds = {
+        NONE = {},
+        LOBBY = {love.graphics.newImage("backgrounds/lobby.png")},
         COURT_DEFENSE = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
         COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
         COURT_JUDGE = {love.graphics.newImage("backgrounds/judgestand.png")},

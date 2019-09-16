@@ -1,6 +1,6 @@
 function NewCourtScene(scriptPath)
     local self = {}
-    self.location = "COURT_DEFENSE"
+    self.location = "NONE"
     self.characterLocations = {}
     self.characters = {}
     self.evidence = {}
@@ -26,10 +26,14 @@ function NewCourtScene(scriptPath)
     LoadCourtScript(self, scriptPath)
 
     -- run a function definition defined in the script
-    self.runDefinition = function (self, defName)
+    self.runDefinition = function (self, defName, loc)
+        if loc == nil then
+            loc = 1
+        end
+
         local definition = deepcopy(self.definitions[defName])
         for i=#definition, 1, -1 do
-            table.insert(self.events, 1, definition[i])
+            table.insert(self.events, loc, definition[i])
         end
     end
 
@@ -85,7 +89,9 @@ function NewCourtScene(scriptPath)
 
         -- draw the background of the current location
         local background = Backgrounds[self.location]
-        love.graphics.draw(background[1])
+        if background[1] ~= nil then
+            love.graphics.draw(background[1])
+        end
 
         -- draw the character who is at the current location
         local character = self.characterLocations[self.location]
@@ -161,8 +167,10 @@ function NewCourtScene(scriptPath)
             end
         end
 
-        love.graphics.setColor(0,0,0)
-        love.graphics.print("penalties left: " .. self.penalties)
+        if self.type == "TRIAL" then
+            love.graphics.setColor(0,0,0)
+            love.graphics.print("penalties left: " .. self.penalties)
+        end
     end
 
     return self

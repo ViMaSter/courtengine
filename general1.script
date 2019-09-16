@@ -3,15 +3,22 @@ SET_SCENE_TYPE TRIAL
 CHARACTER_INITIALIZE Phoenix characters/phoenix 
 CHARACTER_INITIALIZE_POSE Phoenix Point
 CHARACTER_INITIALIZE_POSE Phoenix Sweaty
+
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
 CHARACTER_INITIALIZE_POSE Edgeworth Confident
+
 CHARACTER_INITIALIZE Judge characters/judge 
+
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
+
+CHARACTER_INITIALIZE Mia characters/mia
+CHARACTER_INITIALIZE_POSE Mia Ohmy
 
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Gumshoe COURT_WITNESS
+CHARACTER_LOCATION Mia COURT_ASSISTANT
 
 DEFINE TRIAL_FAIL
     JUMPCUT COURT_JUDGE
@@ -26,7 +33,7 @@ END_DEFINE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TYPEWRITER
-    "August 3rd, 9:47AM#District Cout#Defendant Lobby No. 2"
+    "August 3rd, 10:00AM#District Court#Courtroom No. 2"
 
 PLAY_MUSIC TRIAL
 
@@ -68,6 +75,10 @@ CHOICE
     "Panic" 0
     "Give Up" 0
 
+POSE Mia Ohmy
+SPEAK_FROM COURT_ASSISTANT
+    "Phoenix you don't look so good..."
+
 OBJECTION Phoenix
 POSE Phoenix Point
 SPEAK_FROM COURT_DEFENSE 
@@ -75,3 +86,6 @@ SPEAK_FROM COURT_DEFENSE
 
 SPEAK_FROM COURT_JUDGE 
     "Court is adjourned or whatever."
+
+FADE_TO_BLACK
+END_SCENE

@@ -329,10 +329,30 @@ function NewExecuteDefinitionEvent(def)
     return self
 end
 
+function NewClearExecuteDefinitionEvent(def)
+    local self = {}
+    self.def = def
+    self.hasRun = false
+
+    self.update = function (self, scene, dt)
+        if not self.hasRun then
+            self.hasRun = true
+            scene:runDefinition(self.def, 2)
+        end
+
+        return false
+    end
+
+    return self
+end
+
 function NewChoiceEvent(options)
     local self = {}
     self.select = 1
     self.options = options
+    for i=1, #options do
+        print(options[i])
+    end
 
     self.wasPressingUp = false
     self.wasPressingDown = false
@@ -386,6 +406,17 @@ function NewChoiceEvent(options)
             love.graphics.setColor(1,1,1)
             love.graphics.print(self.options[i], 150,30+(i-1)*16)
         end
+    end
+
+    return self
+end
+
+function NewSceneEndEvent()
+    local self = {}
+
+    self.update = function (self, scene, dt)
+        NextScene()
+        return false
     end
 
     return self
