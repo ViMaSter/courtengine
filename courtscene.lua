@@ -102,7 +102,7 @@ function NewCourtScene(scriptPath)
         -- if the current event has an associated graphic, draw it
         if #self.events >= 1 then
             if self.events[1].draw ~= nil then
-                self.events[1]:draw(scene)
+                self.events[1]:draw(self)
             end
         end
 
@@ -112,16 +112,20 @@ function NewCourtScene(scriptPath)
             love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
 
             love.graphics.setColor(1,1,1)
-            local sprite = self.courtRecord[self.courtRecordIndex].sprite
-            love.graphics.draw(sprite,GraphicsWidth()/2,GraphicsHeight()/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
+            if #self.courtRecord >= self.courtRecordIndex then
+                local sprite = self.courtRecord[self.courtRecordIndex].sprite
+                love.graphics.draw(sprite,GraphicsWidth()/2,GraphicsHeight()/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
 
-            local name = self.courtRecord[self.courtRecordIndex].externalName
-            local rectWidth = #name*8
-            love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2 -16, rectWidth, "center")
+                local name = self.courtRecord[self.courtRecordIndex].externalName
+                local rectWidth = #name*8
+                love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2 -16, rectWidth, "center")
 
-            local name = self.courtRecord[self.courtRecordIndex].info
-            local rectWidth = #name*8
-            love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
+                local name = self.courtRecord[self.courtRecordIndex].info
+                local rectWidth = #name*8
+                love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
+            else
+                love.graphics.printf("court record empty", 0,48, GraphicsWidth(), "center")
+            end
         end
 
         -- draw the textbox
@@ -154,7 +158,6 @@ function NewCourtScene(scriptPath)
                 for i=1, #lineTable do
                     love.graphics.printf(lineTable[i], 0, GraphicsHeight()-60 + (i-1)*16, GraphicsWidth(), "center")
                 end
-                --love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "center")
             end
         end
 

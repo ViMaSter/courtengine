@@ -12,7 +12,7 @@ function love.load()
     LoadAssets()
 
     -- set up the current scene
-    CurrentScene = NewCourtScene("test.script")
+    CurrentScene = NewCourtScene("generalscript.script")
 end
 
 function LoadAssets()

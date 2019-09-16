@@ -9,6 +9,7 @@ function LoadCourtScript(scene, scriptPath)
     local queuedTypewriter = nil
     local crossExaminationQueue = nil
     local choiceQueue = nil
+    local evidenceAddQueue = nil
 
     for line in love.filesystem.lines(scriptPath) do
         if line == nil then
@@ -53,6 +54,13 @@ function LoadCourtScript(scene, scriptPath)
             if canExecuteLine and queuedTypewriter ~= nil then
                 table.insert(events, NewTypeWriterEvent(lineParts[1]))
                 queuedTypewriter = nil
+
+                canExecuteLine = false
+            end
+
+            if canExecuteLine and evidenceAddQueue ~= nil then
+                table.insert(events, NewAddToCourtRecordAnimationEvent(lineParts[1], evidenceAddQueue[1]))
+                evidenceAddQueue = nil
 
                 canExecuteLine = false
             end
@@ -124,6 +132,9 @@ function LoadCourtScript(scene, scriptPath)
                 end
                 if lineParts[1] == "TYPEWRITER" then
                     queuedTypewriter = {}
+                end
+                if lineParts[1] == "COURT_RECORD_ADD_ANIMATION" then
+                    evidenceAddQueue = {lineParts[2]}
                 end
             end
         end
@@ -216,14 +227,12 @@ function NewCharPoseInitEvent(name, pose)
     local self = {}
     self.name = name
     self.pose = pose
-    print('yes')
 
     self.update = function(self, scene, dt)
         local location = scene.characters[self.name].location
         scene.characters[self.name].poses[self.pose] = love.graphics.newImage(location .. "/" .. self.pose .. ".png")
 
         for i,v in pairs(scene.characters[self.name].poses) do
-            print(i,v)
         end
 
         return false

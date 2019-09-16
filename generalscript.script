@@ -1,0 +1,69 @@
+CHARACTER_INITIALIZE Arin characters/arin 
+CHARACTER_INITIALIZE_POSE Arin Point
+CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
+CHARACTER_INITIALIZE Judge characters/judge 
+CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
+
+CHARACTER_LOCATION Arin COURT_DEFENSE
+CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
+CHARACTER_LOCATION Judge COURT_JUDGE
+CHARACTER_LOCATION Gumshoe COURT_WITNESS
+
+EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
+
+DEFINE TRIAL_FAIL
+    JUMPCUT COURT_JUDGE
+    SPEAK Judge
+        "yooooooo arin you lost bro"
+
+    GAME_OVER
+END_DEFINE
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START OF TRIAL
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TYPEWRITER
+    "August 3rd, 9:47AM#District Cout#Defendant Lobby No. 2"
+
+PLAY_MUSIC TRIAL
+
+SPEAK_FROM COURT_JUDGE
+    "Court is now in session for a test trial."
+
+SPEAK_FROM COURT_PROSECUTION
+    "The prosecution is ready, Your Honor."
+
+SPEAK_FROM COURT_DEFENSE 
+    "The defense is ready, Your Honor."
+
+SPEAK_FROM COURT_JUDGE 
+    "First a question for the prosecution."
+SPEAK_FROM COURT_JUDGE 
+    "Would you explain to the court how the victim of today's trial was killed?"
+
+SPEAK_FROM COURT_PROSECUTION
+    "He was killed to death."
+
+COURT_RECORD_ADD Autopsy
+COURT_RECORD_ADD_ANIMATION Autopsy
+	"Autopsy added to Court Record"
+
+SPEAK_FROM COURT_JUDGE 
+    "The prosecution may call its witness."
+
+SPEAK_FROM COURT_PROSECUTION
+    "Yes, Your Honor."
+
+SPEAK_FROM COURT_DEFENSE 
+    "(This is bad... What should I do?)"
+
+CHOICE 
+    "Panic" 0
+    "Give Up" 0
+
+SPEAK_FROM COURT_DEFENSE 
+    "I have to use the bathroom!"
+
+SPEAK_FROM COURT_JUDGE 
+    "Court is adjourned or whatever."

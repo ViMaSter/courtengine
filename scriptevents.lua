@@ -99,6 +99,38 @@ function NewTypeWriterEvent(text)
     return self
 end
 
+function NewAddToCourtRecordAnimationEvent(text, evidence)
+    local self = {}
+    self.text = text
+    self.textScroll = 1
+    self.evidence = evidence
+    self.wasPressing = true
+
+    self.update = function (self, scene, dt)
+        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+        scene.textCentered = true
+        scene.textColor = {0,0.2,1}
+        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
+        scene.textTalker = ""
+
+        local pressing = love.keyboard.isDown("x")
+        if pressing and not self.wasPressing and self.textScroll >= #self.text then
+            return false
+        end
+        self.wasPressing = pressing
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.setColor(1,1,1)
+        love.graphics.draw(scene.evidence[self.evidence].sprite, 16,16)
+    end
+
+    return self
+end
+
+
 function NewObjectionEvent(who)
     local self = {}
     self.timer = 0
