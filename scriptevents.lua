@@ -486,6 +486,7 @@ function NewWideShotEvent()
 
     self.update = function (self, scene, dt)
         self.timer = self.timer + dt
+        scene.textHidden = true
 
         if not self.hasPlayed then
             self.sources = love.audio.pause()
@@ -515,5 +516,33 @@ function NewWideShotEvent()
         end
     end
 
+    return self
+end
+
+function NewGavelEvent()
+    local self = {}
+    self.timer = 0
+    self.index = 1
+
+    self.update = function (self, scene, dt)
+        self.timer = self.timer + dt
+        scene.textHidden = true
+        scene.canShowCourtRecord = false
+
+        if self.timer > 0.2 then
+            self.index = 2
+        end
+
+        if self.timer > 0.5 then
+            self.index = 3
+        end
+
+        return self.timer < 1
+    end
+
+    self.draw = function (self, scene)
+        local spr = GavelAnimation[self.index]
+        love.graphics.draw(spr, 0,0, 0, GraphicsWidth()/spr:getWidth(),GraphicsHeight()/spr:getHeight())
+    end
     return self
 end

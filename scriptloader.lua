@@ -140,6 +140,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "WIDESHOT" then
                     table.insert(events, NewWideShotEvent())
                 end
+                if lineParts[1] == "GAVEL" then
+                    table.insert(events, NewGavelEvent())
+                end
 
                 if lineParts[1] == "CROSS_EXAMINATION" then
                     crossExaminationQueue = {lineParts[2], lineParts[3], lineParts[4]}

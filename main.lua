@@ -69,6 +69,12 @@ function LoadAssets()
     CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
     WideShotSprite = love.graphics.newImage("backgrounds/wideshot.png")
 
+    GavelAnimation = {
+        love.graphics.newImage("sprites/gavel1.png"),
+        love.graphics.newImage("sprites/gavel2.png"),
+        love.graphics.newImage("sprites/gavel3.png"),
+    }
+
     Sounds = {
         MUTTER = love.audio.newSource("sounds/sfx-gallery.wav", "static"),
     }

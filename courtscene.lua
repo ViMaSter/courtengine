@@ -109,7 +109,13 @@ function NewScene(scriptPath)
             love.graphics.draw(background[2])
         end
 
+        if self.type == "TRIAL" then
+            love.graphics.setColor(0,0,0)
+            love.graphics.print("penalties left: " .. self.penalties)
+        end
+
         -- if the current event has an associated graphic, draw it
+        love.graphics.setColor(1,1,1)
         if #self.events >= 1 then
             if self.events[1].draw ~= nil then
                 self.events[1]:draw(self)
@@ -169,11 +175,6 @@ function NewScene(scriptPath)
                     love.graphics.printf(lineTable[i], 0, GraphicsHeight()-60 + (i-1)*16, GraphicsWidth(), "center")
                 end
             end
-        end
-
-        if self.type == "TRIAL" then
-            love.graphics.setColor(0,0,0)
-            love.graphics.print("penalties left: " .. self.penalties)
         end
     end
 
