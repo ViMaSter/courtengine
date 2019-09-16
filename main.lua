@@ -68,6 +68,7 @@ function LoadAssets()
     HoldItSprite = love.graphics.newImage("sprites/holdit.png")
     CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
     WideShotSprite = love.graphics.newImage("backgrounds/wideshot.png")
+    PenaltySprite = love.graphics.newImage("sprites/exclamation.png")
 
     GavelAnimation = {
         love.graphics.newImage("sprites/gavel1.png"),

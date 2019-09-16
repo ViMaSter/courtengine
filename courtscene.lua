@@ -110,15 +110,6 @@ function NewScene(scriptPath)
             love.graphics.draw(background[2])
         end
 
-        if self.type == "TRIAL" then
-            love.graphics.setColor(0,0,0)
-            local str = ""
-            for i=1, self.penalties do
-                str = str .. "!"
-            end
-            love.graphics.print(str)
-        end
-
         -- if the current event has an associated graphic, draw it
         love.graphics.setColor(1,1,1)
         if #self.events >= 1 then

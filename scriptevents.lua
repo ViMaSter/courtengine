@@ -317,6 +317,11 @@ function NewCrossExaminationEvent(queue)
     self.draw = function (self, scene)
         if self.timer < self.animationTime then
             love.graphics.draw(CrossExaminationSprite, GraphicsWidth()/2,GraphicsHeight()/2 -24, 0, 1,1, CrossExaminationSprite:getWidth()/2,CrossExaminationSprite:getHeight()/2)
+        else
+            love.graphics.setColor(1,1,1)
+            for i=1, scene.penalties do
+                love.graphics.draw(PenaltySprite, (i-1)*12 +2,2)
+            end
         end
     end
 

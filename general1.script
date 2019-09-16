@@ -9,6 +9,9 @@ CHARACTER_INITIALIZE_SOUND Phoenix holdit
 
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth MALE
 CHARACTER_INITIALIZE_POSE Edgeworth Confident
+CHARACTER_INITIALIZE_POSE Edgeworth Thinking
+CHARACTER_INITIALIZE_POSE Edgeworth HandOnDesk
+CHARACTER_INITIALIZE_POSE Edgeworth Strained
 CHARACTER_INITIALIZE_SOUND Edgeworth objection
 
 CHARACTER_INITIALIZE Judge characters/judge MALE
@@ -23,9 +26,16 @@ CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Mia COURT_ASSISTANT
 
 DEFINE TRIAL_FAIL
-    JUMPCUT COURT_JUDGE
-    SPEAK Judge
-        "yooooooo arin you lost bro"
+    SPEAK_FROM COURT_JUDGE
+        "Phoenix, you lost."
+
+    POSE Edgeworth Confident
+    SPEAK_FROM COURT_PROSECUTION
+        "Haha! Suck it, dweeb."
+
+    POSE Mia Ohmy
+    SPEAK_FROM COURT_ASSISTANT
+        "Phoenix, how could you?"
 
     GAME_OVER
 END_DEFINE
@@ -105,6 +115,7 @@ SPEAK_FROM COURT_DEFENSE
     "I don't need your sass right now, Mia."
 
 JUMPCUT COURT_PROSECUTION
+POSE Edgeworth Strained
 OBJECTION Edgeworth
 SPEAK_FROM COURT_PROSECUTION
     "Can the defense cut it out with their lolligagging?"
@@ -117,12 +128,14 @@ SPEAK_FROM COURT_JUDGE
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe MALE
 CHARACTER_LOCATION Gumshoe COURT_WITNESS
 
+POSE Edgeworth HandOnDesk
 SPEAK_FROM COURT_PROSECUTION
     "Witness, name and occupation please."
 
 SPEAK_FROM COURT_WITNESS
     "Dick Gumshoe, sir. Detective."
 
+POSE Edgeworth Normal
 SPEAK_FROM COURT_PROSECUTION
     "On with the cross examination then, Wright."
 
@@ -152,10 +165,12 @@ DEFINE PressA2
     SPEAK_FROM COURT_JUDGE
         "Phoenix, great question. I admire your dedication to the trade."
 
+    POSE Edgeworth Thinking
     SPEAK_FROM COURT_PROSECUTION
         "I agree. And I don't often do that."
 
     JUMPCUT COURT_WITNESS
+    POSE Edgeworth Normal
 END_DEFINE
 
 DEFINE PressA3
@@ -190,7 +205,7 @@ PLAY_MUSIC QUESTIONING
 
 CROSS_EXAMINATION Gumshoe "-- Cause of Death --" CrossExamineFail
     "As you can plainly see on the autopsy, the victim died." PressA1 0
-    "They had really cool curly hair, too." PressA2 0
+    "He had really cool curly hair, too." PressA2 0
     "Our team arrived at the scene a little late though." PressA3 Autopsy
 
 PLAY_MUSIC OBJECTION
