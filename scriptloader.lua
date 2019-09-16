@@ -137,6 +137,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "HOLD_IT" then
                     table.insert(events, NewHoldItEvent(lineParts[2]))
                 end
+                if lineParts[1] == "WIDESHOT" then
+                    table.insert(events, NewWideShotEvent())
+                end
 
                 if lineParts[1] == "CROSS_EXAMINATION" then
                     crossExaminationQueue = {lineParts[2], lineParts[3], lineParts[4]}
@@ -241,6 +244,7 @@ function NewCharInitEvent(name, location)
             },
 
             location = self.location,
+            wideshot = love.graphics.newImage(self.location .. "/wideshot.png"),
             name = self.name,
             frame = "Normal",
         }

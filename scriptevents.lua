@@ -352,9 +352,6 @@ function NewChoiceEvent(options)
     local self = {}
     self.select = 1
     self.options = options
-    for i=1, #options do
-        print(options[i])
-    end
 
     self.wasPressingUp = false
     self.wasPressingDown = false
@@ -476,6 +473,46 @@ function NewExamineEvent(examinables)
         love.graphics.rectangle("line", self.x-rad,self.y-rad,rad*2,rad*2)
         love.graphics.line(self.x,self.y-rad,self.x,self.y+rad)
         love.graphics.line(self.x-rad,self.y,self.x+rad,self.y)
+    end
+
+    return self
+end
+
+function NewWideShotEvent()
+    local self = {}
+    self.timer = 0
+    self.hasPlayed = false
+    self.sources = {}
+
+    self.update = function (self, scene, dt)
+        self.timer = self.timer + dt
+
+        if not self.hasPlayed then
+            self.sources = love.audio.pause()
+            Sounds.MUTTER:play()
+            self.hasPlayed = true
+        end
+
+        scene.textHidden = true
+        scene.canShowCourtRecord = false
+
+        if self.timer >= 2 then
+            Sounds.MUTTER:stop()
+            for i,v in pairs(self.sources) do
+                v:play()
+            end
+            return false
+        end
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.draw(WideShotSprite)
+
+        for i,v in pairs(scene.characters) do
+            love.graphics.draw(v.wideshot)
+        end
     end
 
     return self

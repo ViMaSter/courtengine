@@ -14,7 +14,7 @@ function love.load()
 
     -- set up the current scene
     Episode = {
-        "general2.script",
+        "general1.script",
         "general2.script"
     }
     SceneIndex = 0
@@ -67,6 +67,15 @@ function LoadAssets()
     ObjectionSprite = love.graphics.newImage("sprites/objection.png")
     HoldItSprite = love.graphics.newImage("sprites/holdit.png")
     CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
+    WideShotSprite = love.graphics.newImage("backgrounds/wideshot.png")
+
+    Sounds = {
+        MUTTER = love.audio.newSource("sounds/sfx-gallery.wav", "static"),
+    }
+
+    for i,v in pairs(Sounds) do
+        v:setVolume(MasterVolume)
+    end
 
     GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
     --love.graphics.setFont(GameFont)
