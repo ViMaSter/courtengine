@@ -484,7 +484,7 @@ function NewExamineEvent(examinables)
         scene.canShowCourtRecord = false
         scene.canShowCharacter = false
 
-        local moveSpeed = 2
+        local moveSpeed = 2*(dt*60)
         if love.keyboard.isDown("right") then
             self.x = self.x + moveSpeed
         end
@@ -529,11 +529,12 @@ function NewWideShotEvent()
 
     self.update = function (self, scene, dt)
         self.timer = self.timer + dt
-        self.frameCounter = self.frameCounter + 1
+        self.frameCounter = self.frameCounter + dt
 
-        if self.frameCounter%8 == 0 then
+        while self.frameCounter >= 2/15 do
+            self.frameCounter = self.frameCounter - 2/15
             self.headAnim = self.headAnim + 1
-            if self.headAnim > 3 then
+            if self.headAnim > 4 then
                 self.headAnim = 1
             end
         end

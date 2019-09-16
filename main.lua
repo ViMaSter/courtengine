@@ -79,6 +79,7 @@ function LoadAssets()
         love.graphics.newImage("sprites/talkingheads1.png"),
         love.graphics.newImage("sprites/talkingheads2.png"),
         love.graphics.newImage("sprites/talkingheads3.png"),
+        love.graphics.newImage("sprites/talkingheads2.png"),
     }
 
     Sounds = {
