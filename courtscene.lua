@@ -161,7 +161,29 @@ function NewScene(scriptPath)
             love.graphics.setColor(unpack(self.textColor))
 
             if not self.textCentered then
-                love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
+                local lineTable = {"", "", ""}
+                local lineTableIndex = 1
+                local fullwords = ""
+                local working = ""
+                local wrapWidth = 224
+
+                for i=1, #self.text do
+                    local char = string.sub(self.text, i,i)
+
+                    local wtest = working .. char
+                    if GameFont:getWidth(wtest) >= wrapWidth then
+                        lineTableIndex = lineTableIndex + 1
+                        working = ""
+                        fullwords = ""
+                    end
+
+                    working = working .. char
+                    lineTable[lineTableIndex] = lineTable[lineTableIndex] .. char
+                end
+
+                for i=1, #lineTable do
+                    love.graphics.print(lineTable[i], 4, GraphicsHeight()-60 + (i-1)*16)
+                end
             else
                 local lineTable = {"", "", ""}
                 local lineIndex = 1

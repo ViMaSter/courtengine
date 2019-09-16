@@ -48,7 +48,7 @@ function NewSpeakEvent(who, text, locorlit)
 
     self.update = function (self, scene, dt)
         scene.fullText = self.text
-        
+
         local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
 
@@ -88,7 +88,13 @@ function NewTypeWriterEvent(text)
     self.wasPressing = true
 
     self.update = function (self, scene, dt)
+        local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+
+        if self.textScroll > lastScroll then
+            Sounds.TYPEWRITER:play()
+        end
+
         scene.fullText = self.text
         scene.textCentered = true
         scene.textColor = {0,1,0}
@@ -122,6 +128,7 @@ function NewAddToCourtRecordAnimationEvent(text, evidence)
 
     self.update = function (self, scene, dt)
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+        scene.fullText = self.text
         scene.textCentered = true
         scene.textColor = {0,0.2,1}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))

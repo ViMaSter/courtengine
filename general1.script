@@ -29,16 +29,16 @@ END_DEFINE
 // START OF TRIAL
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TYPEWRITER
-    "August 3rd, 10:00AM#District Court#Courtroom No. 2"
+//TYPEWRITER
+    //"August 3rd, 10:00AM#District Court#Courtroom No. 2"
 
-WIDESHOT
-GAVEL
+//WIDESHOT
+//GAVEL
 
 PLAY_MUSIC TRIAL
 
 SPEAK_FROM COURT_JUDGE
-    "Court is now in session for a test trial."
+    "Court is now in session for a test trial alskdjfl laksdjflk jdkj kdjslkjf lekj l"
 
 SPEAK_FROM COURT_PROSECUTION
     "The prosecution is ready, Your Honor."
