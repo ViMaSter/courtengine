@@ -77,6 +77,7 @@ function LoadAssets()
 
     Sounds = {
         MUTTER = love.audio.newSource("sounds/sfx-gallery.wav", "static"),
+        GAVEL = love.audio.newSource("sounds/sfx-gavel.wav", "static"),
     }
 
     for i,v in pairs(Sounds) do

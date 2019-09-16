@@ -523,11 +523,19 @@ function NewGavelEvent()
     local self = {}
     self.timer = 0
     self.index = 1
+    self.hasPlayed = false
+    self.muted = false
+    self.sources = {}
 
     self.update = function (self, scene, dt)
         self.timer = self.timer + dt
         scene.textHidden = true
         scene.canShowCourtRecord = false
+
+        if not self.muted then
+            self.muted = true
+            self.sources = love.audio.pause()
+        end
 
         if self.timer > 0.2 then
             self.index = 2
@@ -535,14 +543,61 @@ function NewGavelEvent()
 
         if self.timer > 0.5 then
             self.index = 3
+
+            if not self.hasPlayed then
+                self.hasPlayed = true
+                Sounds.GAVEL:play()
+            end
         end
 
-        return self.timer < 1
+        if self.timer >= 1 then
+            for i,v in pairs(self.sources) do
+                v:play()
+            end
+            return false
+        end
+        return true
     end
 
     self.draw = function (self, scene)
         local spr = GavelAnimation[self.index]
         love.graphics.draw(spr, 0,0, 0, GraphicsWidth()/spr:getWidth(),GraphicsHeight()/spr:getHeight())
     end
+    return self
+end
+
+function NewStopMusicEvent()
+    local self = {}
+
+    self.update = function (self, scene, dt)
+        for i,v in pairs(Music) do
+            v:stop()
+        end
+
+        return false
+    end
+
+    return self
+end
+
+function NewFadeToBlackEvent()
+    local self = {}
+    self.timer = 0
+
+    self.update = function (self, scene, dt)
+        scene.textHidden = true
+        scene.canShowCourtRecord = false
+
+        local lastTimer = self.timer 
+        self.timer = self.timer + dt
+
+        return self.timer <= 1 and lastTimer <= 1
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.setColor(0,0,0, self.timer)
+        love.graphics.rectangle("fill", 0,0, GraphicsWidth(),GraphicsHeight())
+    end
+
     return self
 end

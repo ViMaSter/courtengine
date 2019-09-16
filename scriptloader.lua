@@ -124,6 +124,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "PLAY_MUSIC" then
                     table.insert(events, NewPlayMusicEvent(lineParts[2]))
                 end
+                if lineParts[1] == "STOP_MUSIC" then
+                    table.insert(events, NewStopMusicEvent())
+                end
                 if lineParts[1] == "ISSUE_PENALTY" then
                     table.insert(events, NewIssuePenaltyEvent())
                 end
@@ -142,6 +145,9 @@ function LoadScript(scene, scriptPath)
                 end
                 if lineParts[1] == "GAVEL" then
                     table.insert(events, NewGavelEvent())
+                end
+                if lineParts[1] == "FADE_TO_BLACK" then
+                    table.insert(events, NewFadeToBlackEvent())
                 end
 
                 if lineParts[1] == "CROSS_EXAMINATION" then

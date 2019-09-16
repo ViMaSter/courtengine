@@ -82,6 +82,7 @@ POSE Mia Ohmy
 SPEAK_FROM COURT_ASSISTANT
     "Phoenix you don't look so good..."
 
+JUMPCUT COURT_DEFENSE
 OBJECTION Phoenix
 POSE Phoenix Point
 SPEAK_FROM COURT_DEFENSE 
