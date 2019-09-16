@@ -87,6 +87,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHARACTER_INITIALIZE_POSE" then
                     table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3]))
                 end
+                if lineParts[1] == "CHARACTER_INITIALIZE_SOUND" then
+                    table.insert(events, NewCharSoundInitEvent(lineParts[2], lineParts[3]))
+                end
                 if lineParts[1] == "CHARACTER_LOCATION" then
                     table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
                 end
@@ -253,6 +256,8 @@ function NewCharInitEvent(name, location, gender)
                 Normal = love.graphics.newImage(self.location.."/Normal.png"),
             },
 
+            sounds = {},
+
             location = self.location,
             wideshot = love.graphics.newImage(self.location .. "/wideshot.png"),
             name = self.name,
@@ -274,6 +279,22 @@ function NewCharPoseInitEvent(name, pose)
     self.update = function(self, scene, dt)
         local location = scene.characters[self.name].location
         scene.characters[self.name].poses[self.pose] = love.graphics.newImage(location .. "/" .. self.pose .. ".png")
+
+        return false
+    end
+
+    return self
+end
+
+function NewCharSoundInitEvent(name, sound)
+    local self = {}
+    self.name = name
+    self.sound = sound
+
+    self.update = function(self, scene, dt)
+        local location = scene.characters[self.name].location
+        scene.characters[self.name].sounds[self.sound] = love.audio.newSource(location .. "/" .. self.sound .. ".wav", "static")
+        scene.characters[self.name].sounds[self.sound]:setVolume(MasterVolume/2)
 
         return false
     end

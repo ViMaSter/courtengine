@@ -157,9 +157,11 @@ function NewObjectionEvent(who)
     local self = {}
     self.timer = 0
     self.x,self.y = 0,0
+    self.who = who
 
     self.update = function (self, scene, dt)
         scene.textHidden = true
+        scene.characters[self.who].sounds.objection:play()
         self.timer = self.timer + dt
         self.x = self.x + love.math.random()*choose{1,-1}*2
         self.y = self.y + love.math.random()*choose{1,-1}*2

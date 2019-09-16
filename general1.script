@@ -3,6 +3,7 @@ SET_SCENE_TYPE TRIAL
 CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
 CHARACTER_INITIALIZE_POSE Phoenix Point
 CHARACTER_INITIALIZE_POSE Phoenix Sweaty
+CHARACTER_INITIALIZE_SOUND Phoenix objection
 
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth MALE
 CHARACTER_INITIALIZE_POSE Edgeworth Confident
@@ -38,7 +39,7 @@ END_DEFINE
 PLAY_MUSIC TRIAL
 
 SPEAK_FROM COURT_JUDGE
-    "Court is now in session for a test trial alskdjfl laksdjflk jdkj kdjslkjf lekj l"
+    "Court is now in session for a test trialdlfk jlaskdfjl askdjflk ajsldf sdf kekf wkjelfkjlkasjdf jqwkjelk a"
 
 SPEAK_FROM COURT_PROSECUTION
     "The prosecution is ready, Your Honor."

@@ -132,6 +132,9 @@ function NewScene(scriptPath)
             love.graphics.setColor(0.2,0.2,0.2)
             love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
 
+            love.graphics.setColor(0,0,0)
+            love.graphics.printf("court record", 0,0, GraphicsWidth(), "center")
+
             love.graphics.setColor(1,1,1)
             if #self.courtRecord >= self.courtRecordIndex then
                 local sprite = self.courtRecord[self.courtRecordIndex].sprite
@@ -144,8 +147,9 @@ function NewScene(scriptPath)
                 local name = self.courtRecord[self.courtRecordIndex].info
                 local rectWidth = #name*8
                 love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
+
             else
-                love.graphics.printf("court record empty", 0,48, GraphicsWidth(), "center")
+                love.graphics.printf("empty", 0,48, GraphicsWidth(), "center")
             end
         end
 
@@ -161,23 +165,42 @@ function NewScene(scriptPath)
             love.graphics.setColor(unpack(self.textColor))
 
             if not self.textCentered then
+                local wrapIndices = {}
+
                 local lineTable = {"", "", ""}
+                local spaces = {}
                 local lineTableIndex = 1
                 local fullwords = ""
                 local working = ""
-                local wrapWidth = 224
+                local wrapWidth = 232
 
-                for i=1, #self.text do
-                    local char = string.sub(self.text, i,i)
+                for i=1, #self.fullText do
+                    local char = string.sub(self.fullText, i,i)
+
+                    if char == " " then
+                        table.insert(spaces, i)
+                    end
 
                     local wtest = working .. char
                     if GameFont:getWidth(wtest) >= wrapWidth then
+                        wrapIndices[lineTableIndex] = spaces[#spaces] +1
                         lineTableIndex = lineTableIndex + 1
                         working = ""
                         fullwords = ""
                     end
 
                     working = working .. char
+                end
+
+                local lineTableIndex = 1
+
+                for i=1, #self.text do
+                    local char = string.sub(self.text, i,i)
+
+                    if i == wrapIndices[lineTableIndex] then
+                        lineTableIndex = lineTableIndex + 1
+                    end
+
                     lineTable[lineTableIndex] = lineTable[lineTableIndex] .. char
                 end
 
