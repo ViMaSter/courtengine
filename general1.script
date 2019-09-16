@@ -130,6 +130,8 @@ SPEAK_FROM COURT_JUDGE
 
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe MALE
 CHARACTER_LOCATION Gumshoe COURT_WITNESS
+CHARACTER_INITIALIZE_POSE Gumshoe Sad
+CHARACTER_INITIALIZE_POSE Gumshoe Confident
 
 POSE Edgeworth HandOnDesk
 SPEAK_FROM COURT_PROSECUTION
@@ -211,9 +213,9 @@ JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
 
 CROSS_EXAMINATION Gumshoe "-- Cause of Death --" CrossExamineFail
-    "As you can plainly see on the autopsy, the victim died." PressA1 0
-    "He had really cool curly hair, too." PressA2 0
-    "Our team arrived at the scene a little late though." PressA3 Autopsy
+    "As you can plainly see on the autopsy, the victim died." PressA1 0 Normal
+    "He had really cool curly hair, too." PressA2 0 Confident
+    "Our team arrived at the scene a little late though." PressA3 Autopsy Sad
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AFTER CROSS EXAMINATION

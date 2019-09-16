@@ -249,7 +249,7 @@ function NewCrossExaminationEvent(queue)
         if self.textIndex == 2 then
             self.textIndex = 4
         else
-            self.textIndex = self.textIndex + 3
+            self.textIndex = self.textIndex + 4
         end
 
         self.textScroll = 1
@@ -263,18 +263,20 @@ function NewCrossExaminationEvent(queue)
     self.update = function (self, scene, dt)
         self.timer = self.timer + dt
 
-        return self:activeUpdate(scene, dt)
-    end
-
-    self.activeUpdate = function (self, scene, dt)
         local text = self.queue[self.textIndex]
 
         local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
+
         if self.textIndex == 2 then
             scene.textColor = {1,0.5,0}
             scene.textCentered = true
         else
+            scene.characters[self.who].frame = self.queue[self.textIndex+3]
+            if self.textScroll < #text then
+                scene.characterTalking = true
+            end
+
             scene.textColor = {0,1,0.25}
         end
         scene.text = string.sub(text, 1, math.floor(self.textScroll))
@@ -549,7 +551,7 @@ function NewWideShotEvent()
         scene.textHidden = true
 
         if not self.hasPlayed then
-            self.sources = love.audio.pause()
+            --self.sources = love.audio.pause()
             Sounds.MUTTER:play()
             self.hasPlayed = true
         end
@@ -595,7 +597,7 @@ function NewGavelEvent()
 
         if not self.muted then
             self.muted = true
-            self.sources = love.audio.pause()
+            --self.sources = love.audio.pause()
         end
 
         if self.timer > 0.2 then
