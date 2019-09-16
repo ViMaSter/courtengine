@@ -119,7 +119,14 @@ function NewScene(scriptPath)
                 self.charAnimIndex = 1
             end
 
-            love.graphics.draw(pose.source, pose.anim[math.floor(self.charAnimIndex +0.5)])
+            love.graphics.draw(pose.source, pose.anim[math.max(math.floor(self.charAnimIndex +0.5), 1)])
+        end
+
+        love.graphics.setColor(1,1,1)
+        if #self.events >= 1 then
+            if self.events[1].characterDraw ~= nil then
+                self.events[1]:characterDraw(self)
+            end
         end
 
         -- draw the top layer of the environment, like desk on top of character

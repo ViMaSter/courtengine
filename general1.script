@@ -4,6 +4,7 @@ CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
 CHARACTER_INITIALIZE_POSE Phoenix Point
 CHARACTER_INITIALIZE_POSE Phoenix Sweaty
 CHARACTER_INITIALIZE_POSE Phoenix Confident
+CHARACTER_INITIALIZE_ANIMATION Phoenix DeskSlam
 CHARACTER_INITIALIZE_SOUND Phoenix objection
 CHARACTER_INITIALIZE_SOUND Phoenix holdit
 
@@ -19,11 +20,13 @@ CHARACTER_INITIALIZE Judge characters/judge MALE
 CHARACTER_INITIALIZE Mia characters/mia FEMALE
 CHARACTER_INITIALIZE_POSE Mia Ohmy
 
-
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Mia COURT_ASSISTANT
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
+COURT_RECORD_ADD Badge
 
 DEFINE TRIAL_FAIL
     SPEAK_FROM COURT_JUDGE
@@ -47,7 +50,7 @@ END_DEFINE
 TYPEWRITER
     "August 3rd, 10:00AM#District Court#Courtroom No. 2"
 
-WIDESHOT
+    WIDESHOT
 GAVEL
 
 PLAY_MUSIC TRIAL
@@ -101,8 +104,9 @@ SPEAK_FROM COURT_ASSISTANT
     "Phoenix you don't look so good..."
 
 JUMPCUT COURT_DEFENSE
-OBJECTION Phoenix
+ANIMATION Phoenix DeskSlam
 POSE Phoenix Point
+OBJECTION Phoenix
 SPEAK_FROM COURT_DEFENSE 
     "I have to use the bathroom!"
 
@@ -221,10 +225,11 @@ CROSS_EXAMINATION Gumshoe "-- Cause of Death --" CrossExamineFail
 // AFTER CROSS EXAMINATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-PLAY_MUSIC OBJECTION
-
+JUMPCUT COURT_DEFENSE
+ANIMATION Phoenix DeskSlam
 POSE Phoenix Point
 OBJECTION Phoenix
+PLAY_MUSIC OBJECTION
 SPEAK_FROM COURT_DEFENSE
     "This autopsy is all wrong!"
 POSE Phoenix Confident

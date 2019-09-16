@@ -26,6 +26,33 @@ function NewPoseEvent(name, pose)
     return self
 end
 
+function NewAnimationEvent(name, animation)
+    local self = {}
+    self.name = name
+    self.animation = animation
+    self.timer = 0
+    self.animIndex = 1
+
+    self.update = function (self, scene, dt)
+        scene.canShowCharacter = false
+        scene.canShowCourtRecord = false
+        scene.textHidden = true
+
+        self.timer = self.timer + dt*10
+        self.animIndex = math.max(math.floor(self.timer +0.5), 1)
+
+        local animation = scene.characters[self.name].animations[self.animation]
+        return self.animIndex <= #animation.anim
+    end
+
+    self.characterDraw = function (self, scene)
+        local animation = scene.characters[self.name].animations[self.animation]
+        love.graphics.draw(animation.source, animation.anim[self.animIndex])
+    end
+
+    return self
+end
+
 function NewCutToEvent(cutTo)
     local self = {}
     self.cutTo = cutTo

@@ -95,6 +95,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHARACTER_INITIALIZE_POSE" then
                     table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3]))
                 end
+                if lineParts[1] == "CHARACTER_INITIALIZE_ANIMATION" then
+                    table.insert(events, NewCharAnimationInitEvent(lineParts[2], lineParts[3]))
+                end
                 if lineParts[1] == "CHARACTER_INITIALIZE_SOUND" then
                     table.insert(events, NewCharSoundInitEvent(lineParts[2], lineParts[3]))
                 end
@@ -131,6 +134,9 @@ function LoadScript(scene, scriptPath)
                 end
                 if lineParts[1] == "POSE" then
                     table.insert(events, NewPoseEvent(lineParts[2], lineParts[3]))
+                end
+                if lineParts[1] == "ANIMATION" then
+                    table.insert(events, NewAnimationEvent(lineParts[2], lineParts[3]))
                 end
                 if lineParts[1] == "PLAY_MUSIC" then
                     table.insert(events, NewPlayMusicEvent(lineParts[2]))
@@ -292,7 +298,7 @@ function NewCharInitEvent(name, location, gender)
                 Normal = NewAnimation(self.location.."/Normal.png", true),
                 NormalTalking = NewAnimation(self.location.."/NormalTalking.png", false),
             },
-
+            animations = {},
             sounds = {},
 
             location = self.location,
@@ -317,6 +323,21 @@ function NewCharPoseInitEvent(name, pose)
         local location = scene.characters[self.name].location
         scene.characters[self.name].poses[self.pose] = NewAnimation(location .. "/" .. self.pose .. ".png", true)
         scene.characters[self.name].poses[self.pose.."Talking"] = NewAnimation(location .. "/" .. self.pose .. "Talking.png", false)
+
+        return false
+    end
+
+    return self
+end
+
+function NewCharAnimationInitEvent(name, animation)
+    local self = {}
+    self.name = name
+    self.animation = animation
+
+    self.update = function(self, scene, dt)
+        local location = scene.characters[self.name].location
+        scene.characters[self.name].animations[self.animation] = NewAnimation(location .. "/" .. self.animation .. ".png", false)
 
         return false
     end

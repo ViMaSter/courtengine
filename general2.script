@@ -6,6 +6,8 @@ CHARACTER_LOCATION Mia LOBBY
 
 EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
+COURT_RECORD_ADD Badge
 
 TYPEWRITER
     "August 3rd, 10:05AM#District Court#Defendant Lobby No. 1"
