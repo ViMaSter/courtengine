@@ -26,19 +26,24 @@ function NewPoseEvent(name, pose)
     return self
 end
 
-function NewAnimationEvent(name, animation)
+function NewAnimationEvent(name, animation, speed)
     local self = {}
     self.name = name
     self.animation = animation
     self.timer = 0
     self.animIndex = 1
 
+    if speed == nil then
+        speed = 10
+    end
+    self.speed = speed
+
     self.update = function (self, scene, dt)
         scene.canShowCharacter = false
         scene.canShowCourtRecord = false
         scene.textHidden = true
 
-        self.timer = self.timer + dt*10
+        self.timer = self.timer + dt*self.speed
         self.animIndex = math.max(math.floor(self.timer +0.5), 1)
 
         local animation = scene.characters[self.name].animations[self.animation]

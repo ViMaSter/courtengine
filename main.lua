@@ -14,7 +14,7 @@ function love.load()
 
     -- set up the current scene
     Episode = {
-        "general2.script",
+        "general1.script",
         "general2.script"
     }
     SceneIndex = 0

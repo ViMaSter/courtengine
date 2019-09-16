@@ -13,6 +13,7 @@ CHARACTER_INITIALIZE_POSE Edgeworth Confident
 CHARACTER_INITIALIZE_POSE Edgeworth Thinking
 CHARACTER_INITIALIZE_POSE Edgeworth HandOnDesk
 CHARACTER_INITIALIZE_POSE Edgeworth Strained
+CHARACTER_INITIALIZE_ANIMATION Edgeworth Nope
 CHARACTER_INITIALIZE_SOUND Edgeworth objection
 
 CHARACTER_INITIALIZE Judge characters/judge MALE
@@ -69,8 +70,10 @@ SPEAK_FROM COURT_JUDGE
 SPEAK_FROM COURT_JUDGE 
     "Would you explain to the court how the victim of today's trial was killed?"
 
+JUMPCUT COURT_PROSECUTION
 POSE Edgeworth Confident
-SPEAK_FROM COURT_PROSECUTION
+ANIMATION Edgeworth Nope 6
+SPEAK Edgeworth
     "He was killed to death."
 
 WIDESHOT

@@ -150,7 +150,11 @@ function LoadScript(scene, scriptPath)
                     table.insert(events, NewPoseEvent(lineParts[2], lineParts[3]))
                 end
                 if lineParts[1] == "ANIMATION" then
-                    table.insert(events, NewAnimationEvent(lineParts[2], lineParts[3]))
+                    if #lineParts == 4 then
+                        table.insert(events, NewAnimationEvent(lineParts[2], lineParts[3], lineParts[4]))
+                    else
+                        table.insert(events, NewAnimationEvent(lineParts[2], lineParts[3]))
+                    end
                 end
                 if lineParts[1] == "PLAY_MUSIC" then
                     table.insert(events, NewPlayMusicEvent(lineParts[2]))
