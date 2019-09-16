@@ -46,11 +46,18 @@ function NewSpeakEvent(who, text, locorlit)
     self.who = who
     self.locorlit = locorlit
 
+    self.color = {1,1,1}
+    self.animates = true
+
     self.update = function (self, scene, dt)
         scene.fullText = self.text
 
         local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+
+        if self.textScroll < #self.text then
+            scene.characterTalking = self.animates
+        end
 
         if self.locorlit == "literal" then
             scene.textTalker = self.who
@@ -66,7 +73,7 @@ function NewSpeakEvent(who, text, locorlit)
             end
         end
 
-        scene.textColor = {1,1,1}
+        scene.textColor = self.color
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
         local pressing = love.keyboard.isDown("x")
@@ -566,7 +573,7 @@ function NewWideShotEvent()
         love.graphics.draw(TalkingHeadAnimation[self.headAnim])
 
         for i,v in pairs(scene.characters) do
-            love.graphics.draw(v.wideshot)
+            love.graphics.draw(v.wideshot.source)
         end
     end
 

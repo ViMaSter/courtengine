@@ -18,6 +18,8 @@ function NewScene(scriptPath)
     self.wasPressingCourtRecord = false
     self.courtRecordIndex = 1
 
+    self.charAnimIndex = 1
+
     self.wasPressingRight = false
     self.wasPressingLeft = false
 
@@ -46,9 +48,13 @@ function NewScene(scriptPath)
         self.canShowCharacter = true
         self.textCentered = false
         self.textBoxSprite = TextBoxSprite
+        self.characterTalking = false
+
         while #self.events >= 1 and not self.events[1]:update(self, dt) do
             table.remove(self.events, 1)
         end
+
+        self.charAnimIndex = self.charAnimIndex + dt*5
 
         -- open and close the court record
         local pressingCourtRecord = love.keyboard.isDown("z")
@@ -102,7 +108,18 @@ function NewScene(scriptPath)
         if character ~= nil 
         and self.characters[character.name].poses[character.frame] ~= nil
         and self.canShowCharacter then
-            love.graphics.draw(self.characters[character.name].poses[character.frame])
+            local char = self.characters[character.name]
+            local pose = char.poses[character.frame]
+
+            if self.characterTalking then
+                pose = char.poses[character.frame.."Talking"]
+            end
+
+            if self.charAnimIndex >= #pose.anim then
+                self.charAnimIndex = 1
+            end
+
+            love.graphics.draw(pose.source, pose.anim[math.floor(self.charAnimIndex +0.5)])
         end
 
         -- draw the top layer of the environment, like desk on top of character

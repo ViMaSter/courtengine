@@ -244,6 +244,27 @@ function DisectLine(line)
     return words
 end
 
+function NewAnimation(file, holdFirst)
+    local animation = {}
+    local source = love.graphics.newImage(file) 
+
+    animation.source = source
+    animation.anim = {}
+
+    if holdFirst then
+        for i=1, 20 do
+            animation.anim[i] = love.graphics.newQuad(0,0, GraphicsWidth(),GraphicsHeight(), source:getWidth(), source:getHeight())
+        end
+    end
+
+    for i=1, source:getWidth()/GraphicsWidth() do
+        local x = (i-1)*GraphicsWidth()
+        animation.anim[#animation.anim+1] = love.graphics.newQuad(x,0, GraphicsWidth(),GraphicsHeight(), source:getWidth(), source:getHeight())
+    end
+
+    return animation
+end
+
 function NewCharInitEvent(name, location, gender)
     local self = {}
     self.name = name
@@ -253,13 +274,14 @@ function NewCharInitEvent(name, location, gender)
     self.update = function (self, scene, dt)
         scene.characters[self.name] = {
             poses = {
-                Normal = love.graphics.newImage(self.location.."/Normal.png"),
+                Normal = NewAnimation(self.location.."/Normal.png", true),
+                NormalTalking = NewAnimation(self.location.."/NormalTalking.png", false),
             },
 
             sounds = {},
 
             location = self.location,
-            wideshot = love.graphics.newImage(self.location .. "/wideshot.png"),
+            wideshot = NewAnimation(self.location .. "/wideshot.png", false),
             name = self.name,
             gender = self.gender,
             frame = "Normal",
@@ -278,7 +300,8 @@ function NewCharPoseInitEvent(name, pose)
 
     self.update = function(self, scene, dt)
         local location = scene.characters[self.name].location
-        scene.characters[self.name].poses[self.pose] = love.graphics.newImage(location .. "/" .. self.pose .. ".png")
+        scene.characters[self.name].poses[self.pose] = NewAnimation(location .. "/" .. self.pose .. ".png", true)
+        scene.characters[self.name].poses[self.pose.."Talking"] = NewAnimation(location .. "/" .. self.pose .. "Talking.png", false)
 
         return false
     end
