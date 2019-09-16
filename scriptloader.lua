@@ -13,6 +13,7 @@ function LoadScript(scene, scriptPath)
     local choiceQueue = nil
     local invMenuQueue = nil
     local evidenceAddQueue = nil
+    local examinationQueue = nil
 
     for line in love.filesystem.lines(scriptPath) do
         if line == nil then
@@ -55,6 +56,19 @@ function LoadScript(scene, scriptPath)
                 else
                     table.insert(events, NewInvestigationMenuEvent(invMenuQueue))
                     invMenuQueue = nil
+                end
+
+                canExecuteLine = false
+            end
+
+            if examinationQueue ~= nil and canExecuteLine then
+                if #lineParts > 0 and lineParts[1] ~= "END_EXAMINATION" then
+                    for i=1, #lineParts do
+                        table.insert(examinationQueue, lineParts[i])
+                    end
+                else
+                    table.insert(events, NewExamineEvent(examinationQueue))
+                    examinationQueue = nil
                 end
 
                 canExecuteLine = false
@@ -177,7 +191,8 @@ function LoadScript(scene, scriptPath)
                     invMenuQueue = {}
                 end
                 if lineParts[1] == "EXAMINE" then
-                    table.insert(events, NewExamineEvent())
+                    examinationQueue = {}
+                    --table.insert(events, NewExamineEvent())
                 end
 
                 if lineParts[1] == "SPEAK" then

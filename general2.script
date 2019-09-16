@@ -1,13 +1,16 @@
 SET_SCENE_TYPE INVESTIGATION 
 
+CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
+CHARACTER_LOCATION Phoenix NONE
+
 CHARACTER_INITIALIZE Mia characters/mia FEMALE
 CHARACTER_INITIALIZE_POSE Mia Ohmy
 CHARACTER_LOCATION Mia LOBBY
 
-EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
-COURT_RECORD_ADD Autopsy
 EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
 COURT_RECORD_ADD Badge
+EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
+COURT_RECORD_ADD Autopsy
 
 TYPEWRITER
     "August 3rd, 10:05AM#District Court#Defendant Lobby No. 1"
@@ -31,8 +34,15 @@ DEFINE TalkMenuLobby
 
 END_DEFINE
 
+DEFINE ExamineTest
+    SPEAK Mia
+        "Examined successfully."
+END_DEFINE
+
 DEFINE ExamineLobby
     EXAMINE
+        "50" "50" "100" "100" ExamineTest
+
 END_DEFINE
 
 DEFINE ChooseLobby
