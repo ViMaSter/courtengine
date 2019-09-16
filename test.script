@@ -36,6 +36,9 @@ END_DEFINE
 // START OF TRIAL
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+TYPEWRITER
+    "August 3rd, 9:47AM#District Cout#Defendant Lobby No. 2"
+
 PLAY_MUSIC TRIAL
 
 JUMPCUT COURT_JUDGE
@@ -43,6 +46,20 @@ SPEAK Judge
     "now starting a trial"
 SPEAK Judge 
     "defense, are you ready?"
+
+DEFINE Choice1
+    SPEAK_FROM COURT_JUDGE
+        "haha you fool!"
+    SPEAK_FROM COURT_JUDGE
+        "that dialogue response incurs a penalty!"
+
+    ISSUE_PENALTY
+END_DEFINE
+
+JUMPCUT COURT_DEFENSE
+CHOICE 
+    "nope" Choice1
+    "yeah sure" 0
 
 // SPEAK_FROM is a shortcut
 // it combines JUMPCUT and SPEAK into one line

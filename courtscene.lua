@@ -11,6 +11,7 @@ function NewCourtScene(scriptPath)
     self.text = "empty"
     self.textTalker = ""
     self.textColor = {1,1,1}
+    self.textCentered = false
     self.showCourtRecord = false
     self.wasPressingCourtRecord = false
     self.courtRecordIndex = 1
@@ -22,7 +23,7 @@ function NewCourtScene(scriptPath)
     -- function definitions are stored in the court scene's definitions table
     -- the script is made up of individual "events"
     -- events are defined in scriptevents.lua
-    LoadScript(self, scriptPath)
+    LoadCourtScript(self, scriptPath)
 
     -- run a function definition defined in the script
     self.runDefinition = function (self, defName)
@@ -36,6 +37,7 @@ function NewCourtScene(scriptPath)
         -- update the active event
         self.textHidden = false
         self.canShowCourtRecord = true
+        self.textCentered = false
         while #self.events >= 1 and not self.events[1]:update(self, dt) do
             table.remove(self.events, 1)
         end
@@ -132,7 +134,28 @@ function NewCourtScene(scriptPath)
 
             -- draw the current scrolling text
             love.graphics.setColor(unpack(self.textColor))
-            love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
+
+            if not self.textCentered then
+                love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "left")
+            else
+                local lineTable = {"", "", ""}
+                local lineIndex = 1
+
+                for i=1, #self.text do
+                    local char = string.sub(self.text, i,i)
+
+                    if char == "#" then
+                        lineIndex = lineIndex + 1
+                    else
+                        lineTable[lineIndex] = lineTable[lineIndex] .. char
+                    end
+                end
+
+                for i=1, #lineTable do
+                    love.graphics.printf(lineTable[i], 0, GraphicsHeight()-60 + (i-1)*16, GraphicsWidth(), "center")
+                end
+                --love.graphics.printf(self.text, 4, GraphicsHeight()-60, 224, "center")
+            end
         end
 
         love.graphics.setColor(0,0,0)

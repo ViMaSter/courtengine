@@ -1,4 +1,4 @@
-function LoadScript(scene, scriptPath)
+function LoadCourtScript(scene, scriptPath)
     scene.events = {}
     scene.definitions = {}
 
@@ -6,7 +6,9 @@ function LoadScript(scene, scriptPath)
     local definitions = {}
 
     local queuedSpeak = nil
+    local queuedTypewriter = nil
     local crossExaminationQueue = nil
+    local choiceQueue = nil
 
     for line in love.filesystem.lines(scriptPath) do
         if line == nil then
@@ -28,9 +30,29 @@ function LoadScript(scene, scriptPath)
                 canExecuteLine = false
             end
 
+            if choiceQueue ~= nil then
+                if #lineParts > 0 then
+                    for i=1, #lineParts do
+                        table.insert(choiceQueue, lineParts[i])
+                    end
+                else
+                    table.insert(events, NewChoiceEvent(choiceQueue))
+                    choiceQueue = nil
+                end
+
+                canExecuteLine = false
+            end
+
             if canExecuteLine and queuedSpeak ~= nil then
                 table.insert(events, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2]))
                 queuedSpeak = nil
+
+                canExecuteLine = false
+            end
+
+            if canExecuteLine and queuedTypewriter ~= nil then
+                table.insert(events, NewTypeWriterEvent(lineParts[1]))
+                queuedTypewriter = nil
 
                 canExecuteLine = false
             end
@@ -89,6 +111,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CROSS_EXAMINATION" then
                     crossExaminationQueue = {lineParts[2], lineParts[3], lineParts[4]}
                 end
+                if lineParts[1] == "CHOICE" then
+                    choiceQueue = {}
+                end
 
                 if lineParts[1] == "SPEAK" then
                     queuedSpeak = {lineParts[2], "literal"}
@@ -96,6 +121,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "SPEAK_FROM" then
                     table.insert(events, NewCutToEvent(lineParts[2]))
                     queuedSpeak = {lineParts[2], "location"}
+                end
+                if lineParts[1] == "TYPEWRITER" then
+                    queuedTypewriter = {}
                 end
             end
         end

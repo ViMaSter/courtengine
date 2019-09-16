@@ -69,6 +69,36 @@ function NewSpeakEvent(who, text, locorlit)
     return self
 end
 
+function NewTypeWriterEvent(text)
+    local self = {}
+    self.text = text
+    self.textScroll = 1
+    self.wasPressing = true
+
+    self.update = function (self, scene, dt)
+        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+        scene.textCentered = true
+        scene.textColor = {0,1,0}
+        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
+        scene.textTalker = ""
+
+        local pressing = love.keyboard.isDown("x")
+        if pressing and not self.wasPressing and self.textScroll >= #self.text then
+            return false
+        end
+        self.wasPressing = pressing
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.setColor(0,0,0)
+        love.graphics.rectangle('fill', 0,0,GraphicsWidth(),GraphicsHeight())
+    end
+
+    return self
+end
+
 function NewObjectionEvent(who)
     local self = {}
     self.timer = 0
@@ -262,6 +292,68 @@ function NewExecuteDefinitionEvent(def)
         end
 
         return false
+    end
+
+    return self
+end
+
+function NewChoiceEvent(options)
+    local self = {}
+    self.select = 1
+    self.options = options
+
+    self.wasPressingUp = false
+    self.wasPressingDown = false
+    self.wasPressingX = true
+
+    self.update = function (self, scene, dt)
+        local pressingUp = love.keyboard.isDown("up")
+        local pressingDown = love.keyboard.isDown("down")
+
+        if not self.wasPressingUp and pressingUp then
+            self.select = self.select - 2
+
+            if self.select < 1 then
+                self.select = #self.options -1
+            end
+        end
+
+        if not self.wasPressingDown and pressingDown then
+            self.select = self.select + 2 
+
+            if self.select > #self.options -1 then
+                self.select = 1
+            end
+        end
+
+        self.wasPressingUp = pressingUp
+        self.wasPressingDown = pressingDown
+
+        local pressingX = love.keyboard.isDown("x")
+
+        if pressingX and not self.wasPressingX then
+            if self.options[self.select+1] == "0" then
+                return false
+            else
+                scene:runDefinition(self.options[self.select+1])
+            end
+        end
+
+        self.wasPressingX = pressingX
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        for i=1, #self.options, 2 do
+            love.graphics.setColor(0.2,0.2,0.2)
+            if self.select == i then
+                love.graphics.setColor(0.8,0,0.2)
+            end
+            love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth(),28)
+            love.graphics.setColor(1,1,1)
+            love.graphics.print(self.options[i], 150,30+(i-1)*16)
+        end
     end
 
     return self
