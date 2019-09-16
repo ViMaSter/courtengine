@@ -1,6 +1,7 @@
 SET_SCENE_TYPE INVESTIGATION 
 
 CHARACTER_INITIALIZE Mia characters/mia 
+CHARACTER_INITIALIZE_POSE Mia Ohmy
 CHARACTER_LOCATION Mia LOBBY
 
 TYPEWRITER
@@ -10,21 +11,36 @@ PLAY_MUSIC PRELUDE
 
 JUMPCUT LOBBY
 
+DEFINE TalkWhatHappened
+    POSE Mia Ohmy
+    SPEAK Mia
+        "I don't know Phoenix! You really screwed the pooch this time."
+
+    POSE Mia Normal
+END_DEFINE
+
+DEFINE TalkMenuLobby
+    INVESTIGATION_MENU 
+        "What happened?" TalkWhatHappened
+        "Back" ChooseLobby
+
+END_DEFINE
+
 DEFINE ExamineLobby
     EXAMINE
 END_DEFINE
 
 DEFINE ChooseLobby
-    SPEAK Mia
-        "howdy"
-
-    CHOICE 
+    INVESTIGATION_MENU 
         "Examine" ExamineLobby
         "Move" ChooseLobby
-        "Talk" 0
-        "Present" 0
+        "Talk" TalkMenuLobby
+        "Present" ChooseLobby
 
 END_DEFINE
+
+SPEAK Mia
+    "Howdy."
 
 JUMP ChooseLobby
 

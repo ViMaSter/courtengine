@@ -81,6 +81,7 @@ function NewTypeWriterEvent(text)
         scene.textColor = {0,1,0}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = ""
+        scene.textBoxSprite = AnonTextBoxSprite
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then
@@ -112,6 +113,7 @@ function NewAddToCourtRecordAnimationEvent(text, evidence)
         scene.textColor = {0,0.2,1}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = ""
+        scene.textBoxSprite = AnonTextBoxSprite
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then
@@ -411,6 +413,18 @@ function NewChoiceEvent(options)
     return self
 end
 
+function NewInvestigationMenuEvent(options)
+    local self = NewChoiceEvent(options)
+
+    self.parentUpdate = self.update
+    self.update = function (self, scene, dt)
+        scene.textHidden = true
+        return self.parentUpdate(self, scene, dt)
+    end
+
+    return self
+end
+
 function NewSceneEndEvent()
     local self = {}
 
@@ -430,6 +444,7 @@ function NewExamineEvent(examinables)
     self.update = function (self, scene, dt)
         scene.textHidden = true
         scene.canShowCourtRecord = false
+        scene.canShowCharacter = false
 
         local moveSpeed = 2
         if love.keyboard.isDown("right") then
@@ -459,6 +474,8 @@ function NewExamineEvent(examinables)
         love.graphics.setColor(0,0.2,1, 1)
         local rad = 4
         love.graphics.rectangle("line", self.x-rad,self.y-rad,rad*2,rad*2)
+        love.graphics.line(self.x,self.y-rad,self.x,self.y+rad)
+        love.graphics.line(self.x-rad,self.y,self.x+rad,self.y)
     end
 
     return self

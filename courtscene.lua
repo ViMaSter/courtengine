@@ -1,4 +1,4 @@
-function NewCourtScene(scriptPath)
+function NewScene(scriptPath)
     local self = {}
     self.location = "NONE"
     self.characterLocations = {}
@@ -10,6 +10,7 @@ function NewCourtScene(scriptPath)
     self.textHidden = false
     self.text = "empty"
     self.textTalker = ""
+    self.textBoxSprite = TextBoxSprite
     self.textColor = {1,1,1}
     self.textCentered = false
     self.showCourtRecord = false
@@ -23,7 +24,7 @@ function NewCourtScene(scriptPath)
     -- function definitions are stored in the court scene's definitions table
     -- the script is made up of individual "events"
     -- events are defined in scriptevents.lua
-    LoadCourtScript(self, scriptPath)
+    LoadScript(self, scriptPath)
 
     -- run a function definition defined in the script
     self.runDefinition = function (self, defName, loc)
@@ -41,7 +42,9 @@ function NewCourtScene(scriptPath)
         -- update the active event
         self.textHidden = false
         self.canShowCourtRecord = true
+        self.canShowCharacter = true
         self.textCentered = false
+        self.textBoxSprite = TextBoxSprite
         while #self.events >= 1 and not self.events[1]:update(self, dt) do
             table.remove(self.events, 1)
         end
@@ -96,7 +99,8 @@ function NewCourtScene(scriptPath)
         -- draw the character who is at the current location
         local character = self.characterLocations[self.location]
         if character ~= nil 
-        and self.characters[character.name].poses[character.frame] ~= nil then
+        and self.characters[character.name].poses[character.frame] ~= nil
+        and self.canShowCharacter then
             love.graphics.draw(self.characters[character.name].poses[character.frame])
         end
 
@@ -137,10 +141,10 @@ function NewCourtScene(scriptPath)
         -- draw the textbox
         if not self.textHidden then
             love.graphics.setColor(1,1,1)
-            love.graphics.draw(TextBox,0,GraphicsHeight()-TextBox:getHeight())
+            love.graphics.draw(self.textBoxSprite,0,GraphicsHeight()-self.textBoxSprite:getHeight())
 
             -- draw who is talking
-            love.graphics.print(self.textTalker, 4, GraphicsHeight()-TextBox:getHeight())
+            love.graphics.print(self.textTalker, 4, GraphicsHeight()-self.textBoxSprite:getHeight())
 
             -- draw the current scrolling text
             love.graphics.setColor(unpack(self.textColor))

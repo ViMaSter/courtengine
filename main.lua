@@ -29,7 +29,7 @@ function NextScene()
     end
     
     if SceneIndex <= #Episode then
-        CurrentScene = NewCourtScene(Episode[SceneIndex])
+        CurrentScene = NewScene(Episode[SceneIndex])
         CurrentScene:update(0)
     else
         love.event.push("quit")
@@ -62,7 +62,8 @@ function LoadAssets()
         v:setVolume(MasterVolume)
     end
     
-    TextBox = love.graphics.newImage("sprites/chatbox.png")
+    TextBoxSprite = love.graphics.newImage("sprites/chatbox.png")
+    AnonTextBoxSprite = love.graphics.newImage("sprites/chatbox_headless.png")
     ObjectionSprite = love.graphics.newImage("sprites/objection.png")
     HoldItSprite = love.graphics.newImage("sprites/holdit.png")
     CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")

@@ -1,4 +1,4 @@
-function LoadCourtScript(scene, scriptPath)
+function LoadScript(scene, scriptPath)
     scene.events = {}
     scene.definitions = {}
     scene.type = ""
@@ -10,6 +10,7 @@ function LoadCourtScript(scene, scriptPath)
     local queuedTypewriter = nil
     local crossExaminationQueue = nil
     local choiceQueue = nil
+    local invMenuQueue = nil
     local evidenceAddQueue = nil
 
     for line in love.filesystem.lines(scriptPath) do
@@ -32,14 +33,27 @@ function LoadCourtScript(scene, scriptPath)
                 canExecuteLine = false
             end
 
-            if choiceQueue ~= nil then
-                if #lineParts > 0 then
+            if choiceQueue ~= nil and canExecuteLine then
+                if #lineParts > 0 and lineParts[1] ~= "END_CHOICE" then
                     for i=1, #lineParts do
                         table.insert(choiceQueue, lineParts[i])
                     end
                 else
                     table.insert(events, NewChoiceEvent(choiceQueue))
                     choiceQueue = nil
+                end
+
+                canExecuteLine = false
+            end
+
+            if invMenuQueue ~= nil and canExecuteLine then
+                if #lineParts > 0 and lineParts[1] ~= "END_INVESTIGATION_MENU" then
+                    for i=1, #lineParts do
+                        table.insert(invMenuQueue, lineParts[i])
+                    end
+                else
+                    table.insert(events, NewInvestigationMenuEvent(invMenuQueue))
+                    invMenuQueue = nil
                 end
 
                 canExecuteLine = false
@@ -129,6 +143,9 @@ function LoadCourtScript(scene, scriptPath)
                 end
                 if lineParts[1] == "CHOICE" then
                     choiceQueue = {}
+                end
+                if lineParts[1] == "INVESTIGATION_MENU" then
+                    invMenuQueue = {}
                 end
                 if lineParts[1] == "EXAMINE" then
                     table.insert(events, NewExamineEvent())
