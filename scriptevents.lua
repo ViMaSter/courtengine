@@ -262,6 +262,7 @@ function NewCrossExaminationEvent(queue)
     self.activeUpdate = function (self, scene, dt)
         local text = self.queue[self.textIndex]
 
+        local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
         if self.textIndex == 2 then
             scene.textColor = {1,0.5,0}
@@ -272,6 +273,15 @@ function NewCrossExaminationEvent(queue)
         scene.text = string.sub(text, 1, math.floor(self.textScroll))
         scene.fullText = text
         scene.textTalker = self.who
+
+        if self.textScroll > lastScroll then
+            if scene.characters[scene.textTalker].gender == "MALE" then
+                Sounds.MALETALK:play()
+            else
+                Sounds.FEMALETALK:play()
+            end
+        end
+
 
         local canAdvance = self.textScroll >= #text and self.timer > self.animationTime
 
@@ -509,9 +519,20 @@ function NewWideShotEvent()
     self.timer = 0
     self.hasPlayed = false
     self.sources = {}
+    self.headAnim = 1
+    self.frameCounter = 0
 
     self.update = function (self, scene, dt)
         self.timer = self.timer + dt
+        self.frameCounter = self.frameCounter + 1
+
+        if self.frameCounter%8 == 0 then
+            self.headAnim = self.headAnim + 1
+            if self.headAnim > 3 then
+                self.headAnim = 1
+            end
+        end
+
         scene.textHidden = true
 
         if not self.hasPlayed then
@@ -536,6 +557,7 @@ function NewWideShotEvent()
 
     self.draw = function (self, scene)
         love.graphics.draw(WideShotSprite)
+        love.graphics.draw(TalkingHeadAnimation[self.headAnim])
 
         for i,v in pairs(scene.characters) do
             love.graphics.draw(v.wideshot)

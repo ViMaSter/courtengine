@@ -74,6 +74,11 @@ function LoadAssets()
         love.graphics.newImage("sprites/gavel2.png"),
         love.graphics.newImage("sprites/gavel3.png"),
     }
+    TalkingHeadAnimation = {
+        love.graphics.newImage("sprites/talkingheads1.png"),
+        love.graphics.newImage("sprites/talkingheads2.png"),
+        love.graphics.newImage("sprites/talkingheads3.png"),
+    }
 
     Sounds = {
         MUTTER = love.audio.newSource("sounds/sfx-gallery.wav", "static"),
