@@ -1,15 +1,17 @@
-CHARACTER_INITIALIZE Arin characters/arin 
-CHARACTER_INITIALIZE_POSE Arin Point
+SET_SCENE_TYPE TRIAL 
+
+CHARACTER_INITIALIZE Phoenix characters/phoenix 
+CHARACTER_INITIALIZE_POSE Phoenix Point
+CHARACTER_INITIALIZE_POSE Phoenix Sweaty
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
+CHARACTER_INITIALIZE_POSE Edgeworth Confident
 CHARACTER_INITIALIZE Judge characters/judge 
 CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
 
-CHARACTER_LOCATION Arin COURT_DEFENSE
+CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
 CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Gumshoe COURT_WITNESS
-
-EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
 
 DEFINE TRIAL_FAIL
     JUMPCUT COURT_JUDGE
@@ -42,9 +44,11 @@ SPEAK_FROM COURT_JUDGE
 SPEAK_FROM COURT_JUDGE 
     "Would you explain to the court how the victim of today's trial was killed?"
 
+POSE Edgeworth Confident
 SPEAK_FROM COURT_PROSECUTION
     "He was killed to death."
 
+EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
 COURT_RECORD_ADD_ANIMATION Autopsy
 	"Autopsy added to Court Record"
@@ -52,9 +56,11 @@ COURT_RECORD_ADD_ANIMATION Autopsy
 SPEAK_FROM COURT_JUDGE 
     "The prosecution may call its witness."
 
+POSE Edgeworth Normal
 SPEAK_FROM COURT_PROSECUTION
     "Yes, Your Honor."
 
+POSE Phoenix Sweaty
 SPEAK_FROM COURT_DEFENSE 
     "(This is bad... What should I do?)"
 
@@ -62,6 +68,8 @@ CHOICE
     "Panic" 0
     "Give Up" 0
 
+OBJECTION Phoenix
+POSE Phoenix Point
 SPEAK_FROM COURT_DEFENSE 
     "I have to use the bathroom!"
 

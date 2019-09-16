@@ -1,0 +1,21 @@
+SET_SCENE_TYPE INVESTIGATION
+
+LOCATION_INITIALIZE Lobby backgrounds/lobby.png
+
+CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
+
+DEFINE Talk1
+    SPEAK Gumshoe
+        "Dang bro you really messed up in there, huh."
+END_DEFINE
+
+DEFINE Talk2
+    SPEAK Gumshoe
+        "You know I'm on the prosecution's side, right?"
+END_DEFINE
+
+DEFINE TalkChoice
+    CHOICE 
+        "About the trial" Talk1
+        "What should I do" Talk2
+END_DEFINE

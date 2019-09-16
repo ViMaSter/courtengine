@@ -1,6 +1,7 @@
 function LoadCourtScript(scene, scriptPath)
     scene.events = {}
     scene.definitions = {}
+    scene.type = ""
 
     local events = scene.events
     local definitions = {}
@@ -82,6 +83,10 @@ function LoadCourtScript(scene, scriptPath)
                     table.insert(events, NewCourtRecordAddEvent(lineParts[2]))
                 end
 
+                if lineParts[1] == "SET_SCENE_TYPE" then
+                    scene.type = lineParts[2]
+                end
+
                 if lineParts[1] == "DEFINE" then
                     scene.definitions[lineParts[2]] = {}
                     events = scene.definitions[lineParts[2]]
@@ -90,7 +95,7 @@ function LoadCourtScript(scene, scriptPath)
                     events = scene.events
                 end
                 if lineParts[1] == "@" then
-                    table.insert(events, NewExecuteDefinitionEvent(lineParts[2]))
+                    --table.insert(events, NewExecuteDefinitionEvent(lineParts[2]))
                 end
 
                 if lineParts[1] == "JUMPCUT" then
