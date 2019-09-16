@@ -180,9 +180,11 @@ function NewHoldItEvent(who)
     local self = {}
     self.timer = 0
     self.x,self.y = 0,0
+    self.who = who
 
     self.update = function (self, scene, dt)
         scene.textHidden = true
+        scene.characters[self.who].sounds.holdit:play()
         self.timer = self.timer + dt
         self.x = self.x + love.math.random()*choose{1,-1}*2
         self.y = self.y + love.math.random()*choose{1,-1}*2
@@ -263,10 +265,12 @@ function NewCrossExaminationEvent(queue)
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
         if self.textIndex == 2 then
             scene.textColor = {1,0.5,0}
+            scene.textCentered = true
         else
             scene.textColor = {0,1,0.25}
         end
         scene.text = string.sub(text, 1, math.floor(self.textScroll))
+        scene.fullText = text
         scene.textTalker = self.who
 
         local canAdvance = self.textScroll >= #text and self.timer > self.animationTime

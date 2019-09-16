@@ -3,15 +3,19 @@ SET_SCENE_TYPE TRIAL
 CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
 CHARACTER_INITIALIZE_POSE Phoenix Point
 CHARACTER_INITIALIZE_POSE Phoenix Sweaty
+CHARACTER_INITIALIZE_POSE Phoenix Confident
 CHARACTER_INITIALIZE_SOUND Phoenix objection
+CHARACTER_INITIALIZE_SOUND Phoenix holdit
 
 CHARACTER_INITIALIZE Edgeworth characters/edgeworth MALE
 CHARACTER_INITIALIZE_POSE Edgeworth Confident
+CHARACTER_INITIALIZE_SOUND Edgeworth objection
 
 CHARACTER_INITIALIZE Judge characters/judge MALE
 
 CHARACTER_INITIALIZE Mia characters/mia FEMALE
 CHARACTER_INITIALIZE_POSE Mia Ohmy
+
 
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Edgeworth COURT_PROSECUTION
@@ -30,16 +34,16 @@ END_DEFINE
 // START OF TRIAL
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//TYPEWRITER
-    //"August 3rd, 10:00AM#District Court#Courtroom No. 2"
+TYPEWRITER
+    "August 3rd, 10:00AM#District Court#Courtroom No. 2"
 
-//WIDESHOT
-//GAVEL
+WIDESHOT
+GAVEL
 
 PLAY_MUSIC TRIAL
 
 SPEAK_FROM COURT_JUDGE
-    "Court is now in session for a test trialdlfk jlaskdfjl askdjflk ajsldf sdf kekf wkjelfkjlkasjdf jqwkjelk a"
+    "Court is now in session for a test trial."
 
 SPEAK_FROM COURT_PROSECUTION
     "The prosecution is ready, Your Honor."
@@ -59,7 +63,7 @@ SPEAK_FROM COURT_PROSECUTION
 EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
 COURT_RECORD_ADD_ANIMATION Autopsy
-	"Autopsy added to Court Record"
+    "Autopsy added to Court Record"
 
 WIDESHOT
 GAVEL
@@ -90,7 +94,116 @@ SPEAK_FROM COURT_DEFENSE
     "I have to use the bathroom!"
 
 SPEAK_FROM COURT_JUDGE 
-    "Court is adjourned or whatever."
+    "No can do, Phoenix. There is no men's bathroom in the building."
+
+POSE Mia Normal
+SPEAK_FROM COURT_ASSISTANT
+    "There is a women's bathroom though!"
+
+POSE Phoenix Normal
+SPEAK_FROM COURT_DEFENSE 
+    "I don't need your sass right now, Mia."
+
+JUMPCUT COURT_PROSECUTION
+OBJECTION Edgeworth
+SPEAK_FROM COURT_PROSECUTION
+    "Can the defense cut it out with their lolligagging?"
+
+GAVEL
+
+SPEAK_FROM COURT_JUDGE 
+    "Right then. On to the first witness."
+
+CHARACTER_INITIALIZE Gumshoe characters/gumshoe MALE
+CHARACTER_LOCATION Gumshoe COURT_WITNESS
+
+SPEAK_FROM COURT_PROSECUTION
+    "Witness, name and occupation please."
+
+SPEAK_FROM COURT_WITNESS
+    "Dick Gumshoe, sir. Detective."
+
+SPEAK_FROM COURT_PROSECUTION
+    "On with the cross examination then, Wright."
+
+DEFINE PressA1
+    HOLD_IT Phoenix
+    SPEAK_FROM COURT_DEFENSE
+        "When did the victim die?"
+
+    SPEAK_FROM COURT_WITNESS
+        "Yes, he did."
+
+    SPEAK_FROM COURT_JUDGE
+        "Phoenix, that was a stupid question to ask. Penalty."
+
+    ISSUE_PENALTY
+    JUMPCUT COURT_WITNESS
+END_DEFINE
+
+DEFINE PressA2
+    HOLD_IT Phoenix
+    SPEAK_FROM COURT_DEFENSE
+        "How cool was it?"
+
+    SPEAK_FROM COURT_WITNESS
+        "Really really cool."
+
+    SPEAK_FROM COURT_JUDGE
+        "Phoenix, great question. I admire your dedication to the trade."
+
+    SPEAK_FROM COURT_PROSECUTION
+        "I agree. And I don't often do that."
+
+    JUMPCUT COURT_WITNESS
+END_DEFINE
+
+DEFINE PressA3
+    HOLD_IT Phoenix
+    SPEAK_FROM COURT_DEFENSE
+        "I forgot what I was going to say."
+
+    POSE Mia Ohmy
+    SPEAK_FROM COURT_ASSISTANT
+        "Come ON Phoenix, again?"
+
+    SPEAK_FROM COURT_DEFENSE
+        "I don't need your sass right now, Mia."
+
+    JUMPCUT COURT_WITNESS
+END_DEFINE
+
+DEFINE CrossExamineFail
+    OBJECTION Phoenix
+    SPEAK_FROM COURT_DEFENSE
+        "I object to that!"
+
+    SPEAK_FROM COURT_JUDGE
+        "Sorry Wright. I can see no contradictions there."
+
+    ISSUE_PENALTY
+    JUMPCUT COURT_WITNESS
+END_DEFINE
+
+JUMPCUT COURT_WITNESS
+PLAY_MUSIC QUESTIONING
+
+CROSS_EXAMINATION Gumshoe "-- Cause of Death --" CrossExamineFail
+    "As you can plainly see on the autopsy, the victim died." PressA1 0
+    "They had really cool curly hair, too." PressA2 0
+    "Our team arrived at the scene a little late though." PressA3 Autopsy
+
+PLAY_MUSIC OBJECTION
+
+POSE Phoenix Point
+OBJECTION Phoenix
+SPEAK_FROM COURT_DEFENSE
+    "This autopsy is all wrong!"
+POSE Phoenix Confident
+SPEAK_FROM COURT_DEFENSE
+    "How would you have known anything if you were that late?"
+
+
 
 FADE_TO_BLACK
 END_SCENE
