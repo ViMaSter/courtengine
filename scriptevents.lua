@@ -421,3 +421,45 @@ function NewSceneEndEvent()
 
     return self
 end
+
+function NewExamineEvent(examinables)
+    local self = {}
+    self.x = GraphicsWidth()/2
+    self.y = GraphicsHeight()/2
+
+    self.update = function (self, scene, dt)
+        scene.textHidden = true
+        scene.canShowCourtRecord = false
+
+        local moveSpeed = 2
+        if love.keyboard.isDown("right") then
+            self.x = self.x + moveSpeed
+        end
+        if love.keyboard.isDown("left") then
+            self.x = self.x - moveSpeed
+        end
+        if love.keyboard.isDown("up") then
+            self.y = self.y - moveSpeed
+        end
+        if love.keyboard.isDown("down") then
+            self.y = self.y + moveSpeed
+        end
+
+        if love.keyboard.isDown("z") then
+            return false
+        end
+
+        self.x = math.max(math.min(self.x, GraphicsWidth()), 0)
+        self.y = math.max(math.min(self.y, GraphicsHeight()), 0)
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.setColor(0,0.2,1, 1)
+        local rad = 4
+        love.graphics.rectangle("line", self.x-rad,self.y-rad,rad*2,rad*2)
+    end
+
+    return self
+end

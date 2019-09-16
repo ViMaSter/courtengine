@@ -5,6 +5,7 @@ require "scriptevents"
 function love.load()
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
     love.graphics.setDefaultFilter("nearest")
+    love.graphics.setLineStyle("rough")
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
     MasterVolume = 0.25
     TextScrollSpeed = 30

@@ -1,7 +1,7 @@
 SET_SCENE_TYPE INVESTIGATION 
 
-CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
-CHARACTER_LOCATION Gumshoe LOBBY
+CHARACTER_INITIALIZE Mia characters/mia 
+CHARACTER_LOCATION Mia LOBBY
 
 TYPEWRITER
     "August 3rd, 10:05AM#District Court#Defendant Lobby No. 1"
@@ -11,18 +11,22 @@ PLAY_MUSIC PRELUDE
 JUMPCUT LOBBY
 
 DEFINE ExamineLobby
-    SPEAK Gumshoe
+    EXAMINE
+END_DEFINE
+
+DEFINE ChooseLobby
+    SPEAK Mia
         "howdy"
 
     CHOICE 
-        "peepee" ExamineLobby
-        "poopoo " 0
-        "heehee" 0
-        "doodoo" 0
+        "Examine" ExamineLobby
+        "Move" ChooseLobby
+        "Talk" 0
+        "Present" 0
 
 END_DEFINE
 
-JUMP ExamineLobby
+JUMP ChooseLobby
 
 
 

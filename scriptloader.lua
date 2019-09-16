@@ -130,6 +130,9 @@ function LoadCourtScript(scene, scriptPath)
                 if lineParts[1] == "CHOICE" then
                     choiceQueue = {}
                 end
+                if lineParts[1] == "EXAMINE" then
+                    table.insert(events, NewExamineEvent())
+                end
 
                 if lineParts[1] == "SPEAK" then
                     queuedSpeak = {lineParts[2], "literal"}
