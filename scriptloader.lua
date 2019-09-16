@@ -82,7 +82,7 @@ function LoadScript(scene, scriptPath)
 
             if canExecuteLine then
                 if lineParts[1] == "CHARACTER_INITIALIZE" then
-                    table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3]))
+                    table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3], lineParts[4]))
                 end
                 if lineParts[1] == "CHARACTER_INITIALIZE_POSE" then
                     table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3]))
@@ -241,10 +241,11 @@ function DisectLine(line)
     return words
 end
 
-function NewCharInitEvent(name, location)
+function NewCharInitEvent(name, location, gender)
     local self = {}
     self.name = name
     self.location = location
+    self.gender = gender
 
     self.update = function (self, scene, dt)
         scene.characters[self.name] = {
@@ -255,6 +256,7 @@ function NewCharInitEvent(name, location)
             location = self.location,
             wideshot = love.graphics.newImage(self.location .. "/wideshot.png"),
             name = self.name,
+            gender = self.gender,
             frame = "Normal",
         }
 
@@ -272,9 +274,6 @@ function NewCharPoseInitEvent(name, pose)
     self.update = function(self, scene, dt)
         local location = scene.characters[self.name].location
         scene.characters[self.name].poses[self.pose] = love.graphics.newImage(location .. "/" .. self.pose .. ".png")
-
-        for i,v in pairs(scene.characters[self.name].poses) do
-        end
 
         return false
     end

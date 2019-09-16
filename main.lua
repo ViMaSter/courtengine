@@ -78,14 +78,17 @@ function LoadAssets()
     Sounds = {
         MUTTER = love.audio.newSource("sounds/sfx-gallery.wav", "static"),
         GAVEL = love.audio.newSource("sounds/sfx-gavel.wav", "static"),
+        MALETALK = love.audio.newSource("sounds/sfx-blipmale.wav", "static"),
+        FEMALETALK = love.audio.newSource("sounds/sfx-blipfemale.wav", "static"),
+        TYPEWRITER = love.audio.newSource("sounds/sfx-typewriter.wav", "static"),
     }
 
     for i,v in pairs(Sounds) do
-        v:setVolume(MasterVolume)
+        v:setVolume(MasterVolume/2)
     end
 
-    GameFont = love.graphics.newFont("Ace-Attorney.ttf", 16)
-    --love.graphics.setFont(GameFont)
+    GameFont = love.graphics.newFont()--"Ace-Attorney.ttf", 16)
+    love.graphics.setFont(GameFont)
 end
 
 -- the constants for the resolution of the game

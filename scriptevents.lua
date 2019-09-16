@@ -47,15 +47,27 @@ function NewSpeakEvent(who, text, locorlit)
     self.locorlit = locorlit
 
     self.update = function (self, scene, dt)
+        scene.fullText = self.text
+        
+        local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
-        scene.textColor = {1,1,1}
-        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
         if self.locorlit == "literal" then
             scene.textTalker = self.who
         else
             scene.textTalker = scene.characterLocations[self.who].name
         end
+
+        if self.textScroll > lastScroll then
+            if scene.characters[scene.textTalker].gender == "MALE" then
+                Sounds.MALETALK:play()
+            else
+                Sounds.FEMALETALK:play()
+            end
+        end
+
+        scene.textColor = {1,1,1}
+        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then
@@ -77,6 +89,7 @@ function NewTypeWriterEvent(text)
 
     self.update = function (self, scene, dt)
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+        scene.fullText = self.text
         scene.textCentered = true
         scene.textColor = {0,1,0}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))

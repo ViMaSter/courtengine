@@ -9,6 +9,7 @@ function NewScene(scriptPath)
     self.penalties = 5
     self.textHidden = false
     self.text = "empty"
+    self.fullText = "empty"
     self.textTalker = ""
     self.textBoxSprite = TextBoxSprite
     self.textColor = {1,1,1}
@@ -175,8 +176,22 @@ function NewScene(scriptPath)
                     end
                 end
 
+                local lineTableFull = {"", "", ""}
+                local lineIndex = 1
+
+                for i=1, #self.fullText do
+                    local char = string.sub(self.fullText, i,i)
+
+                    if char == "#" then
+                        lineIndex = lineIndex + 1
+                    else
+                        lineTableFull[lineIndex] = lineTableFull[lineIndex] .. char
+                    end
+                end
+
                 for i=1, #lineTable do
-                    love.graphics.printf(lineTable[i], 0, GraphicsHeight()-60 + (i-1)*16, GraphicsWidth(), "center")
+                    local xText = GraphicsWidth()/2 - GameFont:getWidth(lineTableFull[i])/2
+                    love.graphics.print(lineTable[i], xText, GraphicsHeight()-60 + (i-1)*16)
                 end
             end
         end

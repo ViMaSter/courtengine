@@ -1,8 +1,11 @@
 SET_SCENE_TYPE INVESTIGATION 
 
-CHARACTER_INITIALIZE Mia characters/mia 
+CHARACTER_INITIALIZE Mia characters/mia FEMALE
 CHARACTER_INITIALIZE_POSE Mia Ohmy
 CHARACTER_LOCATION Mia LOBBY
+
+EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
+COURT_RECORD_ADD Autopsy
 
 TYPEWRITER
     "August 3rd, 10:05AM#District Court#Defendant Lobby No. 1"
