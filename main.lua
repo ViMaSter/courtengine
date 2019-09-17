@@ -1,6 +1,6 @@
-require "courtscene"
-require "scriptloader"
-require "scriptevents"
+require "code/courtscene"
+require "code/scriptloader"
+require "code/scriptevents"
 
 function love.load()
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
@@ -14,8 +14,8 @@ function love.load()
 
     -- set up the current scene
     Episode = {
-        "general1.script",
-        "general2.script"
+        "scripts/general1.script",
+        "scripts/general2.script"
     }
     SceneIndex = 0
     NextScene()
@@ -94,8 +94,8 @@ function LoadAssets()
         v:setVolume(MasterVolume/2)
     end
 
-    GameFont = love.graphics.newImageFont("FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 2)
-    SmallFont = love.graphics.newImageFont("SmallFontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 1)
+    GameFont = love.graphics.newImageFont("sprites/FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():,-'", 2)
+    SmallFont = love.graphics.newImageFont("sprites/SmallFontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 1)
     love.graphics.setFont(GameFont)
 end
 

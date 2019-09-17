@@ -22,7 +22,7 @@ JUMPCUT LOBBY
 DEFINE TalkWhatHappened
     POSE Mia Ohmy
     SPEAK Mia
-        "I don't know Phoenix! You really screwed the pooch this time."
+        "I don't know Phoenix! You really lawyered it up in there."
 
     POSE Mia Normal
 END_DEFINE
@@ -35,8 +35,10 @@ DEFINE TalkMenuLobby
 END_DEFINE
 
 DEFINE ExamineTest
-    SPEAK Mia
+    POSE Mia HIDDEN
+    SPEAK Phoenix
         "Examined successfully."
+    POSE Mia Normal
 END_DEFINE
 
 DEFINE ExamineLobby

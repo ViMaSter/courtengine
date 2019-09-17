@@ -315,7 +315,9 @@ function NewCrossExaminationEvent(queue)
         local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
 
-        if self.textIndex == 2 then
+        local inTitle = self.textIndex == 2
+
+        if inTitle then
             scene.textColor = {1,0.5,0}
             scene.textCentered = true
         else
@@ -350,13 +352,15 @@ function NewCrossExaminationEvent(queue)
         self.wasPressing = pressing
 
         if love.keyboard.isDown("c")
-        and canAdvance then
+        and canAdvance
+        and not inTitle then
             scene:runDefinition(self.queue[self.textIndex+1])
             self:advanceText()
         end
 
         if love.keyboard.isDown("up") 
-        and scene.showCourtRecord then
+        and scene.showCourtRecord
+        and not inTitle then
             scene.showCourtRecord = false
 
             if scene.courtRecord[scene.courtRecordIndex].name == self.queue[self.textIndex+2] then

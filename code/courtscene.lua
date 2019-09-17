@@ -5,6 +5,7 @@ function NewScene(scriptPath)
     self.characters = {}
     self.evidence = {}
     self.courtRecord = {}
+    self.flags = {}
 
     self.penalties = 5
     self.textHidden = false
@@ -199,7 +200,7 @@ function NewScene(scriptPath)
                     end
 
                     local wtest = working .. char
-                    if GameFont:getWidth(wtest) >= wrapWidth then
+                    if GameFont:getWidth(wtest) >= wrapWidth and lineTableIndex < 3 then
                         wrapIndices[lineTableIndex] = spaces[#spaces] +1
                         lineTableIndex = lineTableIndex + 1
                         working = ""
