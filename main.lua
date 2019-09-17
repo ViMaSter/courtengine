@@ -1,6 +1,8 @@
 require "code/courtscene"
 require "code/scriptloader"
 require "code/scriptevents"
+require "code/trialscriptevents"
+require "code/investigationscriptevents"
 
 function love.load()
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
