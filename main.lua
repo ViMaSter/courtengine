@@ -4,7 +4,7 @@ require "code/scriptevents"
 require "code/trialscriptevents"
 require "code/investigationscriptevents"
 
-function love.load()
+function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
@@ -21,6 +21,22 @@ function love.load()
     }
     SceneIndex = 0
     NextScene()
+
+    local argIndex = 1
+
+    while argIndex <= #arg do
+        if arg[argIndex] == "script" then
+            CurrentScene = NewScene(arg[argIndex+1])
+            CurrentScene:update(0)
+        end
+
+        if arg[argIndex] == "skip" then
+            for i=1, tonumber(arg[argIndex+1]) do
+                table.remove(CurrentScene.events, 1)
+            end
+        end
+        argIndex = argIndex + 1
+    end
 end
 
 function NextScene()
