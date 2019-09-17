@@ -95,6 +95,7 @@ function LoadAssets()
     end
 
     GameFont = love.graphics.newImageFont("FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 2)
+    SmallFont = love.graphics.newImageFont("SmallFontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 1)
     love.graphics.setFont(GameFont)
 end
 

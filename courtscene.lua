@@ -174,7 +174,9 @@ function NewScene(scriptPath)
             love.graphics.draw(self.textBoxSprite,0,GraphicsHeight()-self.textBoxSprite:getHeight())
 
             -- draw who is talking
+            love.graphics.setFont(SmallFont)
             love.graphics.print(self.textTalker, 4, GraphicsHeight()-self.textBoxSprite:getHeight())
+            love.graphics.setFont(GameFont)
 
             -- draw the current scrolling text
             love.graphics.setColor(unpack(self.textColor))
