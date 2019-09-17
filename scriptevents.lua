@@ -47,7 +47,12 @@ function NewAnimationEvent(name, animation, speed)
         self.animIndex = math.max(math.floor(self.timer +0.5), 1)
 
         local animation = scene.characters[self.name].animations[self.animation]
-        return self.animIndex <= #animation.anim
+        if self.animIndex <= #animation.anim then
+            return true
+        end
+
+        scene.canShowCharacter = true
+        return false
     end
 
     self.characterDraw = function (self, scene)

@@ -187,7 +187,7 @@ function NewScene(scriptPath)
                 local lineTableIndex = 1
                 local fullwords = ""
                 local working = ""
-                local wrapWidth = 232
+                local wrapWidth = 210
 
                 for i=1, #self.fullText do
                     local char = string.sub(self.fullText, i,i)
@@ -220,7 +220,7 @@ function NewScene(scriptPath)
                 end
 
                 for i=1, #lineTable do
-                    love.graphics.print(lineTable[i], 4, GraphicsHeight()-60 + (i-1)*16)
+                    love.graphics.print(lineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
                 end
             else
                 local lineTable = {"", "", ""}

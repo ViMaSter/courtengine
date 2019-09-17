@@ -51,7 +51,7 @@ END_DEFINE
 TYPEWRITER
     "August 3rd, 10:00AM#District Court#Courtroom No. 2"
 
-    WIDESHOT
+WIDESHOT
 GAVEL
 
 PLAY_MUSIC TRIAL
@@ -229,9 +229,9 @@ CROSS_EXAMINATION Gumshoe "-- Cause of Death --" CrossExamineFail
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 JUMPCUT COURT_DEFENSE
-ANIMATION Phoenix DeskSlam
 POSE Phoenix Point
 OBJECTION Phoenix
+ANIMATION Phoenix DeskSlam
 PLAY_MUSIC OBJECTION
 SPEAK_FROM COURT_DEFENSE
     "This autopsy is all wrong!"

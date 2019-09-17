@@ -94,7 +94,7 @@ function LoadAssets()
         v:setVolume(MasterVolume/2)
     end
 
-    GameFont = love.graphics.newFont()--"Ace-Attorney.ttf", 16)
+    GameFont = love.graphics.newImageFont("FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 2)
     love.graphics.setFont(GameFont)
 end
 
