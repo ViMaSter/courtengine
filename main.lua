@@ -4,6 +4,7 @@ require "code/scriptevents"
 require "code/trialscriptevents"
 require "code/investigationscriptevents"
 
+-- Entry point for love2d. All commands start from here. 
 function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
     love.graphics.setDefaultFilter("nearest")
@@ -12,7 +13,8 @@ function love.load(arg)
     MasterVolume = 0.25
     TextScrollSpeed = 30
     ScreenShake = 0
-
+    
+    -- Loads all assets 
     LoadAssets()
 
     -- set up the current scene
@@ -23,6 +25,11 @@ function love.load(arg)
     SceneIndex = 0
     NextScene()
 
+    --[[
+        allows arguments to be added while running from the command line such as
+            love . script "scripts/general1.script" skip 50
+        This would start the game with the general1.script and skip forward 50 events
+    ]] 
     local argIndex = 1
 
     while argIndex <= #arg do
@@ -127,8 +134,10 @@ function GraphicsHeight()
     return 192
 end
 
--- love.update and love.draw get called 60 times per second
--- transfer the update and draw over to the current game scene 
+--[[ 
+    love.update and love.draw get called 60 times per second
+    transfer the update and draw over to the current game scene 
+]]
 function love.update(dt)
     ScreenShake = math.max(ScreenShake - dt, 0)
     CurrentScene:update(dt)
@@ -150,7 +159,14 @@ function love.draw()
     end
     
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(Renderable, dx*love.graphics.getWidth()/GraphicsWidth(),dy*love.graphics.getHeight()/GraphicsHeight(), 0, love.graphics.getWidth()/GraphicsWidth(), love.graphics.getHeight()/GraphicsHeight())
+    love.graphics.draw(
+        Renderable, 
+        dx*love.graphics.getWidth()/GraphicsWidth(), 
+        dy*love.graphics.getHeight()/GraphicsHeight(), 
+        0, 
+        love.graphics.getWidth()/GraphicsWidth(), 
+        love.graphics.getHeight()/GraphicsHeight()
+    )
 end
 
 -- utility functions 
