@@ -1,0 +1,114 @@
+SET_SCENE_TYPE INVESTIGATION 
+
+CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
+CHARACTER_LOCATION Phoenix NONE
+
+CHARACTER_INITIALIZE Mia characters/mia FEMALE
+CHARACTER_INITIALIZE_POSE Mia Ohmy
+CHARACTER_LOCATION Mia NONE
+
+CHARACTER_INITIALIZE Butz characters/butz MALE
+CHARACTER_INITIALIZE_POSE Butz Sweaty
+CHARACTER_INITIALIZE_POSE Butz Nervous
+CHARACTER_INITIALIZE_POSE Butz ThumbsUp
+CHARACTER_LOCATION Butz NONE
+
+CHARACTER_INITIALIZE ??? characters/butz MALE
+CHARACTER_LOCATION ??? NONE
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
+COURT_RECORD_ADD Badge
+
+TYPEWRITER
+    "August 3rd, 9:47AM#District Court#Defendant Lobby No. 2"
+
+PLAY_MUSIC PRELUDE
+JUMPCUT LOBBY
+
+THINK Phoenix
+    "(Boy am I nervous!)"
+
+CHARACTER_LOCATION Mia LOBBY
+SPEAK Mia
+    "Wright!"
+
+SPEAK Phoenix
+    "Oh, h-hiya, Chief."
+
+SPEAK Mia
+    "Whew!#I'm glad I made it on time."
+SPEAK Mia
+    "Well I have to say Phoenix, I'm impressed!"
+SPEAK Mia
+    "Not everyone takes on a murder trial right off the bat like this."
+SPEAK Mia
+    "It says a lot about you... and your client as well."
+
+SPEAK Phoenix
+    "Um... thanks."
+
+SPEAK Phoenix
+    "Actually, it's because I owe him a favor."
+
+SPEAK Mia
+    "A favor?"
+
+SPEAK Mia
+    "You mean, you knew the defendant before this case?"
+
+SPEAK Phoenix
+    "Yes."
+
+SPEAK Phoenix
+    "Actually, I kind of owe my current job to him."
+
+SPEAK Phoenix
+    "He's one of the reasons I became an attorney."
+
+SPEAK Mia
+    "Well, that's news to me!"
+
+SPEAK Phoenix
+    "I want to help him out any way I can!"
+
+SPEAK Phoenix
+    "I just... really want to help him, I owe him that much."
+
+SPEAK ???
+    "(It's over!)"
+
+SPEAK ???
+    "(My life, everything, it's all over!)"
+
+SPEAK Mia
+    "..."
+
+SPEAK Mia
+    "Isn't that your client screaming over there?"
+
+SPEAK Phoenix
+    "Yeah... that's him."
+
+SPEAK ???
+    "(Death! Despair! Ohhhh!)"
+
+SPEAK ???
+    "(I'm gonna do it, I'm gonna die!!!)"
+
+SPEAK Mia
+    "It sounds like he wants to die..."
+
+SPEAK Phoenix
+    "Um, yeah. *sigh*"
+
+CHARACTER_LOCATION Butz LOBBY
+POSE Butz Nervous
+SPEAK Butz
+    "Nick!!!"
+
+SPEAK Phoenix
+    "Hey.#Hey there, Larry."
+
+POSE Butz ThumbsUp
+SPEAK Butz
+    "Dude, I'm so guilty!!#Tell them I'm guilty!!!"

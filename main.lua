@@ -15,10 +15,10 @@ function love.load(arg)
     LoadAssets()
 
     -- set up the current scene
-    Episode = {
-        "scripts/general1.script",
-        "scripts/general2.script"
-    }
+    Episode = {}
+    for line in love.filesystem.lines("scripts/episode1.meta") do
+        table.insert(Episode, line)
+    end
     SceneIndex = 0
     NextScene()
 

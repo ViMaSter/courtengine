@@ -112,7 +112,7 @@ function NewScene(scriptPath)
             local char = self.characters[character.name]
             local pose = char.poses[character.frame]
 
-            if self.characterTalking then
+            if self.characterTalking and char.name == self.textTalker then
                 pose = char.poses[character.frame.."Talking"]
             end
 
@@ -195,16 +195,18 @@ function NewScene(scriptPath)
                 for i=1, #self.fullText do
                     local char = string.sub(self.fullText, i,i)
 
-                    if char == " " then
+                    if char == " " or char == "#" then
                         table.insert(spaces, i)
                     end
 
                     local wtest = working .. char
-                    if GameFont:getWidth(wtest) >= wrapWidth and lineTableIndex < 3 then
-                        wrapIndices[lineTableIndex] = spaces[#spaces] +1
-                        lineTableIndex = lineTableIndex + 1
-                        working = ""
-                        fullwords = ""
+                    if lineTableIndex < 3 then
+                        if GameFont:getWidth(wtest) >= wrapWidth or char == "#" then
+                            wrapIndices[lineTableIndex] = spaces[#spaces] +1
+                            lineTableIndex = lineTableIndex + 1
+                            working = ""
+                            fullwords = ""
+                        end
                     end
 
                     working = working .. char
