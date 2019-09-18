@@ -1,8 +1,9 @@
+-- watches for the new character location event and triggers a new function when it occurs
 function NewCharLocationEvent(name, location)
     local self = {}
+
     self.name = name
     self.location = location
-
     self.update = function (self, scene, dt)
         scene.characterLocations[self.location] = scene.characters[self.name]
 
@@ -12,11 +13,12 @@ function NewCharLocationEvent(name, location)
     return self
 end
 
+-- watches for the new character post event and triggers a new function when it occurs
 function NewPoseEvent(name, pose)
     local self = {}
+
     self.name = name
     self.pose = pose
-
     self.update = function (self, scene, dt)
         scene.characters[self.name].frame = self.pose
 
@@ -26,8 +28,10 @@ function NewPoseEvent(name, pose)
     return self
 end
 
+-- watches for the new animation event and triggers a new function when it occurs
 function NewAnimationEvent(name, animation, speed)
     local self = {}
+
     self.name = name
     self.animation = animation
     self.timer = 0
@@ -36,8 +40,8 @@ function NewAnimationEvent(name, animation, speed)
     if speed == nil then
         speed = 10
     end
-    self.speed = speed
 
+    self.speed = speed
     self.update = function (self, scene, dt)
         scene.canShowCharacter = false
         scene.canShowCourtRecord = false
@@ -63,6 +67,7 @@ function NewAnimationEvent(name, animation, speed)
     return self
 end
 
+-- watches for the new cut-to event and triggers a new function when it occurs
 function NewCutToEvent(cutTo)
     local self = {}
     self.cutTo = cutTo
@@ -75,6 +80,7 @@ function NewCutToEvent(cutTo)
     return self
 end
 
+-- watches for the new Speak event and triggers a new function when it occurs
 function NewSpeakEvent(who, text, locorlit, color)
     local self = {}
     self.text = text
@@ -95,9 +101,12 @@ function NewSpeakEvent(who, text, locorlit, color)
 
         local lastScroll = self.textScroll
         local scrollSpeed = TextScrollSpeed
+
+        -- this allows speeding up of the text by pressing on the "left shift" key
         if love.keyboard.isDown("lshift") then
             scrollSpeed = scrollSpeed*8
         end
+
         self.textScroll = math.min(self.textScroll + dt*scrollSpeed, #self.text)
 
         if self.textScroll < #self.text then
@@ -142,8 +151,10 @@ function NewSpeakEvent(who, text, locorlit, color)
     return self
 end
 
+-- watches for the new think event and triggers a new function when it occurs
 function NewThinkEvent(who, text, locorlit)
     local self = NewSpeakEvent(who, text, locorlit)
+
     self.color = "LTBLUE"
     self.animates = false
     self.speaks = false
@@ -151,8 +162,10 @@ function NewThinkEvent(who, text, locorlit)
     return self
 end
 
+-- watches for the new typewriter event and triggers a new function when it occurs
 function NewTypeWriterEvent(text)
     local self = {}
+
     self.text = text
     self.textScroll = 1
     self.wasPressing = true
@@ -189,8 +202,10 @@ function NewTypeWriterEvent(text)
     return self
 end
 
+-- watches for the new Add to Court Record Animation event and triggers a new function when it occurs
 function NewAddToCourtRecordAnimationEvent(text, evidence)
     local self = {}
+
     self.text = text
     self.textScroll = 1
     self.evidence = evidence
@@ -222,10 +237,11 @@ function NewAddToCourtRecordAnimationEvent(text, evidence)
     return self
 end
 
+-- watches for the new Play Music event and triggers a new function when it occurs
 function NewPlayMusicEvent(music)
     local self = {}
-    self.music = music
 
+    self.music = music
     self.update = function (self, scene, dt)
         for i,v in pairs(Music) do
             v:stop()
@@ -239,10 +255,11 @@ function NewPlayMusicEvent(music)
     return self
 end
 
+-- watches for the new Court Record Add event and triggers a new function when it occurs
 function NewCourtRecordAddEvent(evidence)
     local self = {}
-    self.evidence = evidence
 
+    self.evidence = evidence
     self.update = function (self, scene, dt)
         table.insert(scene.courtRecord, scene.evidence[self.evidence])
         return false
@@ -251,11 +268,12 @@ function NewCourtRecordAddEvent(evidence)
     return self
 end
 
+-- watches for the new Execution Definition event and triggers a new function when it occurs
 function NewExecuteDefinitionEvent(def)
     local self = {}
+
     self.def = def
     self.hasRun = false
-
     self.update = function (self, scene, dt)
         if not self.hasRun then
             self.hasRun = true
@@ -268,6 +286,7 @@ function NewExecuteDefinitionEvent(def)
     return self
 end
 
+-- watches for the new clear execute definition event and triggers a new function when it occurs
 function NewClearExecuteDefinitionEvent(def)
     local self = {}
     self.def = def
@@ -285,8 +304,10 @@ function NewClearExecuteDefinitionEvent(def)
     return self
 end
 
+-- watches for the new Choice event and triggers a new function when it occurs
 function NewChoiceEvent(options)
     local self = {}
+
     self.select = 1
     self.options = options
 
@@ -294,8 +315,11 @@ function NewChoiceEvent(options)
     self.wasPressingDown = false
     self.wasPressingX = true
 
-    -- this is for FakeChoiceEvent polymorphism
-    -- if a choice is fake, then whatever option the player chooses still continues the script
+    --[[ 
+        this is for FakeChoiceEvent polymorphism
+        if a choice is fake, then whatever option the player chooses still continues the script
+    ]]
+
     self.isFake = false
 
     self.update = function (self, scene, dt)
@@ -355,12 +379,14 @@ function NewChoiceEvent(options)
     return self
 end
 
+-- watches for the new Fake Choice event and triggers a new function when it occurs
 function NewFakeChoiceEvent(options)
     local self = NewChoiceEvent(options)
     self.isFake = true
     return self
 end
 
+-- watches for the new Scene End event and triggers a new function when it occurs
 function NewSceneEndEvent()
     local self = {}
 
@@ -372,6 +398,7 @@ function NewSceneEndEvent()
     return self
 end
 
+-- watches for the new Stop Music event and triggers a new function when it occurs
 function NewStopMusicEvent()
     local self = {}
 
@@ -386,6 +413,7 @@ function NewStopMusicEvent()
     return self
 end
 
+-- watches for the new Fade to Black event and triggers a new function when it occurs
 function NewFadeToBlackEvent()
     local self = {}
     self.timer = 0
@@ -408,6 +436,7 @@ function NewFadeToBlackEvent()
     return self
 end
 
+-- watches for the new Screenshake event and triggers a new function when it occurs
 function NewScreenShakeEvent()
     local self = {}
 
