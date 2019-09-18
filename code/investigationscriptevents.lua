@@ -12,6 +12,7 @@ end
 
 function NewExamineEvent(examinables)
     local self = {}
+
     self.x = GraphicsWidth()/2
     self.y = GraphicsHeight()/2
     self.examinables = examinables
@@ -47,7 +48,6 @@ function NewExamineEvent(examinables)
                 and self.y >= tonumber(self.examinables[i+1])
                 and self.x <= tonumber(self.examinables[i+2])
                 and self.y <= tonumber(self.examinables[i+3]) then
-                    --print(self.examinables[i+4])
                     scene:runDefinition(self.examinables[i+4])
                 end
             end
