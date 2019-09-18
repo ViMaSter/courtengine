@@ -75,7 +75,7 @@ function NewCutToEvent(cutTo)
     return self
 end
 
-function NewSpeakEvent(who, text, locorlit)
+function NewSpeakEvent(who, text, locorlit, color)
     local self = {}
     self.text = text
     self.textScroll = 1
@@ -83,7 +83,10 @@ function NewSpeakEvent(who, text, locorlit)
     self.who = who
     self.locorlit = locorlit
 
-    self.color = {1,1,1}
+    if color == nil then
+        color = "WHITE"
+    end
+    self.color = color
     self.animates = true
     self.speaks = true
 
@@ -91,7 +94,11 @@ function NewSpeakEvent(who, text, locorlit)
         scene.fullText = self.text
 
         local lastScroll = self.textScroll
-        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+        local scrollSpeed = TextScrollSpeed
+        if love.keyboard.isDown("lshift") then
+            scrollSpeed = scrollSpeed*8
+        end
+        self.textScroll = math.min(self.textScroll + dt*scrollSpeed, #self.text)
 
         if self.textScroll < #self.text then
             scene.characterTalking = self.animates
@@ -111,7 +118,16 @@ function NewSpeakEvent(who, text, locorlit)
             end
         end
 
-        scene.textColor = self.color
+        if self.color == "WHITE" then
+            scene.textColor = {1,1,1}
+        end
+        if self.color == "LTBLUE" then
+            scene.textColor = {0,0.75,1}
+        end
+        if self.color == "GREEN" then
+            scene.textColor = {0,1,0.25}
+        end
+        
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
         local pressing = love.keyboard.isDown("x")
@@ -128,7 +144,7 @@ end
 
 function NewThinkEvent(who, text, locorlit)
     local self = NewSpeakEvent(who, text, locorlit)
-    self.color = {0, 0.75, 1}
+    self.color = "LTBLUE"
     self.animates = false
     self.speaks = false
 
@@ -278,6 +294,10 @@ function NewChoiceEvent(options)
     self.wasPressingDown = false
     self.wasPressingX = true
 
+    -- this is for FakeChoiceEvent polymorphism
+    -- if a choice is fake, then whatever option the player chooses still continues the script
+    self.isFake = false
+
     self.update = function (self, scene, dt)
         local pressingUp = love.keyboard.isDown("up")
         local pressingDown = love.keyboard.isDown("down")
@@ -308,6 +328,10 @@ function NewChoiceEvent(options)
                 return false
             else
                 scene:runDefinition(self.options[self.select+1])
+
+                if self.isFake then
+                    return false
+                end
             end
         end
 
@@ -328,6 +352,12 @@ function NewChoiceEvent(options)
         end
     end
 
+    return self
+end
+
+function NewFakeChoiceEvent(options)
+    local self = NewChoiceEvent(options)
+    self.isFake = true
     return self
 end
 
@@ -373,6 +403,17 @@ function NewFadeToBlackEvent()
     self.draw = function (self, scene)
         love.graphics.setColor(0,0,0, self.timer)
         love.graphics.rectangle("fill", 0,0, GraphicsWidth(),GraphicsHeight())
+    end
+
+    return self
+end
+
+function NewScreenShakeEvent()
+    local self = {}
+
+    self.update = function (self, scene, dt)
+        ScreenShake = 0.15
+        return false
     end
 
     return self

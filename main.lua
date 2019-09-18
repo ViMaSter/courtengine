@@ -11,6 +11,7 @@ function love.load(arg)
     Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
     MasterVolume = 0.25
     TextScrollSpeed = 30
+    ScreenShake = 0
 
     LoadAssets()
 
@@ -57,6 +58,7 @@ end
 function LoadAssets()
     Backgrounds = {
         NONE = {},
+        BLACK_SCREEN = {love.graphics.newImage("backgrounds/blackscreen.png")},
         LOBBY = {love.graphics.newImage("backgrounds/lobby.png")},
         COURT_DEFENSE = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
         COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
@@ -112,7 +114,7 @@ function LoadAssets()
         v:setVolume(MasterVolume/2)
     end
 
-    GameFont = love.graphics.newImageFont("sprites/FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():,-'", 2)
+    GameFont = love.graphics.newImageFont("sprites/FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():,-'*", 2)
     SmallFont = love.graphics.newImageFont("sprites/SmallFontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 1)
     love.graphics.setFont(GameFont)
 end
@@ -128,6 +130,7 @@ end
 -- love.update and love.draw get called 60 times per second
 -- transfer the update and draw over to the current game scene 
 function love.update(dt)
+    ScreenShake = math.max(ScreenShake - dt, 0)
     CurrentScene:update(dt)
 end
 
@@ -136,10 +139,18 @@ function love.draw()
     love.graphics.setCanvas(Renderable)
     love.graphics.clear(1,1,1)
     CurrentScene:draw()
+
     love.graphics.setCanvas()
 
+    local dx,dy = 0,0
+
+    if ScreenShake > 0 then
+        dx = love.math.random()*choose{1,-1}*2
+        dy = love.math.random()*choose{1,-1}*2
+    end
+    
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(Renderable, 0,0, 0, love.graphics.getWidth()/GraphicsWidth(), love.graphics.getHeight()/GraphicsHeight())
+    love.graphics.draw(Renderable, dx*love.graphics.getWidth()/GraphicsWidth(),dy*love.graphics.getHeight()/GraphicsHeight(), 0, love.graphics.getWidth()/GraphicsWidth(), love.graphics.getHeight()/GraphicsHeight())
 end
 
 -- utility functions 
