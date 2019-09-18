@@ -24,10 +24,12 @@ function NewScene(scriptPath)
     self.wasPressingRight = false
     self.wasPressingLeft = false
 
-    -- the script is loaded into the court scene's events table
-    -- function definitions are stored in the court scene's definitions table
-    -- the script is made up of individual "events"
-    -- events are defined in scriptevents.lua
+    --[[ 
+        the script is loaded into the court scene's events table
+        function definitions are stored in the court scene's definitions table
+        the script is made up of individual "events"
+        events are defined in scriptevents.lua
+     ]]
     LoadScript(self, scriptPath)
 
     -- run a function definition defined in the script
@@ -43,6 +45,7 @@ function NewScene(scriptPath)
     end
 
     self.update = function (self, dt)
+
         -- update the active event
         self.textHidden = false
         self.canShowCourtRecord = true
@@ -72,7 +75,7 @@ function NewScene(scriptPath)
             self.courtRecordIndex = 1
         end
 
-        -- move left and right through the court record
+        -- move right and left through the court record
         local pressingRight = love.keyboard.isDown("right")
         local pressingLeft = love.keyboard.isDown("left")
 
@@ -130,7 +133,7 @@ function NewScene(scriptPath)
             end
         end
 
-        -- draw the top layer of the environment, like desk on top of character
+        -- draw the top layer of the environment, e.g. the desk on top of character
         if background[2] ~= nil then
             love.graphics.draw(background[2])
         end
