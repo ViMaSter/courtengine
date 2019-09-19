@@ -212,6 +212,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHOICE" then
                     choiceQueue = {}
                 end
+                if lineParts[1] == "FAKE_CHOICE" then
+                    fakeChoiceQueue = {}
+                end
                 if lineParts[1] == "INVESTIGATION_MENU" then
                     invMenuQueue = {}
                 end
