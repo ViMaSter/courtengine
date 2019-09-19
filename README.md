@@ -35,3 +35,4 @@ Controls are work in progress - mouse and controller support yet to be implement
 - Z to show Court Record
 - C to press on cross examinations
 - Press the Up Arrow Key while in the Court Record to present evidence
+- Press Escape to pause and unpause the game
