@@ -164,7 +164,8 @@ function love.draw()
 
     -- Added pause, additional cleaner graphics can be added in the future
     if game_paused then 
-        love.graphics.print("THE GAME IS PAUSED", 10, 250, 0, 2, 2)
+        love.graphics.rectangle( "line", 30, 30, love.graphics.getWidth() - 60, love.graphics.getHeight() - 60 )
+        love.graphics.print("THE GAME IS PAUSED", love.graphics.getWidth()/3, love.graphics.getHeight()/2, 0, 2, 2)
     else
         love.graphics.draw(
         Renderable, 
