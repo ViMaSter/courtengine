@@ -272,7 +272,7 @@ function DisectLine(line)
             canAddToWord = false
         end
 
-        if canAddToWord 
+        if canAddToWord
         and thisChar == "@"
         and not isDialogue then
             canAddToWord = false
@@ -315,7 +315,7 @@ end
 
 function NewAnimation(file, holdFirst)
     local animation = {}
-    local source = love.graphics.newImage(file) 
+    local source = love.graphics.newImage(file)
 
     animation.source = source
     animation.anim = {}
@@ -334,38 +334,13 @@ function NewAnimation(file, holdFirst)
     return animation
 end
 
-function NewCharInitEvent(name, location, gender)
-    local self = {}
-    self.name = name
-    self.location = location
-    self.gender = gender
-
-    self.update = function (self, scene, dt)
-        scene.characters[self.name] = {
-            poses = {
-                Normal = NewAnimation(self.location.."/Normal.png", true),
-                NormalTalking = NewAnimation(self.location.."/NormalTalking.png", false),
-            },
-            animations = {},
-            sounds = {},
-
-            location = self.location,
-            wideshot = NewAnimation(self.location .. "/wideshot.png", false),
-            name = self.name,
-            gender = self.gender,
-            frame = "Normal",
-        }
-
-        return false
-    end
-
-    return self
-end
-
 function NewCharPoseInitEvent(name, pose, padding)
     local self = {}
     self.name = name
     self.pose = pose
+
+    print("NEWCHARPOSEINITEVENT_NAME "..self.name)
+    print("NEWCHARPOSEINITEVENT_POSE "..self.pose)
 
     if padding == nil then
         padding = "PADDED"
@@ -408,6 +383,69 @@ function NewCharSoundInitEvent(name, sound)
         local location = scene.characters[self.name].location
         scene.characters[self.name].sounds[self.sound] = love.audio.newSource(location .. "/" .. self.sound .. ".wav", "static")
         scene.characters[self.name].sounds[self.sound]:setVolume(MasterVolume/2)
+
+        return false
+    end
+
+    return self
+end
+
+-- initializes all character files based on folder | CURRENTLY DOESN'T WORK
+function NewCharInitEvent(name, location, gender)
+    local self = {}
+    self.name = name
+    self.gender = gender
+
+    -- allows for characters to be placed in characters/ or a custom directory
+    if string.match(location,"/") then
+        self.location = location
+    else
+        self.location = "characters/"..location
+    end
+
+    -- grabs the files in the character directory
+    self.files = love.filesystem.getDirectoryItems(self.location)
+
+    for b, i in ipairs(self.files) do
+        if string.match(i,".png") then
+            if string.match(i,"_ani") then
+                local a = i:gsub(".png","")
+                local a = a:gsub("_ani","")
+                print(a)
+                NewCharAnimationInitEvent(self.name,a)
+            elseif string.match(i,"_un") then
+                local a = i:gsub(".png","")
+                local a = a:gsub("_un","")
+                print(a)
+                NewCharPoseInitEvent(self.name,a,"UNPADDED")
+            else
+                local a = i:gsub(".png","")
+                print(a)
+                NewCharPoseInitEvent(self.name,a,nil)
+            end
+        elseif string.match(i,".wav") then
+            local a = i:gsub(".wav","")
+            local a = i:gsub(".WAV","")
+            NewCharSoundInitEvent(self.name,a)
+        end
+    end
+
+    self.update = function (self, scene, dt)
+        scene.characters[self.name] = {
+            poses = {--[[
+                Normal = NewAnimation(self.location.."/Normal.png", true),
+                NormalTalking = NewAnimation(self.location.."/NormalTalking.png", false),--]]
+            },
+
+            animations = {},
+            sounds = {},
+
+            location = self.location,
+            --wideshot = NewAnimation(self.location .. "/wideshot.png", false),
+            name = self.name,
+            gender = self.gender,
+            frame = "Normal",
+        }
 
         return false
     end
