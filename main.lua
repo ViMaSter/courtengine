@@ -3,6 +3,7 @@ require "code/scriptloader"
 require "code/scriptevents"
 require "code/trialscriptevents"
 require "code/investigationscriptevents"
+require "code/controlscriptevents"
 
 function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
@@ -131,10 +132,21 @@ end
 -- transfer the update and draw over to the current game scene 
 function love.update(dt)
     ScreenShake = math.max(ScreenShake - dt, 0)
-    CurrentScene:update(dt)
+    if not game_paused then
+        CurrentScene:update(dt)
+    end
 end
 
+-- basic pause functionality
+function love.keypressed(key)
+    if key == "escape" then
+        game_paused = not game_paused
+    end
+end
+
+
 function love.draw()
+
     love.graphics.setColor(1,1,1)
     love.graphics.setCanvas(Renderable)
     love.graphics.clear(1,1,1)
@@ -148,9 +160,22 @@ function love.draw()
         dx = love.math.random()*choose{1,-1}*2
         dy = love.math.random()*choose{1,-1}*2
     end
-    
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(Renderable, dx*love.graphics.getWidth()/GraphicsWidth(),dy*love.graphics.getHeight()/GraphicsHeight(), 0, love.graphics.getWidth()/GraphicsWidth(), love.graphics.getHeight()/GraphicsHeight())
+
+    -- Added pause, additional cleaner graphics can be added in the future
+    if game_paused then 
+        love.graphics.rectangle( "line", 30, 30, love.graphics.getWidth() - 60, love.graphics.getHeight() - 60 )
+        love.graphics.print("THE GAME IS PAUSED", love.graphics.getWidth()/3, love.graphics.getHeight()/2, 0, 2, 2)
+    else
+        love.graphics.draw(
+        Renderable, 
+        dx*love.graphics.getWidth()/GraphicsWidth(),
+        dy*love.graphics.getHeight()/GraphicsHeight(), 
+        0, 
+        love.graphics.getWidth()/GraphicsWidth(), 
+        love.graphics.getHeight()/GraphicsHeight()
+    )
+    end
 end
 
 -- utility functions 
