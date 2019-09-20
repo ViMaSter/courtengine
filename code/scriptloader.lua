@@ -406,21 +406,28 @@ function NewCharInitEvent(name, location, gender)
     -- grabs the files in the character directory
     self.files = love.filesystem.getDirectoryItems(self.location)
 
+    self.poses = {}
+    self.animations = {}
     for b, i in ipairs(self.files) do
         if string.match(i,".png") then
+            print(self.location.."/"..i)
             if string.match(i,"_ani") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_ani","")
                 print(a)
+                self.animations[a] = NewAnimation(self.location.."/"..i, true)
                 NewCharAnimationInitEvent(self.name,a)
             elseif string.match(i,"_un") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_un","")
                 print(a)
+                self.poses[a] = NewAnimation(self.location.."/"..i, true)
                 NewCharPoseInitEvent(self.name,a,"UNPADDED")
             else
                 local a = i:gsub(".png","")
+                local isTalking = i:gsub("Talking", "")
                 print(a)
+                self.poses[a] = NewAnimation(self.location.."/"..i, not isTalking)
                 NewCharPoseInitEvent(self.name,a,nil)
             end
         elseif string.match(i,".wav") then
@@ -432,12 +439,8 @@ function NewCharInitEvent(name, location, gender)
 
     self.update = function (self, scene, dt)
         scene.characters[self.name] = {
-            poses = {--[[
-                Normal = NewAnimation(self.location.."/Normal.png", true),
-                NormalTalking = NewAnimation(self.location.."/NormalTalking.png", false),--]]
-            },
-
-            animations = {},
+            poses = self.poses,
+            animations = self.animations,
             sounds = {},
 
             location = self.location,
