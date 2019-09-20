@@ -373,11 +373,13 @@ function NewCharInitEvent(name, location, gender)
             local a = i:gsub(".wav","")
             --print("LOWERCASE WAV"..i)
             self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
+            self.sounds[a]:setVolume(0.25)
 
         elseif string.match(i,".WAV") then
             local a = i:gsub(".WAV","")
             --print("UPPERCASE WAV"..i)
             self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
+            self.sounds[a]:setVolume(0.25)
         end
     end
 
