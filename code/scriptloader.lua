@@ -408,6 +408,9 @@ function NewCharInitEvent(name, location, gender)
 
     self.poses = {}
     self.animations = {}
+    self.sounds = {}
+
+    -- sorts files by type and adds them to the scene
     for b, i in ipairs(self.files) do
         if string.match(i,".png") then
             print(self.location.."/"..i)
@@ -434,9 +437,16 @@ function NewCharInitEvent(name, location, gender)
 
                 self.poses[a] = NewAnimation(self.location.."/"..i, not isTalking)
             end
+
         elseif string.match(i,".wav") then
             local a = i:gsub(".wav","")
+            print("LOWERCASE WAV"..i)
+            self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
+
+        elseif string.match(i,".WAV") then
             local a = i:gsub(".WAV","")
+            print("UPPERCASE WAV"..i)
+            self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
         end
     end
 
@@ -444,7 +454,7 @@ function NewCharInitEvent(name, location, gender)
         scene.characters[self.name] = {
             poses = self.poses,
             animations = self.animations,
-            sounds = {},
+            sounds = self.sounds,
 
             location = self.location,
             wideshot = NewAnimation(self.location .. "/wideshot.png", false),
