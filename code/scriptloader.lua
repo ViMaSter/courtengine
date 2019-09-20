@@ -120,19 +120,6 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHARACTER_INITIALIZE" then
                     table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3], lineParts[4]))
                 end
-                if lineParts[1] == "CHARACTER_INITIALIZE_POSE" then
-                    if #lineParts < 4 then
-                        table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3]))
-                    else
-                        table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3], lineParts[4]))
-                    end
-                end
-                if lineParts[1] == "CHARACTER_INITIALIZE_ANIMATION" then
-                    table.insert(events, NewCharAnimationInitEvent(lineParts[2], lineParts[3]))
-                end
-                if lineParts[1] == "CHARACTER_INITIALIZE_SOUND" then
-                    table.insert(events, NewCharSoundInitEvent(lineParts[2], lineParts[3]))
-                end
                 if lineParts[1] == "CHARACTER_LOCATION" then
                     table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
                 end
@@ -272,7 +259,7 @@ function DisectLine(line)
             canAddToWord = false
         end
 
-        if canAddToWord 
+        if canAddToWord
         and thisChar == "@"
         and not isDialogue then
             canAddToWord = false
@@ -315,7 +302,7 @@ end
 
 function NewAnimation(file, holdFirst)
     local animation = {}
-    local source = love.graphics.newImage(file) 
+    local source = love.graphics.newImage(file)
 
     animation.source = source
     animation.anim = {}
@@ -334,20 +321,73 @@ function NewAnimation(file, holdFirst)
     return animation
 end
 
+-- initializes all character files based on folder
 function NewCharInitEvent(name, location, gender)
     local self = {}
     self.name = name
-    self.location = location
     self.gender = gender
+
+    -- allows for characters to be placed in characters/ or a custom directory
+    if string.match(location,"/") then
+        self.location = location
+    else
+        self.location = "characters/"..location
+    end
+
+    -- grabs the files in the character directory
+    self.files = love.filesystem.getDirectoryItems(self.location)
+
+    self.poses = {}
+    self.animations = {}
+    self.sounds = {}
+
+    -- sorts files by type and adds them to the scene
+    for b, i in ipairs(self.files) do
+        if string.match(i,".png") then
+            --print(self.location.."/"..i)
+
+            if string.match(i,"_ani") then
+                local a = i:gsub(".png","")
+                local a = a:gsub("_ani","")
+
+                --print(a)
+
+                self.animations[a] = NewAnimation(self.location.."/"..i, false)
+            elseif string.match(i,"_un") then
+                local a = i:gsub(".png","")
+                local a = a:gsub("_un","")
+
+                --print(a)
+
+                self.poses[a] = NewAnimation(self.location.."/"..i, false)
+            else
+                local a = i:gsub(".png","")
+                local isTalking = string.match(i, "Talking")
+
+                --print(a)
+
+                self.poses[a] = NewAnimation(self.location.."/"..i, not isTalking)
+            end
+
+        elseif string.match(i,".wav") then
+            local a = i:gsub(".wav","")
+            --print("LOWERCASE WAV"..i)
+            self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
+            self.sounds[a]:setVolume(0.25)
+
+        elseif string.match(i,".WAV") then
+            local a = i:gsub(".WAV","")
+            --print("UPPERCASE WAV"..i)
+            self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
+            self.sounds[a]:setVolume(0.25)
+        end
+    end
 
     self.update = function (self, scene, dt)
         scene.characters[self.name] = {
-            poses = {
-                Normal = NewAnimation(self.location.."/Normal.png", true),
-                NormalTalking = NewAnimation(self.location.."/NormalTalking.png", false),
-            },
-            animations = {},
-            sounds = {},
+            poses = self.poses,
+            animations = self.animations,
+            sounds = self.sounds,
 
             location = self.location,
             wideshot = NewAnimation(self.location .. "/wideshot.png", false),
@@ -355,59 +395,6 @@ function NewCharInitEvent(name, location, gender)
             gender = self.gender,
             frame = "Normal",
         }
-
-        return false
-    end
-
-    return self
-end
-
-function NewCharPoseInitEvent(name, pose, padding)
-    local self = {}
-    self.name = name
-    self.pose = pose
-
-    if padding == nil then
-        padding = "PADDED"
-    end
-    self.padding = padding
-
-    self.update = function(self, scene, dt)
-        local location = scene.characters[self.name].location
-        local padding = self.padding == "PADDED"
-        scene.characters[self.name].poses[self.pose] = NewAnimation(location .. "/" .. self.pose .. ".png", padding)
-        scene.characters[self.name].poses[self.pose.."Talking"] = NewAnimation(location .. "/" .. self.pose .. "Talking.png", false)
-
-        return false
-    end
-
-    return self
-end
-
-function NewCharAnimationInitEvent(name, animation)
-    local self = {}
-    self.name = name
-    self.animation = animation
-
-    self.update = function(self, scene, dt)
-        local location = scene.characters[self.name].location
-        scene.characters[self.name].animations[self.animation] = NewAnimation(location .. "/" .. self.animation .. ".png", false)
-
-        return false
-    end
-
-    return self
-end
-
-function NewCharSoundInitEvent(name, sound)
-    local self = {}
-    self.name = name
-    self.sound = sound
-
-    self.update = function(self, scene, dt)
-        local location = scene.characters[self.name].location
-        scene.characters[self.name].sounds[self.sound] = love.audio.newSource(location .. "/" .. self.sound .. ".wav", "static")
-        scene.characters[self.name].sounds[self.sound]:setVolume(MasterVolume/2)
 
         return false
     end

@@ -1,22 +1,9 @@
-SET_SCENE_TYPE TRIAL 
+SET_SCENE_TYPE TRIAL
 
-CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
-CHARACTER_INITIALIZE_POSE Phoenix Point
-CHARACTER_INITIALIZE_POSE Phoenix Sweaty
-CHARACTER_INITIALIZE_POSE Phoenix Confident
-CHARACTER_INITIALIZE_ANIMATION Phoenix DeskSlam
-CHARACTER_INITIALIZE_SOUND Phoenix objection
-CHARACTER_INITIALIZE_SOUND Phoenix holdit
-
-CHARACTER_INITIALIZE Payne characters/payne MALE
-CHARACTER_INITIALIZE_POSE Payne Confident
-CHARACTER_INITIALIZE_POSE Payne Sweaty
-CHARACTER_INITIALIZE_SOUND Payne objection
-
-CHARACTER_INITIALIZE Judge characters/judge MALE
-
-CHARACTER_INITIALIZE Mia characters/mia FEMALE
-CHARACTER_INITIALIZE_POSE Mia Ohmy
+CHARACTER_INITIALIZE Phoenix phoenix MALE
+CHARACTER_INITIALIZE Payne payne MALE
+CHARACTER_INITIALIZE Judge judge MALE
+CHARACTER_INITIALIZE Mia mia FEMALE
 
 CHARACTER_LOCATION Phoenix COURT_DEFENSE
 CHARACTER_LOCATION Payne COURT_PROSECUTION
@@ -107,22 +94,22 @@ SPEAK_FROM COURT_JUDGE
 DEFINE DefendantPhoenix
     SPEAK_FROM COURT_DEFENSE
         "Um... the defendant... is me, right?"
-    
+
     SPEAK_FROM COURT_ASSISTANT
         "Wright! Have you completely lost your mind? Focus!"
-    
+
     SPEAK_FROM COURT_ASSISTANT
         "The defendant is the person on trial!"
-    
+
     SPEAK_FROM COURT_ASSISTANT
         "You're his lawyer!"
-    
+
     SPEAK_FROM COURT_DEFENSE
         "Um, er, eh?#Oh yeah, right! Eh heh heh."
-    
+
     SPEAK_FROM COURT_ASSISTANT
         "This is no laughing matter!"
-    
+
     SPEAK_FROM COURT_ASSISTANT
         "You did pass the bar, didn't you?"
 
@@ -140,7 +127,7 @@ DEFINE DefendantMia
 
     SPEAK_FROM COURT_ASSISTANT
         "I have to go home. I'm... I'm expecting a delivery."
-   
+
     SPEAK_FROM COURT_DEFENSE
         "Aw, c'mon Chief. There's no need to be going so soon, is there?"
 
@@ -152,13 +139,13 @@ DEFINE DefendantMia
 
     SPEAK_FROM COURT_ASSISTANT
         "I mean, that's about as basic as you can get!"
-    
+
     THINK_FROM COURT_DEFENSE
         "(I've put my foot in it this time! I've got to relax!)"
-    
+
     SPEAK_FROM COURT_JUDGE
         "Sorry, I couldn't hear your answer. I'll ask once more:"
-        
+
 END_DEFINE
 
 CHOICE
