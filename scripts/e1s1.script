@@ -50,6 +50,7 @@ SPEAK Phoenix
 SPEAK Phoenix
     "Actually, it's because I owe him a favor."
 
+POSE Mia Ohmy
 SPEAK Mia
     "A favor?"
 
@@ -65,6 +66,7 @@ SPEAK Phoenix
 SPEAK Phoenix
     "He's one of the reasons I became an attorney."
 
+POSE Mia Normal
 SPEAK Mia
     "Well, that's news to me!"
 

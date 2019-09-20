@@ -411,29 +411,32 @@ function NewCharInitEvent(name, location, gender)
     for b, i in ipairs(self.files) do
         if string.match(i,".png") then
             print(self.location.."/"..i)
+
             if string.match(i,"_ani") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_ani","")
+
                 print(a)
-                self.animations[a] = NewAnimation(self.location.."/"..i, true)
-                NewCharAnimationInitEvent(self.name,a)
+
+                self.animations[a] = NewAnimation(self.location.."/"..i, false)
             elseif string.match(i,"_un") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_un","")
+
                 print(a)
-                self.poses[a] = NewAnimation(self.location.."/"..i, true)
-                NewCharPoseInitEvent(self.name,a,"UNPADDED")
+
+                self.poses[a] = NewAnimation(self.location.."/"..i, false)
             else
                 local a = i:gsub(".png","")
-                local isTalking = i:gsub("Talking", "")
+                local isTalking = string.match(i, "Talking")
+
                 print(a)
+
                 self.poses[a] = NewAnimation(self.location.."/"..i, not isTalking)
-                NewCharPoseInitEvent(self.name,a,nil)
             end
         elseif string.match(i,".wav") then
             local a = i:gsub(".wav","")
             local a = i:gsub(".WAV","")
-            NewCharSoundInitEvent(self.name,a)
         end
     end
 
@@ -444,7 +447,7 @@ function NewCharInitEvent(name, location, gender)
             sounds = {},
 
             location = self.location,
-            --wideshot = NewAnimation(self.location .. "/wideshot.png", false),
+            wideshot = NewAnimation(self.location .. "/wideshot.png", false),
             name = self.name,
             gender = self.gender,
             frame = "Normal",
