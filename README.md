@@ -1,22 +1,22 @@
-# <center>Court Engine</center>
+# Court Engine
 
-A simple scripting language for building your own Phoenix Wright Ace Attorney like trials, using Love2D and Lua.
+A simple scripting language for building your own Phoenix Wright: Ace Attorney-like trials, using Love2D and Lua.
 
-Trials are written using a custom scripting language, check out the documentation <a href="https://github.com/GameGrumpsJointJustice/courtengine/wiki/Scripting-Language">here</a>
+Trials are written using a custom scripting language; check out the documentation <a href="https://github.com/GameGrumpsJointJustice/courtengine/wiki/Scripting-Language">here</a>
 
 Created for the Game Grumps Phoenix Wright fan project.
 
-Visit the Github Repository to download, clone, or fork: https://github.com/GameGrumpsJointJustice/courtengine/settings
+Visit the Github Repository to download, clone, or fork: https://github.com/GameGrumpsJointJustice/courtengine
 
-![courtengine3](https://gamegrumpsjointjustice.github.io/courtengine/courtengine3.gif)
+![courtengine3](courtengine3.gif)
 
 
 
-## <center>How To Run</center>
+## How To Run
 
 Download Love2D: https://love2d.org/
 
-- Go to the Github Repository, https://github.com/GameGrumpsJointJustice/courtengine/settings
+- Go to the Github Repository, https://github.com/GameGrumpsJointJustice/courtengine
 - Click the green download button at the top right
 - Extract the downloaded zip
 - Drag the folder onto the Love2D application icon (works on all OSs)
@@ -27,7 +27,7 @@ See https://love2d.org/wiki/Getting_Started for more detailed information.
 
 
 
-## <center>How To Play</center>
+## How To Play
 
 Controls are work in progress - mouse and controller support yet to be implemented.
 
