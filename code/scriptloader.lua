@@ -339,8 +339,8 @@ function NewCharPoseInitEvent(name, pose, padding)
     self.name = name
     self.pose = pose
 
-    print("NEWCHARPOSEINITEVENT_NAME "..self.name)
-    print("NEWCHARPOSEINITEVENT_POSE "..self.pose)
+    --print("NEWCHARPOSEINITEVENT_NAME "..self.name)
+    --print("NEWCHARPOSEINITEVENT_POSE "..self.pose)
 
     if padding == nil then
         padding = "PADDED"
@@ -413,39 +413,39 @@ function NewCharInitEvent(name, location, gender)
     -- sorts files by type and adds them to the scene
     for b, i in ipairs(self.files) do
         if string.match(i,".png") then
-            print(self.location.."/"..i)
+            --print(self.location.."/"..i)
 
             if string.match(i,"_ani") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_ani","")
 
-                print(a)
+                --print(a)
 
                 self.animations[a] = NewAnimation(self.location.."/"..i, false)
             elseif string.match(i,"_un") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_un","")
 
-                print(a)
+                --print(a)
 
                 self.poses[a] = NewAnimation(self.location.."/"..i, false)
             else
                 local a = i:gsub(".png","")
                 local isTalking = string.match(i, "Talking")
 
-                print(a)
+                --print(a)
 
                 self.poses[a] = NewAnimation(self.location.."/"..i, not isTalking)
             end
 
         elseif string.match(i,".wav") then
             local a = i:gsub(".wav","")
-            print("LOWERCASE WAV"..i)
+            --print("LOWERCASE WAV"..i)
             self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
 
         elseif string.match(i,".WAV") then
             local a = i:gsub(".WAV","")
-            print("UPPERCASE WAV"..i)
+            --print("UPPERCASE WAV"..i)
             self.sounds[a] = love.audio.newSource(self.location.."/"..i, "static")
         end
     end
