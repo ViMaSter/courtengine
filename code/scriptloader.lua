@@ -120,19 +120,6 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHARACTER_INITIALIZE" then
                     table.insert(events, NewCharInitEvent(lineParts[2], lineParts[3], lineParts[4]))
                 end
-                if lineParts[1] == "CHARACTER_INITIALIZE_POSE" then
-                    if #lineParts < 4 then
-                        table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3]))
-                    else
-                        table.insert(events, NewCharPoseInitEvent(lineParts[2], lineParts[3], lineParts[4]))
-                    end
-                end
-                if lineParts[1] == "CHARACTER_INITIALIZE_ANIMATION" then
-                    table.insert(events, NewCharAnimationInitEvent(lineParts[2], lineParts[3]))
-                end
-                if lineParts[1] == "CHARACTER_INITIALIZE_SOUND" then
-                    table.insert(events, NewCharSoundInitEvent(lineParts[2], lineParts[3]))
-                end
                 if lineParts[1] == "CHARACTER_LOCATION" then
                     table.insert(events, NewCharLocationEvent(lineParts[2], lineParts[3]))
                 end
@@ -334,63 +321,7 @@ function NewAnimation(file, holdFirst)
     return animation
 end
 
-function NewCharPoseInitEvent(name, pose, padding)
-    local self = {}
-    self.name = name
-    self.pose = pose
-
-    --print("NEWCHARPOSEINITEVENT_NAME "..self.name)
-    --print("NEWCHARPOSEINITEVENT_POSE "..self.pose)
-
-    if padding == nil then
-        padding = "PADDED"
-    end
-    self.padding = padding
-
-    self.update = function(self, scene, dt)
-        local location = scene.characters[self.name].location
-        local padding = self.padding == "PADDED"
-        scene.characters[self.name].poses[self.pose] = NewAnimation(location .. "/" .. self.pose .. ".png", padding)
-        scene.characters[self.name].poses[self.pose.."Talking"] = NewAnimation(location .. "/" .. self.pose .. "Talking.png", false)
-
-        return false
-    end
-
-    return self
-end
-
-function NewCharAnimationInitEvent(name, animation)
-    local self = {}
-    self.name = name
-    self.animation = animation
-
-    self.update = function(self, scene, dt)
-        local location = scene.characters[self.name].location
-        scene.characters[self.name].animations[self.animation] = NewAnimation(location .. "/" .. self.animation .. ".png", false)
-
-        return false
-    end
-
-    return self
-end
-
-function NewCharSoundInitEvent(name, sound)
-    local self = {}
-    self.name = name
-    self.sound = sound
-
-    self.update = function(self, scene, dt)
-        local location = scene.characters[self.name].location
-        scene.characters[self.name].sounds[self.sound] = love.audio.newSource(location .. "/" .. self.sound .. ".wav", "static")
-        scene.characters[self.name].sounds[self.sound]:setVolume(MasterVolume/2)
-
-        return false
-    end
-
-    return self
-end
-
--- initializes all character files based on folder | CURRENTLY DOESN'T WORK
+-- initializes all character files based on folder
 function NewCharInitEvent(name, location, gender)
     local self = {}
     self.name = name
