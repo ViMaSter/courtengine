@@ -348,7 +348,7 @@ SPEAK_FROM COURT_JUDGE
     "As Mr. Wright just told us, the victim was struck with a blunt object."
 
 SPEAK_FROM COURT_JUDGE
-    "Would you explain to the court just what that "object" was?"
+    "Would you explain to the court just what that 'object' was?"
 
 SPEAK_FROM COURT_PROSECUTION
     "The murder weapon was this statue of "The Thinker.""
