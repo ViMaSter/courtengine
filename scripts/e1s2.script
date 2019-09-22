@@ -348,10 +348,10 @@ SPEAK_FROM COURT_JUDGE
     "As Mr. Wright just told us, the victim was struck with a blunt object."
 
 SPEAK_FROM COURT_JUDGE
-    "Would you explain to the court just what that 'object' was?"
+    "Would you explain to the court just what that $qobject$q was?"
 
 SPEAK_FROM COURT_PROSECUTION
-    "The murder weapon was this statue of "The Thinker.""
+    "The murder weapon was this statue of $qThe Thinker.$q"
 
 SPEAK_FROM COURT_PROSECUTION
     "It was found lying on the floor, next to the victim."
@@ -429,7 +429,7 @@ SPEAK_FROM COURT_WITNESS
     "WHAT'S IT TO YOU, ANYWAY!?"
 
 SPEAK_FROM COURT_PROSECUTION
-    "Mr. Butz, what you describe is generally what we mean by 'dumped.'"
+    "Mr. Butz, what you describe is generally what we mean by $qdumped.$q"
 
 SPEAK_FROM COURT_PROSECUTION
     "In fact, she had completely abandoned you... and was seeing other men!"
@@ -464,7 +464,7 @@ SPEAK_FROM COURT_PROSECUTION
     "The victim was a model, but did not have a large income."
 
 SPEAK_FROM COURT_PROSECUTION
-    "It appears that she had several 'Sugar Daddies.'"
+    "It appears that she had several $qSugar Daddies.$q"
 
 SPEAK_FROM COURT_WITNESS
     "Daddies?#Sugar?"
@@ -522,7 +522,7 @@ DEFINE StopFromAnswering
         "Oof! *wince*"
 
     SPEAK_FROM COURT_WITNESS
-        "Dude! Nick!  Whaddya mean, "irrelevant"!?"
+        "Dude! Nick!  Whaddya mean, $qirrelevant$q!?"
 
     SPEAK_FROM COURT_WITNESS
         "That cheatin' she-dog!"

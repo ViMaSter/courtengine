@@ -261,8 +261,10 @@ function DisectLine(line)
     local isDialogue = false
     local isComment = false
     local wordBuild = ""
+    local openQuote = true
 
-    for i=1, #line do
+    local i = 1
+    while i <= #line do
         local thisChar = string.sub(line, i,i)
         local thisDoubleChar = string.sub(line, i,i+1)
         local canAddToWord = true
@@ -273,6 +275,18 @@ function DisectLine(line)
 
         if isComment then
             canAddToWord = false
+        end
+
+        if thisDoubleChar == "$q" then
+            canAddToWord = false
+            if openQuote then
+                wordBuild = wordBuild .. '`'
+            else
+                wordBuild = wordBuild .. '"'
+            end
+
+            openQuote = not openQuote
+            i=i+1
         end
 
         if canAddToWord 
@@ -306,6 +320,8 @@ function DisectLine(line)
         if canAddToWord then
             wordBuild = wordBuild .. thisChar
         end
+
+        i=i+1
     end
 
     if #wordBuild > 0 then
