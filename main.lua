@@ -6,6 +6,7 @@ require "code/investigationscriptevents"
 require "code/utils"
 require "code/assets"
 require "code/controlscriptevents"
+require "code/drawutils"
 
 function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
@@ -100,12 +101,7 @@ function love.draw()
     end
     love.graphics.setColor(1,1,1)
 
-    -- Added pause, additional cleaner graphics can be added in the future
-    if game_paused then 
-        love.graphics.rectangle( "line", 30, 30, love.graphics.getWidth() - 60, love.graphics.getHeight() - 60 )
-        love.graphics.print("THE GAME IS PAUSED", love.graphics.getWidth()/3, love.graphics.getHeight()/2, 0, 2, 2)
-    else
-        love.graphics.draw(
+    love.graphics.draw(
         Renderable, 
         dx*love.graphics.getWidth()/GraphicsWidth(),
         dy*love.graphics.getHeight()/GraphicsHeight(), 
@@ -113,5 +109,10 @@ function love.draw()
         love.graphics.getWidth()/GraphicsWidth(), 
         love.graphics.getHeight()/GraphicsHeight()
     )
+
+    -- Added pause, additional cleaner graphics can be added in the future
+    if game_paused then
+        DrawPauseScreen()
     end
+
 end
