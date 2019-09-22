@@ -280,21 +280,15 @@ function DisectLine(line)
         if thisDoubleChar == "$q" then
             canAddToWord = false
             if openQuote then
+                -- backtick corresponds to open quotation marks in the font image
                 wordBuild = wordBuild .. '`'
             else
+                -- quotation marks correspond to closed quotation marks in the font image
                 wordBuild = wordBuild .. '"'
             end
 
             openQuote = not openQuote
             i=i+1
-        end
-
-        if canAddToWord 
-        and thisChar == "@"
-        and not isDialogue then
-            canAddToWord = false
-
-            table.insert(words, "@")
         end
 
         if canAddToWord and thisChar == '"' then
