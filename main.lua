@@ -6,6 +6,7 @@ require "code/investigationscriptevents"
 require "code/utils"
 require "code/assets"
 require "code/controlscriptevents"
+require "code/drawutils"
 
 function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
@@ -37,6 +38,7 @@ function love.load(arg)
         if arg[argIndex] == "skip" then
             for i=1, tonumber(arg[argIndex+1]) do
                 table.remove(CurrentScene.events, 1)
+                CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
             end
         end
         argIndex = argIndex + 1
@@ -78,7 +80,17 @@ end
 -- basic pause functionality
 function love.keypressed(key)
     if key == "escape" then
+        NavigationIndex = CurrentScene.currentEventIndex
         game_paused = not game_paused
+    elseif game_paused then
+        -- Let the user navigate
+        if key == "up" and NavigationIndex > 1 then
+            NavigationIndex = NavigationIndex - 1
+        elseif key == "down" and NavigationIndex < #CurrentScene.sceneScript then
+            NavigationIndex = NavigationIndex + 1
+        elseif key == "return" then
+            -- TODO: Implement some sort of navigation tool
+        end
     end
 end
 
@@ -100,12 +112,7 @@ function love.draw()
     end
     love.graphics.setColor(1,1,1)
 
-    -- Added pause, additional cleaner graphics can be added in the future
-    if game_paused then 
-        love.graphics.rectangle( "line", 30, 30, love.graphics.getWidth() - 60, love.graphics.getHeight() - 60 )
-        love.graphics.print("THE GAME IS PAUSED", love.graphics.getWidth()/3, love.graphics.getHeight()/2, 0, 2, 2)
-    else
-        love.graphics.draw(
+    love.graphics.draw(
         Renderable, 
         dx*love.graphics.getWidth()/GraphicsWidth(),
         dy*love.graphics.getHeight()/GraphicsHeight(), 
@@ -113,5 +120,10 @@ function love.draw()
         love.graphics.getWidth()/GraphicsWidth(), 
         love.graphics.getHeight()/GraphicsHeight()
     )
+
+    -- Added pause, additional cleaner graphics can be added in the future
+    if game_paused then
+        DrawPauseScreen()
     end
+
 end
