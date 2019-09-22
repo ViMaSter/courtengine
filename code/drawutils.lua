@@ -161,7 +161,9 @@ function DrawCenteredRectangle(options)
     end
 end
 
-function DrawPauseScreen()
+-- TODO: This matches the Switch UI but not the DS UI, and should be updated
+-- after the art team has established the look
+function DrawPauseScreen(self)
     -- Add a light overlay
     love.graphics.setColor(1, 1, 1, 0.3)
     love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
@@ -181,4 +183,40 @@ function DrawPauseScreen()
     -- Temporary text where the settings should go
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("THE GAME IS PAUSED", love.graphics.getWidth()/3 + 15, 120, 0, 2, 2)
+
+    -- Temporary(?) tools for easier developing/testing
+    love.graphics.print("Scene Script - navigate with arrow keys", 240, 220, 0, 1, 1)
+    local boxWidth = love.graphics.getWidth() * 3/5 - 70
+    local boxHeight = 400
+    love.graphics.setColor(0.5, 0.5, 0.5)
+    love.graphics.rectangle(
+        "fill",
+        240,
+        240,
+        boxWidth,
+        boxHeight
+    )
+
+    -- Only show up to 10 events for them to go back and forth between
+    love.graphics.setColor(1, 1, 1)
+
+    local firstIndex = NavigationIndex > 5 and (NavigationIndex - 5) or 1
+    local displayedIndex = 1
+    for i=firstIndex, firstIndex + 9 do
+        if i < #CurrentScene.sceneScript then
+            local label = i
+            for j=1, #CurrentScene.sceneScript[i].lineParts do
+                label = label.." "..CurrentScene.sceneScript[i].lineParts[j]
+            end
+
+            if i == NavigationIndex then
+                love.graphics.setColor(0.98, 0.82, 0.38)
+            else
+                love.graphics.setColor(1, 1, 1)
+            end
+
+            love.graphics.print(label, 245, 250 + 40 * (displayedIndex - 1), 0, 1, 1)
+            displayedIndex = displayedIndex + 1
+        end
+    end
 end

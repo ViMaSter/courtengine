@@ -29,6 +29,7 @@ function NewScene(scriptPath)
     -- the script is made up of individual "events"
     -- events are defined in scriptevents.lua
     LoadScript(self, scriptPath)
+    self.currentEventIndex = 1
 
     -- run a function definition defined in the script
     self.runDefinition = function (self, defName, loc)
@@ -53,6 +54,7 @@ function NewScene(scriptPath)
 
         while #self.events >= 1 and not self.events[1]:update(self, dt) do
             table.remove(self.events, 1)
+            self.currentEventIndex = self.currentEventIndex + 1
         end
 
         self.charAnimIndex = self.charAnimIndex + dt*5

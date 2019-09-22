@@ -38,6 +38,7 @@ function love.load(arg)
         if arg[argIndex] == "skip" then
             for i=1, tonumber(arg[argIndex+1]) do
                 table.remove(CurrentScene.events, 1)
+                CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
             end
         end
         argIndex = argIndex + 1
@@ -79,7 +80,17 @@ end
 -- basic pause functionality
 function love.keypressed(key)
     if key == "escape" then
+        NavigationIndex = CurrentScene.currentEventIndex
         game_paused = not game_paused
+    elseif game_paused then
+        -- Let the user navigate
+        if key == "up" and NavigationIndex > 1 then
+            NavigationIndex = NavigationIndex - 1
+        elseif key == "down" and NavigationIndex < #CurrentScene.sceneScript then
+            NavigationIndex = NavigationIndex + 1
+        elseif key == "return" then
+            -- TODO: Implement some sort of navigation tool
+        end
     end
 end
 
