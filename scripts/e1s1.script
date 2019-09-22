@@ -1,19 +1,15 @@
-SET_SCENE_TYPE INVESTIGATION 
+SET_SCENE_TYPE INVESTIGATION
 
 CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
 CHARACTER_LOCATION Phoenix NONE
 
-CHARACTER_INITIALIZE Mia characters/mia FEMALE
-CHARACTER_INITIALIZE_POSE Mia Ohmy
+CHARACTER_INITIALIZE Mia mia FEMALE
 CHARACTER_LOCATION Mia NONE
 
-CHARACTER_INITIALIZE Butz characters/butz MALE
-CHARACTER_INITIALIZE_POSE Butz Sweaty UNPADDED
-CHARACTER_INITIALIZE_POSE Butz Nervous UNPADDED
-CHARACTER_INITIALIZE_POSE Butz ThumbsUp UNPADDED
+CHARACTER_INITIALIZE Butz butz MALE
 CHARACTER_LOCATION Butz NONE
 
-CHARACTER_INITIALIZE ??? characters/butz MALE
+CHARACTER_INITIALIZE ??? butz MALE
 CHARACTER_LOCATION ??? NONE
 
 EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
@@ -50,6 +46,7 @@ SPEAK Phoenix
 SPEAK Phoenix
     "Actually, it's because I owe him a favor."
 
+POSE Mia Ohmy
 SPEAK Mia
     "A favor?"
 
@@ -65,6 +62,7 @@ SPEAK Phoenix
 SPEAK Phoenix
     "He's one of the reasons I became an attorney."
 
+POSE Mia Normal
 SPEAK Mia
     "Well, that's news to me!"
 
