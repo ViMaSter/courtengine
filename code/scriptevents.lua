@@ -298,6 +298,7 @@ function NewChoiceEvent(options)
     -- this is for FakeChoiceEvent polymorphism
     -- if a choice is fake, then whatever option the player chooses still continues the script
     self.isFake = false
+    self.hasDone = false
 
     self.update = function (self, scene, dt)
         local pressingUp = love.keyboard.isDown("up")
@@ -324,21 +325,26 @@ function NewChoiceEvent(options)
 
         local pressingX = love.keyboard.isDown("x")
 
-        if pressingX and not self.wasPressingX then
-            if self.options[self.select+1] == "0" then
-                return false
-            else
-                scene:runDefinition(self.options[self.select+1])
-
-                if self.isFake then
+        if not self.hasDone then
+            if pressingX and not self.wasPressingX then
+                if self.options[self.select+1] == "0" then
                     return false
+                else
+                    scene:runDefinition(self.options[self.select+1])
+
+                    if self.isFake then
+                        self.hasDone = true
+                        return false
+                    end
                 end
             end
+
+            self.wasPressingX = pressingX
+
+            return true
+        else
+            return false
         end
-
-        self.wasPressingX = pressingX
-
-        return true
     end
 
     self.draw = function (self, scene)

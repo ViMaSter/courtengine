@@ -199,6 +199,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CHOICE" then
                     choiceQueue = {}
                 end
+                if lineParts[1] == "FAKE_CHOICE" then
+                    fakeChoiceQueue = {}
+                end
                 if lineParts[1] == "INVESTIGATION_MENU" then
                     invMenuQueue = {}
                 end
@@ -245,8 +248,10 @@ function DisectLine(line)
     local isDialogue = false
     local isComment = false
     local wordBuild = ""
+    local openQuote = true
 
-    for i=1, #line do
+    local i = 1
+    while i <= #line do
         local thisChar = string.sub(line, i,i)
         local thisDoubleChar = string.sub(line, i,i+1)
         local canAddToWord = true
@@ -259,12 +264,18 @@ function DisectLine(line)
             canAddToWord = false
         end
 
-        if canAddToWord
-        and thisChar == "@"
-        and not isDialogue then
+        if thisDoubleChar == "$q" then
             canAddToWord = false
+            if openQuote then
+                -- backtick corresponds to open quotation marks in the font image
+                wordBuild = wordBuild .. '`'
+            else
+                -- quotation marks correspond to closed quotation marks in the font image
+                wordBuild = wordBuild .. '"'
+            end
 
-            table.insert(words, "@")
+            openQuote = not openQuote
+            i=i+1
         end
 
         if canAddToWord and thisChar == '"' then
@@ -290,6 +301,8 @@ function DisectLine(line)
         if canAddToWord then
             wordBuild = wordBuild .. thisChar
         end
+
+        i=i+1
     end
 
     if #wordBuild > 0 then

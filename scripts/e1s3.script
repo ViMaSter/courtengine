@@ -1,0 +1,58 @@
+SET_SCENE_TYPE TRIAL 
+
+CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
+CHARACTER_INITIALIZE_POSE Phoenix Point
+CHARACTER_INITIALIZE_POSE Phoenix Sweaty
+CHARACTER_INITIALIZE_POSE Phoenix Confident
+CHARACTER_INITIALIZE_ANIMATION Phoenix DeskSlam
+CHARACTER_INITIALIZE_SOUND Phoenix objection
+CHARACTER_INITIALIZE_SOUND Phoenix holdit
+
+CHARACTER_INITIALIZE Payne characters/payne MALE
+CHARACTER_INITIALIZE_POSE Payne Confident
+CHARACTER_INITIALIZE_POSE Payne Sweaty
+CHARACTER_INITIALIZE_SOUND Payne objection
+
+CHARACTER_INITIALIZE Judge characters/judge MALE
+
+CHARACTER_INITIALIZE Mia characters/mia FEMALE
+CHARACTER_INITIALIZE_POSE Mia Ohmy
+
+CHARACTER_INITIALIZE Butz characters/butz MALE
+CHARACTER_INITIALIZE_POSE Butz Sweaty UNPADDED
+CHARACTER_INITIALIZE_POSE Butz Nervous UNPADDED
+CHARACTER_INITIALIZE_POSE Butz ThumbsUp UNPADDED
+
+CHARACTER_LOCATION Phoenix COURT_DEFENSE
+CHARACTER_LOCATION Payne COURT_PROSECUTION
+CHARACTER_LOCATION Judge COURT_JUDGE
+CHARACTER_LOCATION Mia COURT_ASSISTANT
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
+COURT_RECORD_ADD Badge
+EVIDENCE_INITIALIZE Autopsy "Cindy's Autopsy Report" "7/31 4-5PM, Blunt Trauma" evidence/autopsy.png
+COURT_RECORD_ADD Autopsy
+EVIDENCE_INITIALIZE Statue "Statue" "A statue of The Thinker" evidence/thinker.png
+COURT_RECORD_ADD Statue
+EVIDENCE_INITIALIZE Passport "Passport" "Arrived home from Paris on 7/30" evidence/passport.png
+COURT_RECORD_ADD Passport
+
+DEFINE TRIAL_FAIL
+    SPEAK_FROM COURT_JUDGE
+        "Phoenix, you lost."
+
+    POSE Payne Confident
+    SPEAK_FROM COURT_PROSECUTION
+        "Haha! The rookie killer strikes again."
+
+    POSE Mia Ohmy
+    SPEAK_FROM COURT_ASSISTANT
+        "Phoenix, how could you?"
+
+    GAME_OVER
+END_DEFINE
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SAWHIT TESTIMONY
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
