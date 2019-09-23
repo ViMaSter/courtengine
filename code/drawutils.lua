@@ -220,3 +220,7 @@ function DrawPauseScreen(self)
         end
     end
 end
+
+function DrawMainMenu(self)
+
+end
