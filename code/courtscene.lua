@@ -108,7 +108,7 @@ function NewScene(scriptPath)
 
         -- draw the character who is at the current location
         local character = self.characterLocations[self.location]
-        if character ~= nil 
+        if character ~= nil
         and self.characters[character.name].poses[character.frame] ~= nil
         and self.canShowCharacter then
             local char = self.characters[character.name]

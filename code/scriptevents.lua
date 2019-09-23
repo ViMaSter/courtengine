@@ -127,7 +127,7 @@ function NewSpeakEvent(who, text, locorlit, color)
         if self.color == "GREEN" then
             scene.textColor = {0,1,0.25}
         end
-        
+
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
         local pressing = love.keyboard.isDown("x")
@@ -313,7 +313,7 @@ function NewChoiceEvent(options)
         end
 
         if not self.wasPressingDown and pressingDown then
-            self.select = self.select + 2 
+            self.select = self.select + 2
 
             if self.select > #self.options -1 then
                 self.select = 1
@@ -401,7 +401,7 @@ function NewFadeToBlackEvent()
         scene.textHidden = true
         scene.canShowCourtRecord = false
 
-        local lastTimer = self.timer 
+        local lastTimer = self.timer
         self.timer = self.timer + dt
 
         return self.timer <= 1 and lastTimer <= 1

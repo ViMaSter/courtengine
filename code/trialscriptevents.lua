@@ -4,6 +4,7 @@ function NewShoutEvent(who, what)
     self.x,self.y = 0,0
     self.who = who
     self.what = what
+    local shout = Shouts[self.what]
 
     self.update = function (self, scene, dt)
         scene.textHidden = true
@@ -16,7 +17,7 @@ function NewShoutEvent(who, what)
     end
 
     self.draw = function (self, scene)
-        love.graphics.draw(_G[self.what], self.x,self.y)
+        love.graphics.draw(shout, self.x,self.y)
     end
 
     return self
