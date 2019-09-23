@@ -220,3 +220,9 @@ function DrawPauseScreen(self)
         end
     end
 end
+
+function DrawMainMenu(self)
+    myButton = {
+		x = 10, y = 10, image=love.graphics.newImage("main_logo.png"), clicked = false
+    }
+end
