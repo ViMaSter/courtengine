@@ -1,6 +1,6 @@
 --[[
 
-Automatically Asset Import To-Do List:
+Automatic Asset Import To-Do List:
 ✓ Auto import backgrounds
 ✓ Auto import music
 - Auto import sprites
