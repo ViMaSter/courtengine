@@ -8,6 +8,7 @@ require "code/assets"
 require "code/controlscriptevents"
 require "code/drawutils"
 require "code/titlescene"
+require "config" -- controls text file
 
 
 function love.load(arg)
@@ -84,21 +85,21 @@ end
 
 -- basic pause functionality
 function love.keypressed(key)
-    if key == "escape" then
+    if key == controls.pause then
         NavigationIndex = CurrentScene.currentEventIndex
         game_paused = not game_paused
     elseif game_paused then
         -- Let the user navigate
-        if key == "up" and NavigationIndex > 1 then
+        if key == controls.pause_nav_up and NavigationIndex > 1 then
             NavigationIndex = NavigationIndex - 1
-        elseif key == "down" and NavigationIndex < #CurrentScene.sceneScript then
+        elseif key == controls.pause_nav_down and NavigationIndex < #CurrentScene.sceneScript then
             NavigationIndex = NavigationIndex + 1
-        elseif key == "return" then
+        elseif key == controls.pause_confrim then
             -- TODO: Implement some sort of navigation tool
         end
     end
 end
-
+    
 
 function love.draw()
     love.graphics.setColor(1,1,1)

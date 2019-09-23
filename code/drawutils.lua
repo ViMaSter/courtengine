@@ -1,3 +1,4 @@
+require "../config"
 function DrawCenteredRectangle(options)
     local borderSize = options.borderSize or 2
     local borderColorAlpha = options.borderColorAlpha or {1, 1, 1, 1}
@@ -175,7 +176,7 @@ function DrawPauseScreen(self)
         buttons = {
             {
                 title = "Back",
-                key = "Esc"
+                key = controls.pause
             },
         },
     })
@@ -219,8 +220,4 @@ function DrawPauseScreen(self)
             displayedIndex = displayedIndex + 1
         end
     end
-end
-
-function DrawMainMenu(self)
-
 end
