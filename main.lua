@@ -21,14 +21,6 @@ function love.load(arg)
 
     -- set up the current scene
     Episode = {}
-
-    -- basic menu screen
-    
-    -- image_size = love.graphics.draw("main_logo.png", 200, 200, 0, 0.5, 0.5)
-    
-    myButton = {
-		x = 10, y = 10, image=love.graphics.newImage("main_logo.png"), clicked = false
-    }
     
     for line in love.filesystem.lines("scripts/episode1.meta") do
         table.insert(Episode, line)
@@ -101,6 +93,7 @@ function love.keypressed(key)
             -- TODO: Implement some sort of navigation tool
         end
     end
+    DrawMainMenu()
     if myButton.clicked == false and key == "p" then
         myButton.clicked = true
     end
@@ -111,7 +104,7 @@ function love.draw()
 
     love.graphics.setColor(1,1,1)
     love.graphics.setCanvas(Renderable)
-    love.graphics.clear(50, 157, 168)
+    love.graphics.clear(1,1,1)
     love.graphics.draw(myButton.image, 0, 0, 0, 0.16, 0.16)
     love.graphics.setColor(255, 0, 0, 255)
     love.graphics.print("Press P to start", 80, 150,0 ,1,1)
