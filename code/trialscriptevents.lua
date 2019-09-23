@@ -117,11 +117,11 @@ function NewCrossExaminationEvent(queue)
 
     self.draw = function (self, scene)
         if self.timer < self.animationTime then
-            love.graphics.draw(CrossExaminationSprite, GraphicsWidth()/2,GraphicsHeight()/2 -24, 0, 1,1, CrossExaminationSprite:getWidth()/2,CrossExaminationSprite:getHeight()/2)
+            love.graphics.draw(Sprites["CrossExamination"], GraphicsWidth()/2,GraphicsHeight()/2 -24, 0, 1,1, CrossExaminationSprite:getWidth()/2,CrossExaminationSprite:getHeight()/2)
         else
             love.graphics.setColor(1,1,1)
             for i=1, scene.penalties do
-                love.graphics.draw(PenaltySprite, (i-1)*12 +2,2)
+                love.graphics.draw(Sprites["Penalty"], (i-1)*12 +2,2)
             end
         end
     end
@@ -199,8 +199,9 @@ function NewWideShotEvent()
     end
 
     self.draw = function (self, scene)
-        love.graphics.draw(WideShotSprite)
-        love.graphics.draw(TalkingHeadAnimation[self.headAnim])
+        local talkingHeadAnimation = Sprites["TalkingHeadAnimation"]
+        love.graphics.draw(Sprites["WideShot"])
+        love.graphics.draw(talkingHeadAnimation[self.headAnim])
 
         for i,v in pairs(scene.characters) do
             love.graphics.draw(v.wideshot.source)
@@ -251,7 +252,8 @@ function NewGavelEvent()
     end
 
     self.draw = function (self, scene)
-        local spr = GavelAnimation[self.index]
+        local gavelAnimation = Sprites["GavelAnimation"]
+        local spr = gavelAnimation[self.index]
         love.graphics.draw(spr, 0,0, 0, GraphicsWidth()/spr:getWidth(),GraphicsHeight()/spr:getHeight())
     end
     return self

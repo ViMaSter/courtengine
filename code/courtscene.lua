@@ -12,7 +12,7 @@ function NewScene(scriptPath)
     self.text = "empty"
     self.fullText = "empty"
     self.textTalker = ""
-    self.textBoxSprite = TextBoxSprite
+    self.textBoxSprite = Sprites["TextBox"]
     self.textColor = {1,1,1}
     self.textCentered = false
     self.showCourtRecord = false
@@ -49,7 +49,7 @@ function NewScene(scriptPath)
         self.canShowCourtRecord = true
         self.canShowCharacter = true
         self.textCentered = false
-        self.textBoxSprite = TextBoxSprite
+        self.textBoxSprite = Sprites["TextBox"]
         self.characterTalking = false
 
         while #self.events >= 1 and not self.events[1]:update(self, dt) do

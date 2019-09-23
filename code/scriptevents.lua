@@ -170,7 +170,7 @@ function NewTypeWriterEvent(text)
         scene.textColor = {0,1,0}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = ""
-        scene.textBoxSprite = AnonTextBoxSprite
+        scene.textBoxSprite = Sprites["AnonTextBox"]
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then
@@ -203,7 +203,7 @@ function NewAddToCourtRecordAnimationEvent(text, evidence)
         scene.textColor = {0,0.2,1}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = ""
-        scene.textBoxSprite = AnonTextBoxSprite
+        scene.textBoxSprite = Sprites["AnonTextBox"]
 
         local pressing = love.keyboard.isDown("x")
         if pressing and not self.wasPressing and self.textScroll >= #self.text then

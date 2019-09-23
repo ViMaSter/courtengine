@@ -1,20 +1,3 @@
---[[
-
-Automatic Asset Import To-Do List:
-✓ Auto import backgrounds
-✓ Auto import music
-- Auto import sprites
-✓ Auto import shouts
-✓ Auto import sfx
-✓ Set up scripts to accept custom backgrounds
-- Set up scripts to accept custom music
-- Set up scripts to accept custom sprites
-✓ Set up scripts to accept custom shouts
-- Set up scripts to accept custom sfx
-✓ Set up backgrounds to support layered imports (through numbered filenames)
-
---]]
-
 function LoadBackgrounds()
     Backgrounds = {
         NONE = {},
@@ -23,21 +6,17 @@ function LoadBackgrounds()
     files = love.filesystem.getDirectoryItems("backgrounds/")
 
     for b, i in ipairs(files) do
-        print(i)
         if string.match(i,".png") then
             if string.match(i,"_1") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_1","")
-                print("1 "..a)
                 Backgrounds[a] = {love.graphics.newImage("backgrounds/"..i)}
             elseif string.match(i,"_2") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_2","")
-                print("2 "..a)
                 table.insert(Backgrounds[a],love.graphics.newImage("backgrounds/"..i))
             else
                 local a = i:gsub(".png","")
-                print("Clean "..a)
                 Backgrounds[a] = {love.graphics.newImage("backgrounds/"..i)}
             end
         end
@@ -66,12 +45,53 @@ function LoadMusic()
 end
 
 function LoadSprites()
-    TextBoxSprite = love.graphics.newImage("sprites/chatbox.png")
-    AnonTextBoxSprite = love.graphics.newImage("sprites/chatbox_headless.png")
-    CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
-    WideShotSprite = love.graphics.newImage("backgrounds/wideshot.png")
-    PenaltySprite = love.graphics.newImage("sprites/exclamation.png")
+    Sprites = {}
 
+    files = love.filesystem.getDirectoryItems("sprites/")
+
+    for b, i in ipairs(files) do
+        if string.match(i,".png") then
+            if string.match(i,"_") then
+                if string.match(i,"_1") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_1","")
+                    local a = a.."Animation"
+                    Sprites[a] = {love.graphics.newImage("sprites/"..i)}
+                elseif string.match(i,"_2") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_2","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_3") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_3","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_4") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_4","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_5") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_5","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_6") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_6","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                end
+            elseif string.match(i,"Font") then
+                False = false
+            else
+                local a = i:gsub(".png","")
+                Sprites[a] = love.graphics.newImage("sprites/"..i)
+            end
+        end
+    end
+end--[[
     GavelAnimation = {
         love.graphics.newImage("sprites/gavel1.png"),
         love.graphics.newImage("sprites/gavel2.png"),
@@ -84,7 +104,7 @@ function LoadSprites()
         love.graphics.newImage("sprites/talkingheads2.png"),
     }
 end
-
+--]]
 function LoadShouts()
     Shouts = {}
 
