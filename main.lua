@@ -8,6 +8,12 @@ require "code/assets"
 require "code/controlscriptevents"
 require "code/drawutils"
 
+
+myButton = {
+    x = 10, y = 10, image=love.graphics.newImage("main_logo.png"), clicked = false
+}
+    
+
 function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
     love.graphics.setDefaultFilter("nearest")
@@ -93,7 +99,6 @@ function love.keypressed(key)
             -- TODO: Implement some sort of navigation tool
         end
     end
-    DrawMainMenu()
     if myButton.clicked == false and key == "p" then
         myButton.clicked = true
     end
