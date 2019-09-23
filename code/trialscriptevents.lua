@@ -1,12 +1,13 @@
-function NewObjectionEvent(who)
+function NewShoutEvent(who, what)
     local self = {}
     self.timer = 0
     self.x,self.y = 0,0
     self.who = who
+    self.what = what
 
     self.update = function (self, scene, dt)
         scene.textHidden = true
-        scene.characters[self.who].sounds.objection:play()
+        scene.characters[self.who].sounds[self.what]:play()
         self.timer = self.timer + dt
         self.x = self.x + love.math.random()*choose{1,-1}*2
         self.y = self.y + love.math.random()*choose{1,-1}*2
@@ -15,30 +16,7 @@ function NewObjectionEvent(who)
     end
 
     self.draw = function (self, scene)
-        love.graphics.draw(ObjectionSprite, self.x,self.y)
-    end
-
-    return self
-end
-
-function NewHoldItEvent(who)
-    local self = {}
-    self.timer = 0
-    self.x,self.y = 0,0
-    self.who = who
-
-    self.update = function (self, scene, dt)
-        scene.textHidden = true
-        scene.characters[self.who].sounds.holdit:play()
-        self.timer = self.timer + dt
-        self.x = self.x + love.math.random()*choose{1,-1}*2
-        self.y = self.y + love.math.random()*choose{1,-1}*2
-
-        return self.timer < 0.5
-    end
-
-    self.draw = function (self, scene)
-        love.graphics.draw(HoldItSprite, self.x,self.y)
+        love.graphics.draw(_G[self.what], self.x,self.y)
     end
 
     return self

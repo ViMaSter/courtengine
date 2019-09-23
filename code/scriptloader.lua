@@ -176,11 +176,8 @@ function LoadScript(scene, scriptPath)
                     AddToStack(events, sceneScript, NewGameOverEvent(), lineParts)
                 end
 
-                if lineParts[1] == "OBJECTION" then
-                    AddToStack(events, sceneScript, NewObjectionEvent(lineParts[2]), lineParts)
-                end
-                if lineParts[1] == "HOLD_IT" then
-                    AddToStack(events, sceneScript, NewHoldItEvent(lineParts[2]), lineParts)
+                if lineParts[1] == "SHOUT" then
+                    AddToStack(events, sceneScript, NewShoutEvent(lineParts[2], lineParts[3]), lineParts)
                 end
                 if lineParts[1] == "WIDESHOT" then
                     AddToStack(events, sceneScript, NewWideShotEvent(), lineParts)
