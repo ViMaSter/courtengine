@@ -7,6 +7,8 @@ require "code/utils"
 require "code/assets"
 require "code/controlscriptevents"
 require "code/drawutils"
+require "code/titlescene"
+
 
 function love.load(arg)
     love.window.setMode(GraphicsWidth()*4, GraphicsHeight()*4, {})
@@ -18,17 +20,9 @@ function love.load(arg)
     ScreenShake = 0
 
     LoadAssets()
-
-    -- set up the current scene
-    Episode = {}
-    for line in love.filesystem.lines("scripts/episode1.meta") do
-        table.insert(Episode, line)
-    end
-    SceneIndex = 0
-    NextScene()
+    CurrentScene = NewTitleScene()
 
     local argIndex = 1
-
     while argIndex <= #arg do
         if arg[argIndex] == "script" then
             CurrentScene = NewScene(arg[argIndex+1])
@@ -43,6 +37,17 @@ function love.load(arg)
         end
         argIndex = argIndex + 1
     end
+end
+
+function LoadEpisode(episodePath)
+    -- set up the current scene
+    Episode = {}
+    
+    for line in love.filesystem.lines(episodePath) do
+        table.insert(Episode, line)
+    end
+    SceneIndex = 0
+    NextScene()
 end
 
 function NextScene()
@@ -60,7 +65,7 @@ function NextScene()
     end
 end
 
--- the constants for the resolution of the game
+-- the constants for the internal resolution of the game
 function GraphicsWidth()
     return 256
 end
@@ -96,16 +101,13 @@ end
 
 
 function love.draw()
-
     love.graphics.setColor(1,1,1)
     love.graphics.setCanvas(Renderable)
     love.graphics.clear(1,1,1)
     CurrentScene:draw()
-
     love.graphics.setCanvas()
 
     local dx,dy = 0,0
-
     if ScreenShake > 0 then
         dx = love.math.random()*choose{1,-1}*2
         dy = love.math.random()*choose{1,-1}*2
@@ -125,5 +127,4 @@ function love.draw()
     if game_paused then
         DrawPauseScreen()
     end
-
 end
