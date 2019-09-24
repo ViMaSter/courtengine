@@ -1,39 +1,97 @@
-function LoadAssets()
+function LoadBackgrounds()
     Backgrounds = {
         NONE = {},
-        BLACK_SCREEN = {love.graphics.newImage("backgrounds/blackscreen.png")},
-        LOBBY = {love.graphics.newImage("backgrounds/lobby.png")},
-        COURT_DEFENSE = {love.graphics.newImage("backgrounds/defenseempty.png"), love.graphics.newImage("backgrounds/defensedesk.png")},
-        COURT_PROSECUTION = {love.graphics.newImage("backgrounds/prosecutorempty.png"), love.graphics.newImage("backgrounds/prosecutiondesk.png")},
-        COURT_JUDGE = {love.graphics.newImage("backgrounds/judgestand.png")},
-        COURT_WITNESS = {love.graphics.newImage("backgrounds/witnessempty.png"), love.graphics.newImage("backgrounds/stand.png")},
-        COURT_ASSISTANT = {love.graphics.newImage("backgrounds/helperstand.png")},
     }
 
-    Music = {
-        TRIAL = love.audio.newSource("music/trial.mp3", "static"),
-        OBJECTION = love.audio.newSource("music/objection.mp3", "static"),
-        SUSPENCE = love.audio.newSource("music/suspence.mp3", "static"),
-        QUESTIONING_ALLEGRO = love.audio.newSource("music/questioning_allegro.mp3", "static"),
-        QUESTIONING = love.audio.newSource("music/questioning.mp3", "static"),
-        PRELUDE = love.audio.newSource("music/prelude.mp3", "static"),
-        LOGIC_AND_TRICK = love.audio.newSource("music/logic_and_trick.mp3", "static"),
-    }
+    files = love.filesystem.getDirectoryItems("backgrounds/")
+
+    for b, i in ipairs(files) do
+        if string.match(i,".png") then
+            if string.match(i,"_1") then
+                local a = i:gsub(".png","")
+                local a = a:gsub("_1","")
+                Backgrounds[a] = {love.graphics.newImage("backgrounds/"..i)}
+            elseif string.match(i,"_2") then
+                local a = i:gsub(".png","")
+                local a = a:gsub("_2","")
+                table.insert(Backgrounds[a],love.graphics.newImage("backgrounds/"..i))
+            else
+                local a = i:gsub(".png","")
+                Backgrounds[a] = {love.graphics.newImage("backgrounds/"..i)}
+            end
+        end
+    end
+end
+
+function LoadMusic()
+    Music = {}
+
+    files = love.filesystem.getDirectoryItems("music/")
+
+    for b, i in ipairs(files) do
+        if string.match(i,".mp3") then
+            local a = i:gsub(".mp3",""):upper()
+            Music[a] = love.audio.newSource("music/"..i, "static")
+        elseif string.match(i,".wav") then
+            local a = i:gsub(".wav",""):upper()
+            Music[a] = love.audio.newSource("music/"..i, "static")
+        end
+    end
 
     for i,v in pairs(Music) do
         v:setLooping(true)
         v:setVolume(MasterVolume)
     end
-    
-    TextBoxSprite = love.graphics.newImage("sprites/chatbox.png")
-    AnonTextBoxSprite = love.graphics.newImage("sprites/chatbox_headless.png")
-    ObjectionSprite = love.graphics.newImage("sprites/objection.png")
-    HoldItSprite = love.graphics.newImage("sprites/holdit.png")
-    CrossExaminationSprite = love.graphics.newImage("sprites/cross_examination.png")
-    WideShotSprite = love.graphics.newImage("backgrounds/wideshot.png")
-    PenaltySprite = love.graphics.newImage("sprites/exclamation.png")
-    CourtPanSprite = love.graphics.newImage("backgrounds/courtpan.png")
+end
 
+function LoadSprites()
+    Sprites = {}
+
+    files = love.filesystem.getDirectoryItems("sprites/")
+
+    for b, i in ipairs(files) do
+        if string.match(i,".png") then
+            if string.match(i,"_") then
+                if string.match(i,"_1") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_1","")
+                    local a = a.."Animation"
+                    Sprites[a] = {love.graphics.newImage("sprites/"..i)}
+                elseif string.match(i,"_2") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_2","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_3") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_3","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_4") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_4","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_5") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_5","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                elseif string.match(i,"_6") then
+                    local a = i:gsub(".png","")
+                    local a = a:gsub("_6","")
+                    local a = a.."Animation"
+                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                end
+            elseif string.match(i,"Font") then
+                False = false
+            else
+                local a = i:gsub(".png","")
+                Sprites[a] = love.graphics.newImage("sprites/"..i)
+            end
+        end
+    end
+end--[[
     GavelAnimation = {
         love.graphics.newImage("sprites/gavel1.png"),
         love.graphics.newImage("sprites/gavel2.png"),
@@ -45,20 +103,52 @@ function LoadAssets()
         love.graphics.newImage("sprites/talkingheads3.png"),
         love.graphics.newImage("sprites/talkingheads2.png"),
     }
+end
+--]]
+function LoadShouts()
+    Shouts = {}
 
-    Sounds = {
-        MUTTER = love.audio.newSource("sounds/sfx-gallery.wav", "static"),
-        GAVEL = love.audio.newSource("sounds/sfx-gavel.wav", "static"),
-        MALETALK = love.audio.newSource("sounds/sfx-blipmale.wav", "static"),
-        FEMALETALK = love.audio.newSource("sounds/sfx-blipfemale.wav", "static"),
-        TYPEWRITER = love.audio.newSource("sounds/sfx-typewriter.wav", "static"),
-    }
+    files = love.filesystem.getDirectoryItems("sprites/shouts/")
+
+    for b, i in ipairs(files) do
+        if string.match(i,".png") then
+            local a = i:gsub(".png","")
+            Shouts[a] = love.graphics.newImage("sprites/shouts/"..i)
+        end
+    end
+end
+
+function LoadSFX()
+    Sounds = {}
+
+    files = love.filesystem.getDirectoryItems("sounds/")
+
+    for b, i in ipairs(files) do
+        if string.match(i,".mp3") then
+            local a = i:gsub(".mp3",""):upper()
+            Sounds[a] = love.audio.newSource("sounds/"..i, "static")
+        elseif string.match(i,".wav") then
+            local a = i:gsub(".wav",""):upper()
+            Sounds[a] = love.audio.newSource("sounds/"..i, "static")
+        end
+    end
 
     for i,v in pairs(Sounds) do
         v:setVolume(MasterVolume/2)
     end
+end
 
+function LoadMisc()
     GameFont = love.graphics.newImageFont("sprites/FontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():,-'*" .. '`"', 2)
     SmallFont = love.graphics.newImageFont("sprites/SmallFontImage.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?~():", 1)
     love.graphics.setFont(GameFont)
+end
+
+function LoadAssets()
+    LoadBackgrounds()
+    LoadMusic()
+    LoadSprites()
+    LoadShouts()
+    LoadSFX()
+    LoadMisc()
 end
