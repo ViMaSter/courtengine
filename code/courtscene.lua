@@ -1,3 +1,5 @@
+require "../config"
+
 function NewScene(scriptPath)
     local self = {}
     self.location = "NONE"
@@ -61,7 +63,7 @@ function NewScene(scriptPath)
         self.charAnimIndex = self.charAnimIndex + dt*5
 
         -- open and close the court record
-        local pressingCourtRecord = love.keyboard.isDown("z")
+        local pressingCourtRecord = love.keyboard.isDown(controls.press_court_record)
         if pressingCourtRecord and not self.wasPressingCourtRecord then
             self.showCourtRecord = not self.showCourtRecord
         end
@@ -76,8 +78,8 @@ function NewScene(scriptPath)
         end
 
         -- move left and right through the court record
-        local pressingRight = love.keyboard.isDown("right")
-        local pressingLeft = love.keyboard.isDown("left")
+        local pressingRight = love.keyboard.isDown(controls.press_right)
+        local pressingLeft = love.keyboard.isDown(controls.press_left)
 
         if pressingRight and not self.wasPressingRight then
             self.courtRecordIndex = self.courtRecordIndex + 1
