@@ -94,7 +94,7 @@ function love.keypressed(key)
             NavigationIndex = NavigationIndex - 1
         elseif key == controls.pause_nav_down and NavigationIndex < #CurrentScene.sceneScript then
             NavigationIndex = NavigationIndex + 1
-        elseif key == controls.pause_confrim then
+        elseif key == controls.pause_confirm then
             -- TODO: Implement some sort of navigation tool
         end
     end
