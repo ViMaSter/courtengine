@@ -1,5 +1,1 @@
-function PauseMenuEvent()
-    if love.keyboard.isDown("p") then
-        game_paused = not game_paused
-    end
-end
+-- this file isn't in use right now

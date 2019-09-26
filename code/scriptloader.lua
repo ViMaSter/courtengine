@@ -238,7 +238,8 @@ function LoadScript(scene, scriptPath)
                     queuedTypewriter = {}
                 end
                 if lineParts[1] == "COURT_RECORD_ADD_ANIMATION" then
-                    evidenceAddQueue = {lineParts[2]}
+                    AddToStack(events, sceneScript, NewCourtRecordAddEvent(lineParts[2]), lineParts)
+                    AddToStack(events, sceneScript, NewAddToCourtRecordAnimationEvent(lineParts[2]), lineParts)
                 end
             end
         end
