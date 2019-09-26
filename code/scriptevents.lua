@@ -151,7 +151,6 @@ function NewThinkEvent(who, text, locorlit)
     local self = NewSpeakEvent(who, text, locorlit)
     self.color = "LTBLUE"
     self.animates = false
-    self.speaks = false
 
     return self
 end
@@ -460,6 +459,20 @@ function NewIfEvent(flag, test, def)
         end
 
         return false
+    end
+
+    return self
+end
+
+function NewWaitEvent(seconds)
+    local self = {}
+    self.timer = 0
+    self.seconds = seconds
+
+    self.update = function (self, scene, dt)
+        self.timer = self.timer + dt
+
+        return self.timer < self.seconds
     end
 
     return self
