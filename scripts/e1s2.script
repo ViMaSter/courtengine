@@ -347,9 +347,7 @@ SPEAK_FROM COURT_JUDGE
     "I see... the court accepts it into evidence."
 
 EVIDENCE_INITIALIZE Statue "Statue" "A statue of The Thinker" evidence/thinker.png
-COURT_RECORD_ADD Statue
 COURT_RECORD_ADD_ANIMATION Statue
-    "Statue added to#the Court Record"
 
 SPEAK_FROM COURT_ASSISTANT
     "Wright..."
@@ -437,9 +435,7 @@ SPEAK_FROM COURT_PROSECUTION
     "According to this, she was in Paris until the day before she died."
 
 EVIDENCE_INITIALIZE Passport "Passport" "Arrived home from Paris on 7/30" evidence/passport.png
-COURT_RECORD_ADD Passport
 COURT_RECORD_ADD_ANIMATION Passport
-    "Passport added to#the Court Record"
 
 SPEAK_FROM COURT_JUDGE
     "Hmm... Indeed, she appears to have returned the day before the murder."
