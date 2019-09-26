@@ -59,3 +59,11 @@ function RGBAColorConvert(r,g,b,a)
     local a = a/255
     return r,g,b,a
 end
+
+function SetColor256(r,g,b,a)
+    if a == nil then
+        a = 255
+    end
+
+    love.graphics.setColor(r/255,g/255,b/255,a/255)
+end
