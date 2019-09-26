@@ -205,7 +205,8 @@ function NewAddToCourtRecordAnimationEvent(text, evidence)
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
         scene.fullText = self.text
         scene.textCentered = true
-        scene.textColor = {0,0.2,1}
+        local r,g,b = RGBColorConvert(107,198,247)
+        scene.textColor = {r,g,b}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = ""
         scene.textBoxSprite = Sprites["AnonTextBox"]

@@ -44,3 +44,18 @@ function deepcopy(orig)
     end
     return copy
 end
+
+function RGBColorConvert(r,g,b,a)
+    local r = r/255
+    local g = g/255
+    local b = b/255
+    return r,g,b
+end
+
+function RGBAColorConvert(r,g,b,a)
+    local r = r/255
+    local g = g/255
+    local b = b/255
+    local b = a/255
+    return r,g,b,a
+end
