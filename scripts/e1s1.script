@@ -159,6 +159,9 @@ SPEAK Phoenix
 SPEAK Phoenix
     "The guy they arrested was the unlucky sap dating her:"
 
+POSE Butz Normal
+CHARACTER_LOCATION Butz BLACK_SCREEN
+
 SPEAK Phoenix
     "Larry Butz... my best friend since grade school."
 
