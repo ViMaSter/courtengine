@@ -102,7 +102,7 @@ function NewScene(scriptPath)
 
     self.drawCharacterAt = function (self, characterLocation, x,y)
         local character = self.characterLocations[characterLocation]
-        if character ~= nil 
+        if character ~= nil
         and self.characters[character.name].poses[character.frame] ~= nil then
             local char = self.characters[character.name]
             local pose = char.poses[character.frame]
@@ -167,7 +167,7 @@ function NewScene(scriptPath)
             love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
 
             love.graphics.setColor(0,0,0)
-            love.graphics.printf("court record", 0,0, GraphicsWidth(), "center")
+            love.graphics.printf("Court Record", 0,0, GraphicsWidth(), "center")
 
             love.graphics.setColor(1,1,1)
             if #self.courtRecord >= self.courtRecordIndex then
@@ -180,7 +180,9 @@ function NewScene(scriptPath)
 
                 local name = self.courtRecord[self.courtRecordIndex].info
                 local rectWidth = #name*8
+                love.graphics.setFont(SmallFont)
                 love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
+                love.graphics.setFont(GameFont)
 
             else
                 love.graphics.printf("empty", 0,48, GraphicsWidth(), "center")

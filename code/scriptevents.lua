@@ -111,7 +111,7 @@ function NewSpeakEvent(who, text, locorlit, color)
         end
 
         local currentChar = string.sub(self.text, math.floor(self.textScroll), math.floor(self.textScroll))
-        if self.textScroll > lastScroll 
+        if self.textScroll > lastScroll
         and currentChar ~= " "
         and currentChar ~= ","
         and currentChar ~= "-"
@@ -360,7 +360,9 @@ function NewChoiceEvent(options)
             end
             love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth(),28)
             love.graphics.setColor(1,1,1)
+            love.graphics.setFont(SmallFont)
             love.graphics.print(self.options[i], 150,30+(i-1)*16)
+            love.graphics.setFont(GameFont)
         end
     end
 

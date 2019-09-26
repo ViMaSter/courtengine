@@ -14,7 +14,7 @@ function NewTitleScene()
         love.graphics.setColor(1,1,1)
         love.graphics.draw(self.image, 0, 0, 0, 0.16, 0.16)
         love.graphics.setColor(1,0,0)
-        love.graphics.print("Press "..controls.start_button.." to start", 80, 150,0 ,1,1)
+        love.graphics.print("Press "..string.upper(controls.start_button).." To Start", 80, 150,0 ,1,1)
     end
 
     return self
