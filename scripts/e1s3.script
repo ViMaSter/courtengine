@@ -51,9 +51,9 @@ DEFINE TRIAL_FAIL
     GAME_OVER
 END_DEFINE
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SAHWIT TESTIMONY
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 JUMPCUT COURT_WITNESS  // Need to hold on him for a few seconds
 
@@ -82,9 +82,9 @@ WITNESS_TESTIMONY Sahwit "-- Witness's Account --"
     "I remember the time exactly: It was 1:00 PM."  // Courtroom
     "The man who ran was, without a doubt, the defendant sitting right over there."
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // END TESTIMONY
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 SPEAK_FROM COURT_JUDGE  // Angry pose
     "Hmm..."
@@ -162,12 +162,12 @@ SPEAK Phoenix
 SPEAK Mia
     "Touch the Court Record button and point out contradictions in the testimony!"  // "Court Record" and "contradictions" are red
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CROSS EXAMINATION
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEFINE PressA1
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "Isn't a man leaving an apartment a common sight? I find it odd you would take notice of him..."
 
@@ -185,7 +185,7 @@ DEFINE PressA1
 END_DEFINE
 
 DEFINE PressA2
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "Half-open... you say?"
 
@@ -197,7 +197,7 @@ DEFINE PressA2
 END_DEFINE
 
 DEFINE PressA3
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "What gave you the idea to do that?"
 
@@ -216,7 +216,7 @@ DEFINE PressA3
 END_DEFINE
 
 DEFINE PressA4
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
     ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
@@ -234,7 +234,7 @@ DEFINE PressA4
 END_DEFINE
 
 DEFINE PressA5
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "So, you didn't touch ANYTHING in the apartment?"
 
@@ -246,7 +246,7 @@ DEFINE PressA5
 END_DEFINE
 
 DEFINE PressA6
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
     ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
@@ -257,7 +257,7 @@ DEFINE PressA6
 END_DEFINE
 
 DEFINE PressA7
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "The phone in her apartment wasn't working?"
 
@@ -275,7 +275,7 @@ DEFINE PressA7
 END_DEFINE
 
 DEFINE PressA8
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "Why use a public phone?"
 
@@ -287,7 +287,7 @@ DEFINE PressA8
 END_DEFINE
 
 DEFINE PressA9
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
     ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
@@ -305,7 +305,7 @@ DEFINE PressA9
 END_DEFINE
 
 DEFINE PressA10
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
     ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
@@ -339,11 +339,11 @@ CROSS_EXAMINATION Sahwit "-- Witness's Account --" CrossExamFail
 // "That's all of it. There must be a contradiction in there somewhere. Examine the Court Record button if something strikes you as being suspicious. Then, find the evidence that contradictsh is testimony, and present it to him!"
 // "Court Record" and "present" are red
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CONTINUING TRIAL
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-OBJECTION Phoenix  // Scren shakes with objection
+SHOUT Phoenix objection
 PLAY_MUSIC OBJECTION
 POSE Phoenix Point
 SPEAK_FROM COURT_DEFENSE
@@ -377,7 +377,7 @@ SPEAK_FROM COURT_WITNESS  // Sweaty pose
 SPEAK Sahwit  // Sweaty pose
     "Oh, that! Oh, er..."
 
-OBJECTION Payne
+SHOUT Payne objection
 JUMPCUT COURT_PROSECUTION
 POSE Payne Sweaty
 SPEAK Payne
@@ -404,9 +404,9 @@ SPEAK Sahwit
 SPEAK_FROM COURT_JUDGE  // Angry pose
     "Would you care to give your testimony again?"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SAHWIT TESTIMONY 2
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Background starts in courtroom
 WITNESS_TESTIMONY Sahwit "-- The Time of Discovery --"
@@ -426,12 +426,12 @@ SPEAK_FROM COURT_ASSISTANT
 SPEAK Phoenix
     "I've got this one."
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CROSS EXAMINATION 2
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DEFINE PressB1
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "You said $qheard$q... Not $qsaw$q?"
 
@@ -444,7 +444,7 @@ DEFINE PressB1
     SPEAK Phoenix
         "So you're saying you $qheard$q something. But if you were so shocked by the body, you wouldn't hear anything at all!"
 
-    OBJECTION Payne
+    SHOUT Payne objection
     JUMPCUT COURT_PROSECUTION
     POSE Payne Sweaty
     SPEAK Payne
@@ -455,7 +455,7 @@ DEFINE PressB1
 END_DEFINE
 
 DEFINE PressB2
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE 
         "Are you sure it was a television and not... a radio?"
 
@@ -473,7 +473,7 @@ DEFINE PressB2
 END_DEFINE
 
 DEFINE PressB3
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
     POSE Phoenix Point
     SPEAK Phoenix
@@ -484,7 +484,7 @@ DEFINE PressB3
 END_DEFINE
 
 DEFINE PressB4
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE  // Thinking pose
         "A... video?"
 
@@ -502,7 +502,7 @@ DEFINE PressB4
 END_DEFINE
 
 DEFINE PressB5
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     SPEAK_FROM COURT_DEFENSE
         "Are you sure the voice you heard said it was 1:00 PM?"
 
@@ -522,7 +522,7 @@ DEFINE PressB5
 END_DEFINE
 
 DEFINE PressB6
-    HOLD_IT Phoenix
+    SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
     POSE Phoenix Point
     SPEAK Phoenix
