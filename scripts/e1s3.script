@@ -120,7 +120,6 @@ SPEAK Payne
     "I have a record of the blackout, for your perusal."
 
 EVIDENCE_INITIALIZE BlackoutRecord "Blackout Record" "Electricity to Ms. Stone's building was out from noon to 6PM on the day of the crime." evidence/grapes.png  // Need evidence file
-COURT_RECORD_ADD BlackoutRecord
 COURT_RECORD_ADD_ANIMATION BlackoutRecord
 
 SPEAK_FROM COURT_JUDGE  // Angry pose
