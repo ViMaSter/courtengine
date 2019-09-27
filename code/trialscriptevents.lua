@@ -210,7 +210,7 @@ function NewWideShotEvent()
         love.graphics.draw(talkingHeadAnimation[self.headAnim])
 
         for i,v in pairs(scene.characters) do
-            love.graphics.draw(v.wideshot.source)
+            love.graphics.draw(v.wideshot.source, GetCenterOffset(v.wideshot.source:getWidth()))
         end
     end
 
