@@ -10,3 +10,9 @@ controls = {
     
 
 }
+
+dimensions = {
+    graphics_scale = 4;
+    window_width = 1290;
+    window_height = 720;
+}
