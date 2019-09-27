@@ -83,11 +83,14 @@ function love.update(dt)
     end
 end
 
--- basic pause functionality
 function love.keypressed(key)
-    if key == controls.pause then
+    -- If the scene has been loaded and the pause button was pressed,
+    -- show the pause menu
+    if key == controls.pause and CurrentScene.sceneScript ~= nil then
         NavigationIndex = CurrentScene.currentEventIndex
         game_paused = not game_paused
+    -- If the game is already paused, let the user interact with the
+    -- pause menu
     elseif game_paused then
         -- Let the user navigate
         if key == controls.pause_nav_up and NavigationIndex > 1 then

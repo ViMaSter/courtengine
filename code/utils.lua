@@ -44,3 +44,13 @@ function deepcopy(orig)
     end
     return copy
 end
+
+-- Capitalize the first letter in a given string
+function FirstToUpper(str)
+    return (str:gsub("^%l", string.upper))
+end
+
+-- Given a keyboard key, return the display name
+function GetKeyDisplayName(str)
+    return key_display_names[str] or FirstToUpper(str)
+end
