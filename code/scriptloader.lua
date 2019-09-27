@@ -323,15 +323,19 @@ function NewAnimation(file, holdFirst)
     animation.source = source
     animation.anim = {}
 
+    -- TODO: This is to support animation files that are configured for the DS res.
+    -- Once the files have been updated to have more white space between frames, should
+    -- be able to remove this.
+    local smallWidth = 256
     if holdFirst then
         for i=1, 20 do
-            animation.anim[i] = love.graphics.newQuad(0,0, GraphicsWidth(),GraphicsHeight(), source:getWidth(), source:getHeight())
+            animation.anim[i] = love.graphics.newQuad(0,0, smallWidth,GraphicsHeight(), source:getWidth(), source:getHeight())
         end
     end
 
-    for i=1, source:getWidth()/GraphicsWidth() do
-        local x = (i-1)*GraphicsWidth()
-        animation.anim[#animation.anim+1] = love.graphics.newQuad(x,0, GraphicsWidth(),GraphicsHeight(), source:getWidth(), source:getHeight())
+    for i=1, source:getWidth()/smallWidth do
+        local x = (i-1)*smallWidth
+        animation.anim[#animation.anim+1] = love.graphics.newQuad(x,0, smallWidth,GraphicsHeight(), source:getWidth(), source:getHeight())
     end
 
     return animation
