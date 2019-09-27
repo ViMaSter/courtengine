@@ -11,10 +11,27 @@ function NewTitleScene()
     end
 
     self.draw = function (self, dt)
-        love.graphics.setColor(1,1,1)
-        love.graphics.draw(self.image, 0, 0, 0, 0.16, 0.16)
+        love.graphics.clear(1,1,1)
+
+        local logoScale = 0.16
+        love.graphics.draw(
+            self.image,
+            -- Center the logo in the window regardless of image or window size
+            GetCenterOffset(self.image:getWidth() * logoScale),
+            0,
+            0,
+            logoScale,
+            logoScale
+        )
+
         love.graphics.setColor(1,0,0)
-        love.graphics.print("Press "..controls.start_button.." to start", 80, 150,0 ,1,1)
+        local startText = love.graphics.newText(GameFont, "Press "..GetKeyDisplayName(controls.start_button).." to start")
+        love.graphics.draw(
+            startText,
+            GetCenterOffset(startText:getWidth()),
+            -- Make sure text is below the image
+            (self.image:getHeight() * logoScale)
+        )
     end
 
     return self
