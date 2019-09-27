@@ -114,8 +114,17 @@ function NewScene(scriptPath)
             if self.charAnimIndex >= #pose.anim then
                 self.charAnimIndex = 1
             end
-
-            love.graphics.draw(pose.source, pose.anim[math.max(math.floor(self.charAnimIndex +0.5), 1)], x,y)
+            local animIndex = math.max(math.floor(self.charAnimIndex +0.5), 1)
+            local nextPose = pose.anim[animIndex]
+            local curX, curY, width, height = nextPose:getViewport()
+            -- If x is 0, we expect we wanted to center the image. Right now, not
+            -- every asset has been updated to the correct aspect ratio, so calculate
+            -- the amount we need to move it over by based on the width of the frame
+            if x == 0 then
+                love.graphics.draw(pose.source, nextPose, GetCenterOffset(width),y)
+            else
+                love.graphics.draw(pose.source, nextPose, x,y)
+            end
         end
     end
 
@@ -210,7 +219,9 @@ function NewScene(scriptPath)
                 local lineTableIndex = 1
                 local fullwords = ""
                 local working = ""
-                local wrapWidth = 210
+                -- Space to allocate to the left and right of the text within the box
+                local sidePadding = 20
+                local wrapWidth = self.textBoxSprite:getWidth() - (sidePadding * 2)
 
                 for i=1, #self.fullText do
                     local char = string.sub(self.fullText, i,i)

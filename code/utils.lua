@@ -45,6 +45,7 @@ function deepcopy(orig)
     return copy
 end
 
+-- Convert RGB color values to LOVE color values
 function RGBColorConvert(r,g,b)
     local r = r/255
     local g = g/255
@@ -52,6 +53,7 @@ function RGBColorConvert(r,g,b)
     return r,g,b
 end
 
+-- Convert RGBA color values to LOVE color values
 function RGBAColorConvert(r,g,b,a)
     local r = r/255
     local g = g/255
@@ -66,4 +68,14 @@ function SetColor256(r,g,b,a)
     end
 
     love.graphics.setColor(r/255,g/255,b/255,a/255)
+end
+
+-- Capitalize the first letter in a given string
+function FirstToUpper(str)
+    return (str:gsub("^%l", string.upper))
+end
+
+-- Given a keyboard key, return the display name
+function GetKeyDisplayName(str)
+    return key_display_names[str] or FirstToUpper(str)
 end
