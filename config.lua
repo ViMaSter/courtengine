@@ -7,6 +7,12 @@ settings = {
 
     master_volume = 0.25;
     text_scroll_speed = 30;
+
+    background_directory = "backgrounds/";
+    music_directory = "music/";
+    sprite_directory = "sprites/";
+    shouts_directory = "sprites/shouts/";
+    sfx_directory = "sounds/";
 }
 
 controls = {
