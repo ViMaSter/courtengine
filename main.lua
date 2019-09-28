@@ -15,46 +15,42 @@ function love.load(arg)
     Renderable = love.graphics.newCanvas(GraphicsWidth, GraphicsHeight)
     ScreenShake = 0
     DtReset = false -- so scene load times don't factor into dt
-    script_loaded = false
-
-    --[[ 
-        currently we only support the args being used in the order 
-        `love . script "x" skip y`
-        if you load them in the opposite, we don't skip the lines currently, 
-        this is something we may look at for the future.
-    ]]
 
     LoadAssets()
-    CurrentScene = NewTitleScene()
 
-
+    local arguments = {}
     local argIndex = 1
+    -- First pass through the arguments to see what we're requesting
     while argIndex <= #arg do
-        if arg[argIndex] == "script" then
-            script_loaded = true
-            CurrentScene = NewScene(arg[argIndex+1])
-            CurrentScene:update(0)
-        end
-        if arg[argIndex] == "skip" then
-            if script_loaded then
-                for i=1, tonumber(arg[argIndex+1]) do
-                    table.remove(CurrentScene.events, 1)
-                    CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
-                end
-            end
-            if script_loaded == false then
-                LoadEpisode("scripts/episode1.meta")
-                for i=1, tonumber(arg[argIndex+1]) do
-                    table.remove(CurrentScene.events, 1)
-                    CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
-                end
-            end
-        end
         if arg[argIndex] == "debug" then
-            controls.debug = true
+            arguments.debug = true
+            argIndex = argIndex + 1
+        else
+            arguments[arg[argIndex]] = arg[argIndex + 1]
+            argIndex = argIndex + 2
         end
-        argIndex = argIndex + 1
     end
+
+    -- Initialize the game based on our arguments
+    if arguments.debug then
+        controls.debug = arguments.debug
+    end
+
+    if arguments.script ~= nil then
+        CurrentScene = NewScene(arguments.script)
+        CurrentScene:update(0)
+    elseif arguments.skip == nil then
+        -- Title screen will take the player to the next scene on keypress
+        CurrentScene = NewTitleScene()
+    end
+
+    if arguments.skip ~= nil then
+        for i=1, tonumber(arguments.skip) do
+            table.remove(CurrentScene.events, 1)
+            CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+        end
+    end
+
 end
 
 function LoadEpisode(episodePath)
