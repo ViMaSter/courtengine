@@ -62,14 +62,6 @@ function RGBAColorConvert(r,g,b,a)
     return r,g,b,a
 end
 
-function SetColor256(r,g,b,a)
-    if a == nil then
-        a = 255
-    end
-
-    love.graphics.setColor(r/255,g/255,b/255,a/255)
-end
-
 -- Capitalize the first letter in a given string
 function FirstToUpper(str)
     return (str:gsub("^%l", string.upper))
