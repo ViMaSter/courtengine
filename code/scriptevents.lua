@@ -97,7 +97,7 @@ function NewSpeakEvent(who, text, locorlit, color)
 
         local lastScroll = self.textScroll
         local scrollSpeed = TextScrollSpeed
-        if controls.debug then 
+        if controls.debug then
             scrollSpeed = scrollSpeed*8
         end
         if love.keyboard.isDown("lshift") then
@@ -249,6 +249,33 @@ function NewPlayMusicEvent(music)
     return self
 end
 
+function NewStopMusicEvent()
+    local self = {}
+
+    self.update = function (self, scene, dt)
+        for i,v in pairs(Music) do
+            v:stop()
+        end
+
+        return false
+    end
+
+    return self
+end
+
+function NewPlaySoundEvent(sound)
+    local self = {}
+    self.sound = sound:upper()
+
+    self.update = function (self, scene, dt)
+        Sounds[self.sound]:play()
+
+        return false
+    end
+
+    return self
+end
+
 function NewCourtRecordAddEvent(evidence)
     local self = {}
     self.evidence = evidence
@@ -385,20 +412,6 @@ function NewSceneEndEvent()
 
     self.update = function (self, scene, dt)
         NextScene()
-        return false
-    end
-
-    return self
-end
-
-function NewStopMusicEvent()
-    local self = {}
-
-    self.update = function (self, scene, dt)
-        for i,v in pairs(Music) do
-            v:stop()
-        end
-
         return false
     end
 
