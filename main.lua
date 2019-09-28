@@ -37,6 +37,9 @@ function love.load(arg)
                 CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
             end
         end
+        if arg[argIndex] == "debug" then
+            controls.debug = true
+        end
         argIndex = argIndex + 1
     end
 end
