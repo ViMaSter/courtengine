@@ -175,6 +175,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "STOP_MUSIC" then
                     AddToStack(events, sceneScript, NewStopMusicEvent(), lineParts)
                 end
+                if lineParts[1] == "SFX" then
+                    AddToStack(events, sceneScript, NewPlaySoundEvent(lineParts[2]), lineParts)
+                end
                 if lineParts[1] == "ISSUE_PENALTY" then
                     AddToStack(events, sceneScript, NewIssuePenaltyEvent(), lineParts)
                 end
