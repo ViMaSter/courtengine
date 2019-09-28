@@ -477,3 +477,16 @@ function NewWaitEvent(seconds)
 
     return self
 end
+
+function NewClearLocationEvent(location)
+    local self = {}
+    self.location = location
+
+    self.update = function (self, scene, dt)
+        scene.characterLocations[self.location] = nil
+
+        return false
+    end
+
+    return self
+end

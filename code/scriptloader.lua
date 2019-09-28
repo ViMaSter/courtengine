@@ -244,6 +244,9 @@ function LoadScript(scene, scriptPath)
                     AddToStack(events, sceneScript, NewCourtRecordAddEvent(lineParts[2]), lineParts)
                     AddToStack(events, sceneScript, NewAddToCourtRecordAnimationEvent(lineParts[2]), lineParts)
                 end
+                if lineParts[1] == "CLEAR_LOCATION" then
+                    AddToStack(events, sceneScript, NewClearLocationEvent(lineParts[2]), lineParts)
+                end
             end
         end
     end

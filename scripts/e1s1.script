@@ -182,8 +182,7 @@ SPEAK Phoenix
 SPEAK Phoenix
     "One thing I can say though: It's usually not his fault. He just has terrible luck."
 
-CHARACTER_LOCATION Butz NONE
-JUMPCUT BLACK_SCREEN
+CLEAR_LOCATION BLACK_SCREEN
 SPEAK Phoenix
     "But I know better than anyone, that he's a good guy at heart."
 
