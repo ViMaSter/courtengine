@@ -1,3 +1,5 @@
+require "config"
+
 function NewCharLocationEvent(name, location)
     local self = {}
     self.name = name
@@ -95,6 +97,9 @@ function NewSpeakEvent(who, text, locorlit, color)
 
         local lastScroll = self.textScroll
         local scrollSpeed = TextScrollSpeed
+        if controls.debug then 
+            scrollSpeed = scrollSpeed*8
+        end
         if love.keyboard.isDown("lshift") then
             scrollSpeed = scrollSpeed*8
         end

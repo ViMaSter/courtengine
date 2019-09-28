@@ -8,7 +8,11 @@ controls = {
     press_right = "right"; -- courtscene.lua
     press_left = "left"; -- courtscene.lua
     
-
+    --[[
+        setting this to true speeds up the scrollSpeed without needing to hold down "lshift"
+        this can also be set by running the startup command of `love . debug`
+    ]]
+    debug = false -- scriptevents.lua
 }
 
 dimensions = {
