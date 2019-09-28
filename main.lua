@@ -20,21 +20,38 @@ function love.load(arg)
     TextScrollSpeed = 30
     ScreenShake = 0
     DtReset = false -- so scene load times don't factor into dt
+    script_loaded = false
+
+    --[[ 
+        currently we only support the args being used in the order 
+        `love . script "x" skip y`
+        if you load them in the opposite, we don't skip the lines currently, 
+        this is something we may look at for the future.
+    ]]
+
 
     LoadAssets()
     CurrentScene = NewTitleScene()
-
     local argIndex = 1
     while argIndex <= #arg do
         if arg[argIndex] == "script" then
+            script_loaded = true
             CurrentScene = NewScene(arg[argIndex+1])
             CurrentScene:update(0)
         end
-
         if arg[argIndex] == "skip" then
-            for i=1, tonumber(arg[argIndex+1]) do
-                table.remove(CurrentScene.events, 1)
-                CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+            if script_loaded then
+                for i=1, tonumber(arg[argIndex+1]) do
+                    table.remove(CurrentScene.events, 1)
+                    CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+                end
+            end
+            if script_loaded == false then
+                LoadEpisode("scripts/episode1.meta")
+                for i=1, tonumber(arg[argIndex+1]) do
+                    table.remove(CurrentScene.events, 1)
+                    CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+                end
             end
         end
         if arg[argIndex] == "debug" then
