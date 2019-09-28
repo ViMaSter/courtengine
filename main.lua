@@ -23,19 +23,28 @@ function love.load(arg)
 
     LoadAssets()
     CurrentScene = NewTitleScene()
-
+    script_loaded = false
     local argIndex = 1
     while argIndex <= #arg do
         if arg[argIndex] == "script" then
+            script_loaded = true
             CurrentScene = NewScene(arg[argIndex+1])
             CurrentScene:update(0)
         end
 
         if arg[argIndex] == "skip" then
-            LoadEpisode("scripts/episode1.meta")
-            for i=1, tonumber(arg[argIndex+1]) do
-                table.remove(CurrentScene.events, 1)
-                CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+            if script_loaded then
+                for i=1, tonumber(arg[argIndex+1]) do
+                    table.remove(CurrentScene.events, 1)
+                    CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+                end
+            end
+            if script_loaded == false then
+                LoadEpisode("scripts/episode1.meta")
+                for i=1, tonumber(arg[argIndex+1]) do
+                    table.remove(CurrentScene.events, 1)
+                    CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
+                end
             end
         end
         argIndex = argIndex + 1
