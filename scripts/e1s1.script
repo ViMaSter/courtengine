@@ -12,7 +12,7 @@ CHARACTER_LOCATION Butz NONE
 CHARACTER_INITIALIZE ??? butz MALE
 CHARACTER_LOCATION ??? NONE
 
-EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
 COURT_RECORD_ADD Badge
 
 TYPEWRITER
@@ -158,6 +158,9 @@ SPEAK Phoenix
 
 SPEAK Phoenix
     "The guy they arrested was the unlucky sap dating her:"
+
+POSE Butz Normal
+CHARACTER_LOCATION Butz BLACK_SCREEN
 
 SPEAK Phoenix
     "Larry Butz... my best friend since grade school."

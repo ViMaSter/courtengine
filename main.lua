@@ -19,6 +19,7 @@ function love.load(arg)
     MasterVolume = 0.25
     TextScrollSpeed = 30
     ScreenShake = 0
+    DtReset = false -- so scene load times don't factor into dt
 
     LoadAssets()
     CurrentScene = NewTitleScene()
@@ -61,6 +62,7 @@ function NextScene()
     if SceneIndex <= #Episode then
         CurrentScene = NewScene(Episode[SceneIndex])
         CurrentScene:update(0)
+        DtReset = true
     else
         love.event.push("quit")
     end
@@ -77,6 +79,11 @@ end
 -- love.update and love.draw get called 60 times per second
 -- transfer the update and draw over to the current game scene 
 function love.update(dt)
+    if DtReset then
+        dt = 1/60
+        DtReset = false
+    end
+
     ScreenShake = math.max(ScreenShake - dt, 0)
     if not game_paused then
         CurrentScene:update(dt)

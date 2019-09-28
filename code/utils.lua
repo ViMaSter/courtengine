@@ -45,6 +45,23 @@ function deepcopy(orig)
     return copy
 end
 
+-- Convert RGB color values to LOVE color values
+function RGBColorConvert(r,g,b)
+    local r = r/255
+    local g = g/255
+    local b = b/255
+    return r,g,b
+end
+
+-- Convert RGBA color values to LOVE color values
+function RGBAColorConvert(r,g,b,a)
+    local r = r/255
+    local g = g/255
+    local b = b/255
+    local a = a/255
+    return r,g,b,a
+end
+
 -- Capitalize the first letter in a given string
 function FirstToUpper(str)
     return (str:gsub("^%l", string.upper))

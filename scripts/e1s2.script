@@ -10,7 +10,7 @@ CHARACTER_LOCATION Payne COURT_PROSECUTION
 CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Mia COURT_ASSISTANT
 
-EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
 COURT_RECORD_ADD Badge
 EVIDENCE_INITIALIZE Autopsy "Cindy's Autopsy Report" "7/31 4-5PM, Blunt Trauma" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
@@ -318,7 +318,7 @@ SPEAK_FROM COURT_JUDGE
     "You seem much more relaxed, Mr. Wright. Good for you."
 
 SPEAK_FROM COURT_DEFENSE
-    "Thank you, Your Honor."  
+    "Thank you, Your Honor."
 THINK_FROM COURT_DEFENSE
     "(Because I don't FEEL relaxed, that's for sure.)"
 

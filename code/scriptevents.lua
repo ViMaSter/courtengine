@@ -111,7 +111,7 @@ function NewSpeakEvent(who, text, locorlit, color)
         end
 
         local currentChar = string.sub(self.text, math.floor(self.textScroll), math.floor(self.textScroll))
-        if self.textScroll > lastScroll 
+        if self.textScroll > lastScroll
         and currentChar ~= " "
         and currentChar ~= ","
         and currentChar ~= "-"
@@ -151,7 +151,6 @@ function NewThinkEvent(who, text, locorlit)
     local self = NewSpeakEvent(who, text, locorlit)
     self.color = "LTBLUE"
     self.animates = false
-    self.speaks = false
 
     return self
 end
@@ -205,7 +204,8 @@ function NewAddToCourtRecordAnimationEvent(evidence)
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
         scene.fullText = self.text
         scene.textCentered = true
-        scene.textColor = {0,0.2,1}
+        local r,g,b = RGBColorConvert(107,198,247)
+        scene.textColor = {r,g,b}
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
         scene.textTalker = ""
         scene.textBoxSprite = Sprites["AnonTextBox"]
@@ -360,7 +360,9 @@ function NewChoiceEvent(options)
             end
             love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth(),28)
             love.graphics.setColor(1,1,1)
+            love.graphics.setFont(SmallFont)
             love.graphics.print(self.options[i], 150,30+(i-1)*16)
+            love.graphics.setFont(GameFont)
         end
     end
 
@@ -457,6 +459,20 @@ function NewIfEvent(flag, test, def)
         end
 
         return false
+    end
+
+    return self
+end
+
+function NewWaitEvent(seconds)
+    local self = {}
+    self.timer = 0
+    self.seconds = seconds
+
+    self.update = function (self, scene, dt)
+        self.timer = self.timer + dt
+
+        return self.timer < self.seconds
     end
 
     return self
