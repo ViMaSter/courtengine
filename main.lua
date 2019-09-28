@@ -1,11 +1,7 @@
 require "code/courtscene"
 require "code/scriptloader"
-require "code/scriptevents"
-require "code/trialscriptevents"
-require "code/investigationscriptevents"
 require "code/utils"
 require "code/assets"
-require "code/controlscriptevents"
 require "code/drawutils"
 require "code/titlescene"
 require "config" -- controls text file
