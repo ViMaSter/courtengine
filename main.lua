@@ -32,6 +32,7 @@ function love.load(arg)
         end
 
         if arg[argIndex] == "skip" then
+            LoadEpisode("scripts/episode1.meta")
             for i=1, tonumber(arg[argIndex+1]) do
                 table.remove(CurrentScene.events, 1)
                 CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
