@@ -192,7 +192,7 @@ function NewTypeWriterEvent(text)
 
     self.draw = function (self, scene)
         love.graphics.setColor(0,0,0)
-        love.graphics.rectangle('fill', 0,0,GraphicsWidth(),GraphicsHeight())
+        love.graphics.rectangle('fill', 0,0,GraphicsWidth,GraphicsHeight)
     end
 
     return self
@@ -390,7 +390,7 @@ function NewChoiceEvent(options)
             if self.select == i then
                 love.graphics.setColor(0.8,0,0.2)
             end
-            love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth(),28)
+            love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth,28)
             love.graphics.setColor(1,1,1)
             love.graphics.setFont(SmallFont)
             love.graphics.print(self.options[i], 150,30+(i-1)*16)
@@ -434,7 +434,7 @@ function NewFadeToBlackEvent()
 
     self.draw = function (self, scene)
         love.graphics.setColor(0,0,0, self.timer)
-        love.graphics.rectangle("fill", 0,0, GraphicsWidth(),GraphicsHeight())
+        love.graphics.rectangle("fill", 0,0, GraphicsWidth,GraphicsHeight)
     end
 
     return self

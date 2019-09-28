@@ -1,3 +1,14 @@
+settings = {
+    --[[
+        setting this to true speeds up the scrollSpeed without needing to hold down "lshift"
+        this can also be set by running the startup command of `love . debug`
+    ]]
+    debug = false; -- scriptevents.lua
+
+    master_volume = 0.25;
+    text_scroll_speed = 30;
+}
+
 controls = {
     start_button = "return"; -- code/titlescene.lua
     pause = "escape"; -- main.lua -- code/drawutils
@@ -7,12 +18,6 @@ controls = {
     press_court_record = "z"; -- courtscene.lua
     press_right = "right"; -- courtscene.lua
     press_left = "left"; -- courtscene.lua
-    
-    --[[
-        setting this to true speeds up the scrollSpeed without needing to hold down "lshift"
-        this can also be set by running the startup command of `love . debug`
-    ]]
-    debug = false -- scriptevents.lua
 }
 
 dimensions = {
@@ -32,3 +37,13 @@ key_display_names = {
     ['rshift'] = 'Shift (R)';
     ['lshift'] = 'Shfit (L)';
 }
+
+function InitConfig()
+    GraphicsWidth = dimensions.window_width / dimensions.graphics_scale
+    GraphicsHeight = dimensions.window_height / dimensions.graphics_scale
+    WindowWidth = dimensions.window_width
+    WindowHeight = dimensions.window_height
+
+    MasterVolume = settings.master_volume
+    TextScrollSpeed = settings.text_scroll_speed
+end

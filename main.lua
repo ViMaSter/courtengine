@@ -8,12 +8,11 @@ require "config" -- controls text file
 
 
 function love.load(arg)
-    love.window.setMode(dimensions.window_width, dimensions.window_height, {})
+    InitConfig()
+    love.window.setMode(WindowWidth, WindowHeight, {})
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
-    Renderable = love.graphics.newCanvas(GraphicsWidth(), GraphicsHeight())
-    MasterVolume = 0.25
-    TextScrollSpeed = 30
+    Renderable = love.graphics.newCanvas(GraphicsWidth, GraphicsHeight)
     ScreenShake = 0
     DtReset = false -- so scene load times don't factor into dt
     script_loaded = false
@@ -25,9 +24,10 @@ function love.load(arg)
         this is something we may look at for the future.
     ]]
 
-
     LoadAssets()
     CurrentScene = NewTitleScene()
+
+
     local argIndex = 1
     while argIndex <= #arg do
         if arg[argIndex] == "script" then
@@ -84,14 +84,6 @@ function NextScene()
     end
 end
 
--- the constants for the internal resolution of the game
-function GraphicsWidth()
-    return dimensions.window_width / dimensions.graphics_scale
-end
-function GraphicsHeight()
-    return dimensions.window_height / dimensions.graphics_scale
-end
-
 -- love.update and love.draw get called 60 times per second
 -- transfer the update and draw over to the current game scene 
 function love.update(dt)
@@ -143,11 +135,11 @@ function love.draw()
 
     love.graphics.draw(
         Renderable, 
-        dx*love.graphics.getWidth()/GraphicsWidth(),
-        dy*love.graphics.getHeight()/GraphicsHeight(), 
+        dx*love.graphics.getWidth()/GraphicsWidth,
+        dy*love.graphics.getHeight()/GraphicsHeight,
         0, 
-        love.graphics.getWidth()/GraphicsWidth(), 
-        love.graphics.getHeight()/GraphicsHeight()
+        love.graphics.getWidth()/GraphicsWidth,
+        love.graphics.getHeight()/GraphicsHeight
     )
 
     -- Added pause, additional cleaner graphics can be added in the future

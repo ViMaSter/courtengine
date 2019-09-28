@@ -12,8 +12,8 @@ end
 
 function NewExamineEvent(examinables)
     local self = {}
-    self.x = GraphicsWidth()/2
-    self.y = GraphicsHeight()/2
+    self.x = GraphicsWidth/2
+    self.y = GraphicsHeight/2
     self.examinables = examinables
     self.wasPressingX = false
 
@@ -54,8 +54,8 @@ function NewExamineEvent(examinables)
         end
         self.wasPressingX = pressingX
 
-        self.x = math.max(math.min(self.x, GraphicsWidth()), 0)
-        self.y = math.max(math.min(self.y, GraphicsHeight()), 0)
+        self.x = math.max(math.min(self.x, GraphicsWidth), 0)
+        self.y = math.max(math.min(self.y, GraphicsHeight), 0)
 
         return true
     end

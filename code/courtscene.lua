@@ -173,39 +173,39 @@ function NewScene(scriptPath)
         -- draw the court record
         if self.showCourtRecord then
             love.graphics.setColor(0.2,0.2,0.2)
-            love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
+            love.graphics.rectangle("fill", 0,24,GraphicsWidth,92)
 
             love.graphics.setColor(0,0,0)
-            love.graphics.printf("Court Record", 0,0, GraphicsWidth(), "center")
+            love.graphics.printf("Court Record", 0,0, GraphicsWidth, "center")
 
             love.graphics.setColor(1,1,1)
             if #self.courtRecord >= self.courtRecordIndex then
                 local sprite = self.courtRecord[self.courtRecordIndex].sprite
-                love.graphics.draw(sprite,GraphicsWidth()/2,GraphicsHeight()/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
+                love.graphics.draw(sprite,GraphicsWidth/2,GraphicsHeight/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
 
                 local name = self.courtRecord[self.courtRecordIndex].externalName
                 local rectWidth = #name*8
-                love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2 -16, rectWidth, "center")
+                love.graphics.printf(name, GraphicsWidth/2 - rectWidth/2,GraphicsHeight/2 -16, rectWidth, "center")
 
                 local name = self.courtRecord[self.courtRecordIndex].info
                 local rectWidth = #name*8
                 love.graphics.setFont(SmallFont)
-                love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
+                love.graphics.printf(name, GraphicsWidth/2 - rectWidth/2,GraphicsHeight/2, rectWidth, "center")
                 love.graphics.setFont(GameFont)
 
             else
-                love.graphics.printf("empty", 0,48, GraphicsWidth(), "center")
+                love.graphics.printf("empty", 0,48, GraphicsWidth, "center")
             end
         end
 
         -- draw the textbox
         if not self.textHidden then
             love.graphics.setColor(1,1,1)
-            love.graphics.draw(self.textBoxSprite,0,GraphicsHeight()-self.textBoxSprite:getHeight())
+            love.graphics.draw(self.textBoxSprite,0,GraphicsHeight-self.textBoxSprite:getHeight())
 
             -- draw who is talking
             love.graphics.setFont(SmallFont)
-            love.graphics.print(self.textTalker, 4, GraphicsHeight()-self.textBoxSprite:getHeight())
+            love.graphics.print(self.textTalker, 4, GraphicsHeight-self.textBoxSprite:getHeight())
             love.graphics.setFont(GameFont)
 
             -- draw the current scrolling text
@@ -345,7 +345,7 @@ function NewScene(scriptPath)
 
                 -- Prints
                 for i=1, #lineTable do
-                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight-60 + (i-1)*16)
                 end
             -- Centered Text, untouched by inline colored text
             else
@@ -378,8 +378,8 @@ function NewScene(scriptPath)
 
 
                 for i=1, #lineTable do
-                    local xText = GraphicsWidth()/2 - GameFont:getWidth(lineTableFull[i])/2
-                    love.graphics.print(lineTable[i], xText, GraphicsHeight()-60 + (i-1)*16)
+                    local xText = GraphicsWidth/2 - GameFont:getWidth(lineTableFull[i])/2
+                    love.graphics.print(lineTable[i], xText, GraphicsHeight-60 + (i-1)*16)
                 end
             end
         end
