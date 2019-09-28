@@ -1,6 +1,4 @@
-require "../config"
-
-function NewTitleScene()
+function NewTitleScreen()
     local self = {}
     self.image = love.graphics.newImage("main_logo.png")
     self.selection = "New Game"

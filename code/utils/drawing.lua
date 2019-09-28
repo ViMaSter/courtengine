@@ -1,4 +1,3 @@
-require "../config"
 function DrawCenteredRectangle(options)
     local borderSize = options.borderSize or 2
     local borderColorAlpha = options.borderColorAlpha or {1, 1, 1, 1}

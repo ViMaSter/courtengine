@@ -1,11 +1,10 @@
+require "config" -- controls text file
+require "code/events/index"
+require "code/utils/index"
+require "code/screens/index"
+require "code/assets"
 require "code/courtscene"
 require "code/scriptloader"
-require "code/utils"
-require "code/assets"
-require "code/drawutils"
-require "code/titlescene"
-require "config" -- controls text file
-
 
 function love.load(arg)
     InitConfig()
@@ -41,7 +40,7 @@ function love.load(arg)
         CurrentScene:update(0)
     elseif arguments.skip == nil then
         -- Title screen will take the player to the next scene on keypress
-        CurrentScene = NewTitleScene()
+        CurrentScene = NewTitleScreen()
     end
 
     if arguments.skip ~= nil then

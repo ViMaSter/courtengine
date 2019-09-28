@@ -1,5 +1,3 @@
-require "../config"
-
 function NewScene(scriptPath)
     local self = {}
     self.location = "NONE"
