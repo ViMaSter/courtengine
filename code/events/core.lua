@@ -128,15 +128,7 @@ function NewSpeakEvent(who, text, locorlit, color)
             end
         end
 
-        if self.color == "WHITE" then
-            scene.textColor = {1,1,1}
-        end
-        if self.color == "LTBLUE" then
-            scene.textColor = {0,0.75,1}
-        end
-        if self.color == "GREEN" then
-            scene.textColor = {0,1,0.25}
-        end
+        scene.textColor = colors[string.lower(self.color)]
 
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 

@@ -35,6 +35,14 @@ dimensions = {
     window_height = 720;
 }
 
+colors = {
+    white = {1, 1, 1};
+    black = {0, 0, 0};
+
+    ltblue = {0, 0.75, 1};
+    green = {0, 1, 0.25};
+}
+
 -- Override default display names for keyboard keys
 key_display_names = {
     ['escape'] = 'Esc';

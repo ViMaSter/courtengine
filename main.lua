@@ -83,9 +83,9 @@ function love.keypressed(key)
 end
 
 function love.draw()
-    love.graphics.setColor(1,1,1)
+    love.graphics.setColor(unpack(colors.white))
     love.graphics.setCanvas(Renderable)
-    love.graphics.clear(0,0,0)
+    love.graphics.clear(unpack(colors.black))
     CurrentScene:draw()
     love.graphics.setCanvas()
 
@@ -94,7 +94,7 @@ function love.draw()
         dx = love.math.random()*choose{1,-1}*2
         dy = love.math.random()*choose{1,-1}*2
     end
-    love.graphics.setColor(1,1,1)
+    love.graphics.setColor(unpack(colors.white))
 
     love.graphics.draw(
         Renderable, 

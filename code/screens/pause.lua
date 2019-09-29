@@ -31,7 +31,7 @@ function DrawPauseScreen(self)
 
     -- Temporary text where the settings should go
     local pauseHeader = love.graphics.newText(GameFont, "THE GAME IS PAUSED")
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(unpack(colors.white))
     love.graphics.draw(pauseHeader, GetCenterOffset(pauseHeader:getWidth() * 2, false), 120, 0, 2, 2)
 
     -- Temporary(?) tools for easier developing/testing
@@ -49,7 +49,7 @@ function DrawPauseScreen(self)
     )
 
     -- Only a few events for them to go back and forth between
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(unpack(colors.white))
 
     local firstIndex = NavigationIndex > 5 and (NavigationIndex - 5) or 1
     local displayedIndex = 1
@@ -63,7 +63,7 @@ function DrawPauseScreen(self)
             if i == NavigationIndex then
                 love.graphics.setColor(0.98, 0.82, 0.38)
             else
-                love.graphics.setColor(1, 1, 1)
+                love.graphics.setColor(unpack(colors.white))
             end
 
             love.graphics.print(label, 245 + 33.25, 250 + 40 * (displayedIndex - 1), 0, 1, 1)

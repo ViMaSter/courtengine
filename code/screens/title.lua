@@ -2,7 +2,7 @@ function DrawTitleScreen()
     local logoImage = love.graphics.newImage(settings.main_logo_path)
     local logoScale = 0.64
 
-    love.graphics.clear(1,1,1)
+    love.graphics.clear(unpack(colors.white))
     love.graphics.draw(
         logoImage,
         -- Center the logo in the window regardless of image or window size
