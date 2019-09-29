@@ -1,6 +1,6 @@
 function DrawTitleScreen()
     local logoImage = love.graphics.newImage(settings.main_logo_path)
-    local logoScale = 0.64
+    local logoScale = 4
 
     love.graphics.clear(unpack(colors.white))
     love.graphics.draw(
