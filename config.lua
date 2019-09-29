@@ -40,7 +40,7 @@ dimensions = {
 colors = {
     white = {1, 1, 1};
     black = {0, 0, 0};
-
+    red = {1, 0, 0};
     ltblue = {0, 0.75, 1};
     green = {0, 1, 0.25};
 }
