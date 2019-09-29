@@ -28,7 +28,7 @@ controls = {
     press_court_record = "z";
     press_right = "right";
     press_left = "left";
-    press_confirm = "return";
+    press_confirm = "up";
 }
 
 dimensions = {

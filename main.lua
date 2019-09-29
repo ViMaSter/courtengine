@@ -68,15 +68,32 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
+    local currentDisplayedScreen
+    local nextScreenToDisplay
     for screenName, screenConfig in pairs(screens) do
+        -- See if another screen is currently showing so we know whether
+        -- or other screens can be displayed
+        -- TODO: Is there a case where screens need to stack?
+        if screenConfig.displayed then
+            currentDisplayedScreen = screenName
+        end
+
         if screenConfig.displayKey and key == screenConfig.displayKey and
             (screenConfig.displayCondition == nil or screenConfig.displayCondition()) then
-            screenConfig.displayed = not screenConfig.displayed
-            if screenConfig.displayed and screenConfig.onDisplay then
-                screenConfig.onDisplay()
+            if screenName == currentDisplayedScreen then
+                screenConfig.displayed = false
+            else
+                nextScreenToDisplay = screenConfig
             end
         elseif screenConfig.displayed and screenConfig.onKeyPressed then
             screenConfig.onKeyPressed(key)
+        end
+    end
+
+    if nextScreenToDisplay and currentDisplayedScreen == nil then
+        nextScreenToDisplay.displayed = true
+        if nextScreenToDisplay.onDisplay then
+            nextScreenToDisplay.onDisplay()
         end
     end
 end

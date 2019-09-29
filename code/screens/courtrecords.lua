@@ -1,29 +1,59 @@
 function DrawCourtRecords()
-    love.graphics.setColor(0.2,0.2,0.2)
-    love.graphics.rectangle("fill", 0,24,GraphicsWidth,92)
+    -- love.graphics.setColor(0.2,0.2,0.2)
+    -- love.graphics.rectangle("fill", 0,24,GraphicsWidth,92)
 
-    love.graphics.setColor(0,0,0)
-    love.graphics.printf("Court Record", 0,0, GraphicsWidth, "center")
+    -- love.graphics.setColor(0,0,0)
+    -- love.graphics.printf("Court Record", 0,0, GraphicsWidth, "center")
 
-    love.graphics.setColor(1,1,1)
+    -- love.graphics.setColor(1,1,1)
 
-    if #Episode.courtRecords >= CourtRecordIndex then
-        local sprite = Episode.courtRecords[CourtRecordIndex].sprite
-        love.graphics.draw(sprite,GraphicsWidth/2,GraphicsHeight/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
-
-        local name = Episode.courtRecords[CourtRecordIndex].externalName
-        local rectWidth = #name*8
-        love.graphics.printf(name, GraphicsWidth/2 - rectWidth/2,GraphicsHeight/2 -16, rectWidth, "center")
-
-        local name = Episode.courtRecords[CourtRecordIndex].info
-        local rectWidth = #name*8
-        love.graphics.setFont(SmallFont)
-        love.graphics.printf(name, GraphicsWidth/2 - rectWidth/2,GraphicsHeight/2, rectWidth, "center")
-        love.graphics.setFont(GameFont)
-
-    else
-        love.graphics.printf("empty", 0,48, GraphicsWidth, "center")
+    local bodyOptions = {}
+    for i=1, #Episode.courtRecords do
+        table.insert(bodyOptions, Episode.courtRecords[i].sprite)
     end
+
+    DrawCenteredRectangle({
+        width = love.graphics.getWidth() * 4/5,
+        height = love.graphics.getHeight() - 120,
+        buttons = {
+            {
+                title = "Back",
+                key = controls.press_court_record
+            },
+            {
+                title = "Present",
+                key = controls.press_confirm
+            }
+        },
+        title = "Evidence",
+        body = {
+            selected = {
+                image = Episode.courtRecords[CourtRecordIndex].sprite,
+                title = Episode.courtRecords[CourtRecordIndex].externalName,
+                details = Episode.courtRecords[CourtRecordIndex].info
+            },
+            options = bodyOptions
+        }
+    })
+
+
+    -- if #Episode.courtRecords >= CourtRecordIndex then
+    --     local sprite = Episode.courtRecords[CourtRecordIndex].sprite
+    --     love.graphics.draw(sprite,GraphicsWidth/2,GraphicsHeight/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
+
+    --     local name = Episode.courtRecords[CourtRecordIndex].externalName
+    --     local rectWidth = #name*8
+    --     love.graphics.printf(name, GraphicsWidth/2 - rectWidth/2,GraphicsHeight/2 -16, rectWidth, "center")
+
+    --     local name = Episode.courtRecords[CourtRecordIndex].info
+    --     local rectWidth = #name*8
+    --     love.graphics.setFont(SmallFont)
+    --     love.graphics.printf(name, GraphicsWidth/2 - rectWidth/2,GraphicsHeight/2, rectWidth, "center")
+    --     love.graphics.setFont(GameFont)
+
+    -- else
+    --     love.graphics.printf("empty", 0,48, GraphicsWidth, "center")
+    -- end
 end
 
 CourtRecordsConfig = {
