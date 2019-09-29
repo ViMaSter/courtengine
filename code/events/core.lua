@@ -411,7 +411,7 @@ function NewSceneEndEvent()
     local self = {}
 
     self.update = function (self, scene, dt)
-        NextScene()
+        Episode:nextScene()
         return false
     end
 

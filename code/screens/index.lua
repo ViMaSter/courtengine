@@ -12,10 +12,10 @@ screens = {
                 love.graphics.clear(0,0,0);
                 if TitleSelection == "Load Game" then
                     -- replace this and handle load game logic
-                    BeginEpisode()
+                    Episode:begin()
                 else
                     -- replace this and handle new game logic
-                    BeginEpisode()
+                    Episode:begin()
                 end
             elseif key == controls.press_right then
                 TitleSelection = "Load Game"
@@ -33,7 +33,10 @@ screens = {
         displayCondition = function ()
             -- Don't let the pause menu show until the scene has
             -- started (AKA we're off the title screen)
-            return SceneIndex ~= nil;
+            return Episode.loaded;
+        end;
+        onDisplay = function ()
+            NavigationIndex = CurrentScene.currentEventIndex
         end;
         keyhandler = function (key)
             -- Let the user navigate
@@ -46,7 +49,6 @@ screens = {
             end
         end;
         drawScreen = function ()
-            NavigationIndex = CurrentScene.currentEventIndex
             DrawPauseScreen()
         end
     };
