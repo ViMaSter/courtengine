@@ -223,6 +223,7 @@ function NewScene(scriptPath)
                 local sidePadding = 20
                 local wrapWidth = self.textBoxSprite:getWidth() - (sidePadding * 2)
 
+                --
                 for i=1, #self.fullText do
                     local char = string.sub(self.fullText, i,i)
 
@@ -255,9 +256,32 @@ function NewScene(scriptPath)
                     lineTable[lineTableIndex] = lineTable[lineTableIndex] .. char
                 end
 
+                local coloredLine1 = {}
+                local coloredLine2 = {}
+                local coloredLine3 = {}
+
                 for i=1, #lineTable do
-                    love.graphics.print(lineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+
+                    for a=1, #i do
+                        if a == "0" then
+                            local colored == nil
+                        elseif a == "1" then
+                            local colored == true
+                            local color = {1,0,0,1}  
+                        end
+
+                        if colored == true then
+
+                        end
+                    end
                 end
+
+                local coloredLineTable = {coloredLine1,coloredLine2,coloredLine3}
+
+                for i=1, #lineTable do
+                    love.graphics.print(unpack(coloredLineTable[1]), 8, GraphicsHeight()-60 + (i-1)*16)
+                end
+            -- Centered Text
             else
                 local lineTable = {"", "", ""}
                 local lineIndex = 1
@@ -284,6 +308,8 @@ function NewScene(scriptPath)
                         lineTableFull[lineIndex] = lineTableFull[lineIndex] .. char
                     end
                 end
+
+
 
                 for i=1, #lineTable do
                     local xText = GraphicsWidth()/2 - GameFont:getWidth(lineTableFull[i])/2
