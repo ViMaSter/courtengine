@@ -1,15 +1,13 @@
 SET_SCENE_TYPE INVESTIGATION
 
-CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
-CHARACTER_LOCATION Phoenix NONE
-
+CHARACTER_INITIALIZE Phoenix phoenix MALE
 CHARACTER_INITIALIZE Mia mia FEMALE
-CHARACTER_LOCATION Mia NONE
-
 CHARACTER_INITIALIZE Butz butz MALE
-CHARACTER_LOCATION Butz NONE
-
 CHARACTER_INITIALIZE ??? butz MALE
+
+CHARACTER_LOCATION Phoenix NONE
+CHARACTER_LOCATION Mia NONE
+CHARACTER_LOCATION Butz NONE
 CHARACTER_LOCATION ??? NONE
 
 EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
@@ -73,6 +71,7 @@ SPEAK Phoenix
     "I just... really want to help him, I owe him that much."
 
 SCREEN_SHAKE
+POSE Mia Ohmy
 SPEAK ??? GREEN
     "(It's over!)"
 
@@ -86,6 +85,7 @@ SPEAK Mia
 SPEAK Mia
     "Isn't that your client screaming over there?"
 
+POSE Mia Normal
 SPEAK Phoenix
     "Yeah... that's him."
 
@@ -94,12 +94,14 @@ SPEAK ??? GREEN
     "(Death! Despair! Ohhhh!)"
 
 SCREEN_SHAKE
+POSE Mia Ohmy
 SPEAK ??? GREEN
     "(I'm gonna do it, I'm gonna die!!!)"
 
 SPEAK Mia
     "It sounds like he wants to die..."
 
+POSE Mia Normal
 SPEAK Phoenix
     "Um, yeah. *sigh*"
 
@@ -112,6 +114,7 @@ SPEAK Butz
 SPEAK Phoenix
     "Hey.#Hey there, Larry."
 
+SCREEN_SHAKE
 POSE Butz ThumbsUp
 SPEAK Butz
     "Dude, I'm so guilty!!#Tell them I'm guilty!!!"
@@ -122,6 +125,7 @@ SPEAK Butz
 SPEAK Phoenix
     "What!?#What's wrong, Larry?"
 
+POSE Butz Nervous
 SPEAK Butz
     "Oh, it's all over... I... I'm finished. Finished!"
 
@@ -131,11 +135,12 @@ SPEAK Butz
 SPEAK Butz
     "Who... who took her away from me, Nick? Who did this!?"
 
+SCREEN_SHAKE
 SPEAK Butz
     "Aww, Nick, ya gotta tell me! Who took my baby away!?"
 
 THINK Phoenix
-    "(Hmm... The person responsible for your girlfriend's#death?)"
+    "(Hmm... The person responsible for your girlfriend's death?)"
 
 THINK Phoenix
     "(The newspapers say it was you...)"
@@ -159,15 +164,15 @@ SPEAK Phoenix
 SPEAK Phoenix
     "The guy they arrested was the unlucky sap dating her:"
 
-POSE Butz Normal
+POSE Butz ThumbsUp
 CHARACTER_LOCATION Butz BLACK_SCREEN
-
 SPEAK Phoenix
     "Larry Butz... my best friend since grade school."
 
 SPEAK Phoenix
     "Our school had a saying: $qWhen something smells, it's usually the Butz.$q"
 
+POSE Butz Nervous
 SPEAK Phoenix
     "In the 23 years I've known him, it's usually been true."
 
@@ -177,12 +182,14 @@ SPEAK Phoenix
 SPEAK Phoenix
     "One thing I can say though: It's usually not his fault. He just has terrible luck."
 
+CLEAR_LOCATION BLACK_SCREEN
 SPEAK Phoenix
     "But I know better than anyone, that he's a good guy at heart."
 
 SPEAK Phoenix
     "That and I owe him one. Which is why I took the case... to clear his name."
 
+SCREEN_SHAKE
 SPEAK Phoenix
     "And that's just what I'm going to do!"
 
