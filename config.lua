@@ -18,15 +18,17 @@ settings = {
     episode_path = "scripts/episode1.meta";
 }
 
+-- Keybindings used by the onKeyPresseds in screens/index
 controls = {
-    start_button = "return"; -- code/titlescene.lua
-    pause = "escape"; -- main.lua -- code/drawutils
-    pause_nav_up = "up"; -- main.lua
-    pause_nav_down = "down"; -- main.lua
-    pause_confirm = "return"; -- main.lua
-    press_court_record = "z"; -- courtscene.lua
-    press_right = "right"; -- courtscene.lua
-    press_left = "left"; -- courtscene.lua
+    start_button = "return";
+    pause = "escape";
+    pause_nav_up = "up";
+    pause_nav_down = "down";
+    pause_confirm = "return";
+    press_court_record = "z";
+    press_right = "right";
+    press_left = "left";
+    press_confirm = "return";
 }
 
 dimensions = {

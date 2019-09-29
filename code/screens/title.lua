@@ -64,3 +64,33 @@ function DrawTitleScreen()
         textScale
     )
 end
+
+TitleScreenConfig = {
+    displayed = false;
+    onKeyPressed = function (key)
+        if key == controls.start_button then
+            -- Since there's no displayKey, this screen
+            -- is responsible for removing itself
+            screens.title.displayed = false;
+            love.graphics.clear(0,0,0);
+            if TitleSelection == "Load Game" then
+                -- replace this and handle load game logic
+                Episode:begin()
+            else
+                -- replace this and handle new game logic
+                Episode:begin()
+            end
+        elseif key == controls.press_right then
+            TitleSelection = "Load Game"
+        elseif key == controls.press_left then
+            TitleSelection = "New Game"
+        end
+    end;
+    onDisplay = function ()
+        -- This will depend on whether or not there are saves
+        TitleSelection = "New Game"
+    end;
+    draw = function ()
+        DrawTitleScreen()
+    end;
+}

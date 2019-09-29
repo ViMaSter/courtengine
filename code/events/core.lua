@@ -273,7 +273,7 @@ function NewCourtRecordAddEvent(evidence)
     self.evidence = evidence
 
     self.update = function (self, scene, dt)
-        table.insert(scene.courtRecord, scene.evidence[self.evidence])
+        table.insert(Episode.courtRecords, scene.evidence[self.evidence])
         return false
     end
 

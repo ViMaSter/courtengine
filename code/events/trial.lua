@@ -106,11 +106,11 @@ function NewCrossExaminationEvent(queue)
         end
 
         if love.keyboard.isDown("up")
-        and scene.showCourtRecord
+        and screens.courtRecords.displayed
         and not inTitle then
-            scene.showCourtRecord = false
+            screens.courtRecords.displayed = false
 
-            if scene.courtRecord[scene.courtRecordIndex].name == self.queue[self.textIndex+2] then
+            if Episode.courtRecords[CourtRecordIndex].name == self.queue[self.textIndex+2] then
                 return false
             else
                 scene:runDefinition(self.queue[3])

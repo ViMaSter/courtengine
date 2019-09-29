@@ -71,3 +71,29 @@ function DrawPauseScreen(self)
         end
     end
 end
+
+PauseScreenConfig = {
+    displayed = false;
+    displayKey = controls.pause;
+    displayCondition = function ()
+        -- Don't let the pause menu show until the scene has
+        -- started (AKA we're off the title screen)
+        return Episode.loaded;
+    end;
+    onDisplay = function ()
+        NavigationIndex = CurrentScene.currentEventIndex
+    end;
+    onKeyPressed = function (key)
+        -- Let the user navigate
+        if key == controls.pause_nav_up and NavigationIndex > 1 then
+            NavigationIndex = NavigationIndex - 1
+        elseif key == controls.pause_nav_down and NavigationIndex < #CurrentScene.sceneScript then
+            NavigationIndex = NavigationIndex + 1
+        elseif key == controls.pause_confirm then
+            -- TODO: Implement some sort of navigation tool
+        end
+    end;
+    draw = function ()
+        DrawPauseScreen()
+    end
+}

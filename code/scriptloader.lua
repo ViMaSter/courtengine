@@ -324,3 +324,18 @@ function DisectLine(line)
 
     return words
 end
+
+function AddToStack(events, sceneScript, event, lineParts)
+    -- This is used by the engine to see what event should
+    -- be run right now
+    table.insert(events, event)
+
+    -- Save just enough info for us to return to this
+    -- state if we choose to skip around the game
+    local eventContext = {
+        lineParts = lineParts,
+        event = event
+    }
+
+    table.insert(sceneScript, #events, eventContext)
+end

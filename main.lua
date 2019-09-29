@@ -76,8 +76,8 @@ function love.keypressed(key)
             if screenConfig.displayed and screenConfig.onDisplay then
                 screenConfig.onDisplay()
             end
-        elseif screenConfig.displayed and screenConfig.keyhandler then
-            screenConfig.keyhandler(key)
+        elseif screenConfig.displayed and screenConfig.onKeyPressed then
+            screenConfig.onKeyPressed(key)
         end
     end
 end
@@ -107,7 +107,7 @@ function love.draw()
 
     for screenName, screenConfig in pairs(screens) do
         if screenConfig.displayed then
-            screenConfig.drawScreen()
+            screenConfig.draw()
         end
     end
 end
