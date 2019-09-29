@@ -4,8 +4,9 @@
 
 function love.conf(t)
     -- Support console logging
-    t.console = true
+    --t.console = true
 
     t.window.title = "Game Grumps: Joint Justice"
     t.window.resizable = false
+    t.window.icon = "icon.png"
 end
