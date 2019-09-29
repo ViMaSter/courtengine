@@ -1,91 +1,66 @@
-function NewTitleScreen()
-    local self = {}
-    self.image = love.graphics.newImage(settings.main_logo_path)
-    self.selection = "New Game"
-    self.keyDown = false
+function DrawTitleScreen()
+    local logoImage = love.graphics.newImage(settings.main_logo_path)
+    local logoScale = 0.64
 
-    self.update = function (self, dt)
-        -- this logic forces the selection to only toggle once while a key is held down
-        if love.keyboard.isDown(controls.press_right, controls.press_left) and self.keyDown == false then
-            self.keyDown = true
-            if self.selection == "New Game" then
-                self.selection = "Load Game"
-            else
-                self.selection = "New Game"
-            end
-        elseif not love.keyboard.isDown(controls.press_right, controls.press_left) then
-            self.keyDown = false
-        end
+    love.graphics.clear(1,1,1)
+    love.graphics.draw(
+        logoImage,
+        -- Center the logo in the window regardless of image or window size
+        GetCenterOffset(logoImage:getWidth() * logoScale, false),
+        0,
+        0,
+        logoScale,
+        logoScale
+    )
 
-        if love.keyboard.isDown(controls.start_button) then
-            if self.selection == "New Game" then
-                -- replace this and handle new game logic
-                BeginEpisode()
-            else
-                -- replace this and handle load game logic
-                BeginEpisode()
-            end
-        end
+    -- get dimensions for New Game and Load Game buttons
+    local newX = (dimensions.window_width * 1/9)
+    local newW = (dimensions.window_width * 1/3)
+    local newY = logoImage:getHeight()*logoScale
+    local newH = 60
+
+    local loadW = (dimensions.window_width * 1/3)
+    local loadX = (dimensions.window_width * 8/9) - loadW
+    local loadY = logoImage:getHeight()*logoScale
+    local loadH = 60
+
+    -- blue bounding box offset
+    local dx = 8
+    local dy = 8
+
+    love.graphics.setColor(0.44,0.56,0.89) -- roughly GG blue
+    if TitleSelection == "New Game" then
+        love.graphics.rectangle("fill", newX-dx, newY-dy, newW+2*dx, newH+2*dy)
+    else
+        love.graphics.rectangle("fill", loadX-dx, loadY-dy, loadW+2*dx, loadH+2*dy)
     end
 
-    self.draw = function (self, dt)
-        love.graphics.clear(1,1,1)
+    -- draw New Game, Load Game, and text
+    love.graphics.setColor(0.96,0.53,0.23) -- roughly GG orange
+    love.graphics.rectangle("fill", newX, newY, newW, newH)
 
-        local logoScale = 0.16
-        love.graphics.draw(
-            self.image,
-            -- Center the logo in the window regardless of image or window size
-            GetCenterOffset(self.image:getWidth() * logoScale),
-            0,
-            0,
-            logoScale,
-            logoScale
-        )
+    love.graphics.setColor(0.3,0.3,0.3) -- greyed out
+    love.graphics.rectangle("fill", loadX, loadY, loadW, loadH)
 
-        -- get dimensions for New Game and Load Game buttons
-        local newX = (dimensions.window_width * 1/9)/dimensions.graphics_scale
-        local newW = (dimensions.window_width * 1/3)/dimensions.graphics_scale
-        local newY = self.image:getHeight()*logoScale
-        local newH = 20
+    love.graphics.setColor(1,1,1)
+    local textScale = 3
+    local newGameText = love.graphics.newText(GameFont, "New Game")
+    love.graphics.draw(
+        newGameText,
+        newX + newW/2-(newGameText:getWidth() * textScale)/2,
+        newY + newH/2-(newGameText:getHeight() * textScale)/2,
+        0,
+        textScale,
+        textScale
+    )
 
-        local loadW = (dimensions.window_width * 1/3)/dimensions.graphics_scale
-        local loadX = (dimensions.window_width * 8/9)/dimensions.graphics_scale - loadW
-        local loadY = self.image:getHeight()*logoScale
-        local loadH = 20
-
-        -- blue bounding box offset
-        local dx = 2
-        local dy = 2
-
-        love.graphics.setColor(0.44,0.56,0.89) -- roughly GG blue
-        if self.selection == "New Game" then
-            love.graphics.rectangle("fill", newX-dx, newY-dy, newW+2*dx, newH+2*dy)
-        else
-            love.graphics.rectangle("fill", loadX-dx, loadY-dy, loadW+2*dx, loadH+2*dy)
-        end
-
-        -- draw New Game, Load Game, and text
-        love.graphics.setColor(0.96,0.53,0.23) -- roughly GG orange
-        love.graphics.rectangle("fill", newX, newY, newW, newH)
-
-        love.graphics.setColor(0.3,0.3,0.3) -- greyed out
-        love.graphics.rectangle("fill", loadX, loadY, loadW, loadH)
-
-        love.graphics.setColor(1,1,1)
-        local newGameText = love.graphics.newText(GameFont, "New Game")
-        love.graphics.draw(
-            newGameText,
-            newX + newW/2-newGameText:getWidth()/2,
-            newY + newH/2-newGameText:getHeight()/2
-        )
-
-        local loadGameText = love.graphics.newText(GameFont, "Load Game")
-        love.graphics.draw(
-            loadGameText,
-            loadX + loadW/2-loadGameText:getWidth()/2,
-            loadY + loadH/2-loadGameText:getHeight()/2
-        )
-    end
-
-    return self
+    local loadGameText = love.graphics.newText(GameFont, "Load Game")
+    love.graphics.draw(
+        loadGameText,
+        loadX + loadW/2-(loadGameText:getWidth() * textScale)/2,
+        loadY + loadH/2-(loadGameText:getHeight() * textScale)/2,
+        0,
+        textScale,
+        textScale
+    )
 end

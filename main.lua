@@ -39,12 +39,9 @@ function love.load(arg)
     if arguments.script ~= nil then
         CurrentScene = NewScene(arguments.script)
         CurrentScene:update(0)
-    elseif arguments.skip == nil then
-        -- Title screen will take the player to the next scene on keypress
-        CurrentScene = NewTitleScreen()
     else
         -- Select the first scene in the loaded episode
-        CurrentScene = NewScene(Episode[SceneIndex])
+        CurrentScene = NewScene(Episode[1])
     end
 
     if arguments.skip ~= nil then
@@ -52,6 +49,9 @@ function love.load(arg)
             table.remove(CurrentScene.events, 1)
             CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
         end
+    else
+        -- Title screen will take the player to the next scene on keypress
+        screens.title.displayed = true
     end
 
 end
@@ -61,7 +61,6 @@ function LoadEpisode(episodePath)
     for line in love.filesystem.lines(episodePath) do
         table.insert(Episode, line)
     end
-    SceneIndex = 1
 end
 
 function BeginEpisode()
@@ -94,27 +93,19 @@ function love.update(dt)
     end
 
     ScreenShake = math.max(ScreenShake - dt, 0)
-    if not game_paused then
+    -- TODO: Decide if this applies to all screens that can be displayed
+    if not screens.title.displayed and not screens.pause.displayed then
         CurrentScene:update(dt)
     end
 end
 
 function love.keypressed(key)
-    -- If the scene has been loaded and the pause button was pressed,
-    -- show the pause menu
-    if key == controls.pause and CurrentScene.sceneScript ~= nil then
-        NavigationIndex = CurrentScene.currentEventIndex
-        game_paused = not game_paused
-    -- If the game is already paused, let the user interact with the
-    -- pause menu
-    elseif game_paused then
-        -- Let the user navigate
-        if key == controls.pause_nav_up and NavigationIndex > 1 then
-            NavigationIndex = NavigationIndex - 1
-        elseif key == controls.pause_nav_down and NavigationIndex < #CurrentScene.sceneScript then
-            NavigationIndex = NavigationIndex + 1
-        elseif key == controls.pause_confirm then
-            -- TODO: Implement some sort of navigation tool
+    for screenName, screenConfig in pairs(screens) do
+        if screenConfig.displayKey and key == screenConfig.displayKey and
+            (screenConfig.displayCondition == nil or screenConfig.displayCondition()) then
+            screenConfig.displayed = not screenConfig.displayed
+        elseif screenConfig.keyhandler then
+            screenConfig.keyhandler(key)
         end
     end
 end
@@ -143,8 +134,9 @@ function love.draw()
         love.graphics.getHeight()/GraphicsHeight
     )
 
-    -- Added pause, additional cleaner graphics can be added in the future
-    if game_paused then
-        DrawPauseScreen()
+    for screenName, screenConfig in pairs(screens) do
+        if screenConfig.displayed then
+            screenConfig.drawScreen()
+        end
     end
 end
