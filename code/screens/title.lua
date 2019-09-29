@@ -1,6 +1,6 @@
 function NewTitleScreen()
     local self = {}
-    self.image = love.graphics.newImage("main_logo.png")
+    self.image = love.graphics.newImage(settings.main_logo_path)
     self.selection = "New Game"
     self.keyDown = false
 
@@ -20,10 +20,10 @@ function NewTitleScreen()
         if love.keyboard.isDown(controls.start_button) then
             if self.selection == "New Game" then
                 -- replace this and handle new game logic
-                LoadEpisode("scripts/episode1.meta")
+                BeginEpisode()
             else
-              -- replace this and handle load game logic
-                LoadEpisode("scripts/episode1.meta")
+                -- replace this and handle load game logic
+                BeginEpisode()
             end
         end
     end

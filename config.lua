@@ -13,6 +13,9 @@ settings = {
     sprite_directory = "sprites/";
     shouts_directory = "sprites/shouts/";
     sfx_directory = "sounds/";
+
+    main_logo_path = "main_logo.png";
+    episode_path = "scripts/episode1.meta";
 }
 
 controls = {
@@ -44,7 +47,7 @@ key_display_names = {
     ['lshift'] = 'Shfit (L)';
 }
 
-function InitConfig()
+function InitGlobalConfigVariables()
     GraphicsWidth = dimensions.window_width / dimensions.graphics_scale
     GraphicsHeight = dimensions.window_height / dimensions.graphics_scale
     WindowWidth = dimensions.window_width

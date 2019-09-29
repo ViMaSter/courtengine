@@ -7,7 +7,7 @@ require "code/courtscene"
 require "code/scriptloader"
 
 function love.load(arg)
-    InitConfig()
+    InitGlobalConfigVariables()
     love.window.setMode(WindowWidth, WindowHeight, {})
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
@@ -16,6 +16,7 @@ function love.load(arg)
     DtReset = false -- so scene load times don't factor into dt
 
     LoadAssets()
+    LoadEpisode(settings.episode_path)
 
     local arguments = {}
     local argIndex = 1
@@ -41,6 +42,9 @@ function love.load(arg)
     elseif arguments.skip == nil then
         -- Title screen will take the player to the next scene on keypress
         CurrentScene = NewTitleScreen()
+    else
+        -- Select the first scene in the loaded episode
+        CurrentScene = NewScene(Episode[SceneIndex])
     end
 
     if arguments.skip ~= nil then
@@ -53,12 +57,14 @@ function love.load(arg)
 end
 
 function LoadEpisode(episodePath)
-    -- set up the current scene
     Episode = {}
-    
     for line in love.filesystem.lines(episodePath) do
         table.insert(Episode, line)
     end
+    SceneIndex = 1
+end
+
+function BeginEpisode()
     SceneIndex = 0
     NextScene()
 end
