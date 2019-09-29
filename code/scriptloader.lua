@@ -1,11 +1,9 @@
 function LoadScript(scene, scriptPath)
-    scene.events = {}
-    scene.sceneScript = {}
+    scene.stack = {}
     scene.definitions = {}
     scene.type = ""
 
-    local events = scene.events
-    local sceneScript = scene.sceneScript
+    local stack = scene.stack
     local definitions = {}
 
     local queuedSpeak = nil
@@ -31,7 +29,7 @@ function LoadScript(scene, scriptPath)
                         table.insert(crossExaminationQueue, lineParts[i])
                     end
                 else
-                    AddToStack(events, sceneScript, NewCrossExaminationEvent(crossExaminationQueue), lineParts)
+                    AddToStack(stack, NewCrossExaminationEvent(crossExaminationQueue), lineParts)
                     crossExaminationQueue = nil
                 end
 
@@ -44,7 +42,7 @@ function LoadScript(scene, scriptPath)
                         table.insert(choiceQueue, lineParts[i])
                     end
                 else
-                    AddToStack(events, sceneScript, NewChoiceEvent(choiceQueue), lineParts)
+                    AddToStack(stack, NewChoiceEvent(choiceQueue), lineParts)
                     choiceQueue = nil
                 end
 
@@ -57,7 +55,7 @@ function LoadScript(scene, scriptPath)
                         table.insert(fakeChoiceQueue, lineParts[i])
                     end
                 else
-                    AddToStack(events, sceneScript, NewFakeChoiceEvent(fakeChoiceQueue), lineParts)
+                    AddToStack(stack, NewFakeChoiceEvent(fakeChoiceQueue), lineParts)
                     fakeChoiceQueue = nil
                 end
 
@@ -70,7 +68,7 @@ function LoadScript(scene, scriptPath)
                         table.insert(invMenuQueue, lineParts[i])
                     end
                 else
-                    AddToStack(events, sceneScript, NewInvestigationMenuEvent(invMenuQueue), lineParts)
+                    AddToStack(stack, NewInvestigationMenuEvent(invMenuQueue), lineParts)
                     invMenuQueue = nil
                 end
 
@@ -83,7 +81,7 @@ function LoadScript(scene, scriptPath)
                         table.insert(examinationQueue, lineParts[i])
                     end
                 else
-                    AddToStack(events, sceneScript, NewExamineEvent(examinationQueue), lineParts)
+                    AddToStack(stack, NewExamineEvent(examinationQueue), lineParts)
                     examinationQueue = nil
                 end
 
@@ -91,28 +89,28 @@ function LoadScript(scene, scriptPath)
             end
 
             if canExecuteLine and queuedSpeak ~= nil then
-                AddToStack(events, sceneScript, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2], queuedSpeak[3]), {"queuedSpeak "..queuedSpeak[1], unpack(lineParts)})
+                AddToStack(stack, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2], queuedSpeak[3]), {"queuedSpeak "..queuedSpeak[1], unpack(lineParts)})
                 queuedSpeak = nil
 
                 canExecuteLine = false
             end
 
             if canExecuteLine and queuedThink ~= nil then
-                AddToStack(events, sceneScript, NewThinkEvent(queuedThink[1], lineParts[1], queuedThink[2], queuedThink[3]), {"queuedThink "..queuedThink[1], unpack(lineParts)})
+                AddToStack(stack, NewThinkEvent(queuedThink[1], lineParts[1], queuedThink[2], queuedThink[3]), {"queuedThink "..queuedThink[1], unpack(lineParts)})
                 queuedThink = nil
 
                 canExecuteLine = false
             end
 
             if canExecuteLine and queuedTypewriter ~= nil then
-                AddToStack(events, sceneScript, NewTypeWriterEvent(lineParts[1]), {"queuedTypewriter", unpack(lineParts)})
+                AddToStack(stack, NewTypeWriterEvent(lineParts[1]), {"queuedTypewriter", unpack(lineParts)})
                 queuedTypewriter = nil
 
                 canExecuteLine = false
             end
 
             if canExecuteLine and evidenceAddQueue ~= nil then
-                AddToStack(events, sceneScript, NewAddToCourtRecordAnimationEvent(lineParts[1], evidenceAddQueue[1]), {"evidenceAddQueue "..evidenceAddQueue[1], unpack(lineParts)})
+                AddToStack(stack, NewAddToCourtRecordAnimationEvent(lineParts[1], evidenceAddQueue[1]), {"evidenceAddQueue "..evidenceAddQueue[1], unpack(lineParts)})
                 evidenceAddQueue = nil
 
                 canExecuteLine = false
@@ -120,85 +118,85 @@ function LoadScript(scene, scriptPath)
 
             if canExecuteLine then
                 if lineParts[1] == "CHARACTER_INITIALIZE" then
-                    AddToStack(events, sceneScript, NewCharInitEvent(lineParts[2], lineParts[3], lineParts[4]), lineParts)
+                    AddToStack(stack, NewCharInitEvent(lineParts[2], lineParts[3], lineParts[4]), lineParts)
                 end
                 if lineParts[1] == "CHARACTER_LOCATION" then
-                    AddToStack(events, sceneScript, NewCharLocationEvent(lineParts[2], lineParts[3]), lineParts)
+                    AddToStack(stack, NewCharLocationEvent(lineParts[2], lineParts[3]), lineParts)
                 end
                 if lineParts[1] == "EVIDENCE_INITIALIZE" then
-                    AddToStack(events, sceneScript, NewEvidenceInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5]), lineParts)
+                    AddToStack(stack, NewEvidenceInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5]), lineParts)
                 end
                 if lineParts[1] == "COURT_RECORD_ADD" then
-                    AddToStack(events, sceneScript, NewCourtRecordAddEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewCourtRecordAddEvent(lineParts[2]), lineParts)
                 end
 
                 if lineParts[1] == "SET_SCENE_TYPE" then
                     scene.type = lineParts[2]
                 end
                 if lineParts[1] == "END_SCENE" then
-                    AddToStack(events, sceneScript, NewSceneEndEvent(), lineParts)
+                    AddToStack(stack, NewSceneEndEvent(), lineParts)
                 end
 
                 if lineParts[1] == "DEFINE" then
                     scene.definitions[lineParts[2]] = {}
-                    events = scene.definitions[lineParts[2]]
+                    stack = scene.definitions[lineParts[2]]
                 end
                 if lineParts[1] == "END_DEFINE" then
-                    events = scene.events
+                    stack = scene.stack
                 end
                 if lineParts[1] == "JUMP" then
-                    AddToStack(events, sceneScript, NewClearExecuteDefinitionEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewClearExecuteDefinitionEvent(lineParts[2]), lineParts)
                 end
 
                 if lineParts[1] == "JUMPCUT" then
-                    AddToStack(events, sceneScript, NewCutToEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewCutToEvent(lineParts[2]), lineParts)
                 end
                 if lineParts[1] == "PAN" then
-                    AddToStack(events, sceneScript, NewPanEvent(lineParts[2], lineParts[3]), lineParts)
+                    AddToStack(stack, NewPanEvent(lineParts[2], lineParts[3]), lineParts)
                 end
                 if lineParts[1] == "POSE" then
-                    AddToStack(events, sceneScript, NewPoseEvent(lineParts[2], lineParts[3]), lineParts)
+                    AddToStack(stack, NewPoseEvent(lineParts[2], lineParts[3]), lineParts)
                 end
                 if lineParts[1] == "WAIT" then
-                    AddToStack(events, sceneScript, NewWaitEvent(lineParts[2]))
+                    AddToStack(stack, NewWaitEvent(lineParts[2]))
                 end
                 if lineParts[1] == "ANIMATION" then
                     if #lineParts == 4 then
-                        AddToStack(events, sceneScript, NewAnimationEvent(lineParts[2], lineParts[3], lineParts[4]), lineParts)
+                        AddToStack(stack, NewAnimationEvent(lineParts[2], lineParts[3], lineParts[4]), lineParts)
                     else
-                        AddToStack(events, sceneScript, NewAnimationEvent(lineParts[2], lineParts[3]), lineParts)
+                        AddToStack(stack, NewAnimationEvent(lineParts[2], lineParts[3]), lineParts)
                     end
                 end
                 if lineParts[1] == "PLAY_MUSIC" then
-                    AddToStack(events, sceneScript, NewPlayMusicEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewPlayMusicEvent(lineParts[2]), lineParts)
                 end
                 if lineParts[1] == "STOP_MUSIC" then
-                    AddToStack(events, sceneScript, NewStopMusicEvent(), lineParts)
+                    AddToStack(stack, NewStopMusicEvent(), lineParts)
                 end
                 if lineParts[1] == "SFX" then
-                    AddToStack(events, sceneScript, NewPlaySoundEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewPlaySoundEvent(lineParts[2]), lineParts)
                 end
                 if lineParts[1] == "ISSUE_PENALTY" then
-                    AddToStack(events, sceneScript, NewIssuePenaltyEvent(), lineParts)
+                    AddToStack(stack, NewIssuePenaltyEvent(), lineParts)
                 end
                 if lineParts[1] == "GAME_OVER" then
-                    AddToStack(events, sceneScript, NewGameOverEvent(), lineParts)
+                    AddToStack(stack, NewGameOverEvent(), lineParts)
                 end
 
                 if lineParts[1] == "SHOUT" then
-                    AddToStack(events, sceneScript, NewShoutEvent(lineParts[2], lineParts[3]), lineParts)
+                    AddToStack(stack, NewShoutEvent(lineParts[2], lineParts[3]), lineParts)
                 end
                 if lineParts[1] == "WIDESHOT" then
-                    AddToStack(events, sceneScript, NewWideShotEvent(), lineParts)
+                    AddToStack(stack, NewWideShotEvent(), lineParts)
                 end
                 if lineParts[1] == "GAVEL" then
-                    AddToStack(events, sceneScript, NewGavelEvent(), lineParts)
+                    AddToStack(stack, NewGavelEvent(), lineParts)
                 end
                 if lineParts[1] == "FADE_TO_BLACK" then
-                    AddToStack(events, sceneScript, NewFadeToBlackEvent(), lineParts)
+                    AddToStack(stack, NewFadeToBlackEvent(), lineParts)
                 end
                 if lineParts[1] == "SCREEN_SHAKE" then
-                    AddToStack(events, sceneScript, NewScreenShakeEvent(), lineParts)
+                    AddToStack(stack, NewScreenShakeEvent(), lineParts)
                 end
 
                 if lineParts[1] == "CROSS_EXAMINATION" then
@@ -218,12 +216,12 @@ function LoadScript(scene, scriptPath)
                 end
 
                 if lineParts[1] == "SET_FLAG" then
-                    AddToStack(events, sceneScript, NewSetFlagEvent(lineParts[2], lineParts[3]), lineParts)
+                    AddToStack(stack, NewSetFlagEvent(lineParts[2], lineParts[3]), lineParts)
                 end
                 if lineParts[1] == "IF"
                 and lineParts[3] == "IS"
                 and lineParts[5] == "THEN" then
-                    AddToStack(events, sceneScript, NewIfEvent(lineParts[2], lineParts[4], lineParts[6]), lineParts)
+                    AddToStack(stack, NewIfEvent(lineParts[2], lineParts[4], lineParts[6]), lineParts)
                 end
 
                 if lineParts[1] == "SPEAK" then
@@ -233,22 +231,22 @@ function LoadScript(scene, scriptPath)
                     queuedThink = {lineParts[2], "literal", nil}
                 end
                 if lineParts[1] == "SPEAK_FROM" then
-                    AddToStack(events, sceneScript, NewCutToEvent(lineParts[2]), {"SPEAK_FROM", unpack(lineParts)})
+                    AddToStack(stack, NewCutToEvent(lineParts[2]), {"SPEAK_FROM", unpack(lineParts)})
                     queuedSpeak = {lineParts[2], "location", lineParts[3]}
                 end
                 if lineParts[1] == "THINK_FROM" then
-                    AddToStack(events, sceneScript, NewCutToEvent(lineParts[2]), {"THINK_FROM", unpack(lineParts)})
+                    AddToStack(stack, NewCutToEvent(lineParts[2]), {"THINK_FROM", unpack(lineParts)})
                     queuedThink = {lineParts[2], "location", nil}
                 end
                 if lineParts[1] == "TYPEWRITER" then
                     queuedTypewriter = {}
                 end
                 if lineParts[1] == "COURT_RECORD_ADD_ANIMATION" then
-                    AddToStack(events, sceneScript, NewCourtRecordAddEvent(lineParts[2]), lineParts)
-                    AddToStack(events, sceneScript, NewAddToCourtRecordAnimationEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewCourtRecordAddEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewAddToCourtRecordAnimationEvent(lineParts[2]), lineParts)
                 end
                 if lineParts[1] == "CLEAR_LOCATION" then
-                    AddToStack(events, sceneScript, NewClearLocationEvent(lineParts[2]), lineParts)
+                    AddToStack(stack, NewClearLocationEvent(lineParts[2]), lineParts)
                 end
             end
         end
@@ -325,17 +323,13 @@ function DisectLine(line)
     return words
 end
 
-function AddToStack(events, sceneScript, event, lineParts)
-    -- This is used by the engine to see what event should
-    -- be run right now
-    table.insert(events, event)
-
+function AddToStack(stack, event, lineParts)
     -- Save just enough info for us to return to this
     -- state if we choose to skip around the game
-    local eventContext = {
+    local stackContext = {
         lineParts = lineParts,
         event = event
     }
 
-    table.insert(sceneScript, #events, eventContext)
+    table.insert(stack, stackContext)
 end

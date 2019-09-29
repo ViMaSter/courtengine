@@ -47,14 +47,13 @@ function love.load(arg)
 
     if arguments.skip ~= nil then
         for i=1, tonumber(arguments.skip) do
-            table.remove(CurrentScene.events, 1)
+            table.remove(CurrentScene.stack, 1)
             CurrentScene.currentEventIndex = CurrentScene.currentEventIndex + 1
         end
     elseif arguments.script == nil then
         -- Title screen will take the player to the next scene on keypress
         screens.title.displayed = true
     end
-
 end
 
 -- love.update and love.draw get called 60 times per second

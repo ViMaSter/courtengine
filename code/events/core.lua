@@ -305,7 +305,7 @@ function NewClearExecuteDefinitionEvent(def)
     self.update = function (self, scene, dt)
         if not self.hasRun then
             self.hasRun = true
-            scene.events = {}
+            scene.stack = {}
             scene:runDefinition(self.def, 2)
         end
 

@@ -35,7 +35,7 @@ function NewScene(scriptPath)
 
         local definition = deepcopy(self.definitions[defName])
         for i=#definition, 1, -1 do
-            table.insert(self.events, loc, definition[i])
+            table.insert(self.stack, loc, definition[i])
         end
     end
 
@@ -48,8 +48,8 @@ function NewScene(scriptPath)
         self.characterTalking = false
         self.canShowBgTopLayer = true
 
-        while #self.events >= 1 and not self.events[1]:update(self, dt) do
-            table.remove(self.events, 1)
+        while #self.stack >= 1 and not self.stack[1].event:update(self, dt) do
+            table.remove(self.stack, 1)
             self.currentEventIndex = self.currentEventIndex + 1
         end
 
@@ -107,9 +107,9 @@ function NewScene(scriptPath)
         end
 
         love.graphics.setColor(1,1,1)
-        if #self.events >= 1 then
-            if self.events[1].characterDraw ~= nil then
-                self.events[1]:characterDraw(self)
+        if #self.stack >= 1 then
+            if self.stack[1].event.characterDraw ~= nil then
+                self.stack[1].event:characterDraw(self)
             end
         end
 
@@ -120,9 +120,9 @@ function NewScene(scriptPath)
 
         -- if the current event has an associated graphic, draw it
         love.graphics.setColor(1,1,1)
-        if #self.events >= 1 then
-            if self.events[1].draw ~= nil then
-                self.events[1]:draw(self)
+        if #self.stack >= 1 then
+            if self.stack[1].event.draw ~= nil then
+                self.stack[1].event:draw(self)
             end
         end
 

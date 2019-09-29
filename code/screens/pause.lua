@@ -54,10 +54,10 @@ function DrawPauseScreen(self)
     local firstIndex = NavigationIndex > 5 and (NavigationIndex - 5) or 1
     local displayedIndex = 1
     for i=firstIndex, firstIndex + 8 do
-        if i < #CurrentScene.sceneScript then
+        if i < #CurrentScene.stack then
             local label = i
-            for j=1, #CurrentScene.sceneScript[i].lineParts do
-                label = label.." "..CurrentScene.sceneScript[i].lineParts[j]
+            for j=1, #CurrentScene.stack[i].lineParts do
+                label = label.." "..CurrentScene.stack[i].lineParts[j]
             end
 
             if i == NavigationIndex then
@@ -87,7 +87,7 @@ PauseScreenConfig = {
         -- Let the user navigate
         if key == controls.pause_nav_up and NavigationIndex > 1 then
             NavigationIndex = NavigationIndex - 1
-        elseif key == controls.pause_nav_down and NavigationIndex < #CurrentScene.sceneScript then
+        elseif key == controls.pause_nav_down and NavigationIndex < #CurrentScene.stack then
             NavigationIndex = NavigationIndex + 1
         elseif key == controls.pause_confirm then
             -- TODO: Implement some sort of navigation tool
