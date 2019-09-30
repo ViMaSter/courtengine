@@ -127,8 +127,9 @@ function love.draw()
         end
     end
 
-    love.graphics.setColor(unpack(colors.red))
-    love.graphics.print(tostring(love.timer.getFPS( )), 10, 10)
-    love.graphics.setColor(unpack(colors.white))
-
+    if controls.debug then
+        love.graphics.setColor(unpack(colors.red))
+        love.graphics.print(tostring(love.timer.getFPS( )), 10, 10)
+        love.graphics.setColor(unpack(colors.white))
+    end
 end
