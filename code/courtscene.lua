@@ -277,36 +277,44 @@ function NewScene(scriptPath)
                             coloredTable = coloredLine3
                         end
 
-                        local char = string.sub(lineTable[i], i,i)
+                        if string.match(lineTable[i], "0") then
 
-                        --[[
-                        The way love.graphics.print() works is you can give it a
-                        table in the format of {colorTable,string,colorTable,string,...}
-                        and it will print it with the colors corresponding to the
-                        strings. This first line is just supposed to check if this
-                        is the first charcter, and if so, just add the regular color
-                        to the table to begin with, but for some reason if you
-                        active this, it will just print the color codes as their text.
-                        ]]
-                        --[[
-                        if j == 1 then
-                            table.insert(coloredTable,self.textColor)
-                        end
-                        ]]
+                            local char = string.sub(lineTable[i], j,j)
 
-                        if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
-                            table.insert(coloredTable,string)
-                            table.insert(coloredTable,self.textColor)
-                        elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
-                            table.insert(coloredTable,string)
-                            local tempColor = {1,0,0}
-                            table.insert(coloredTable,tempColor)
-                        else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
-                            string = string..char
-                        end
+                            --[[
+                            The way love.graphics.print() works is you can give it a
+                            table in the format of {colorTable,string,colorTable,string,...}
+                            and it will print it with the colors corresponding to the
+                            strings. This first line is just supposed to check if this
+                            is the first charcter, and if so, just add the regular color
+                            to the table to begin with, but for some reason if you
+                            active this, it will just print the color codes as their text.
+                            ]]
+                            ---[[
+                            if j == 1 then
+                                table.insert(coloredTable,self.textColor)
+                            end
+                            --]]
 
-                        if j == #lineTable[i] then -- If it's the end of the line, add the string to the table, always ends on a string
-                            table.insert(coloredTable,string)
+                            if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
+                                table.insert(coloredTable,string)
+                                string = ""
+                                table.insert(coloredTable,self.textColor)
+                            elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                local tempColor = {1,0,0}
+                                table.insert(coloredTable,tempColor)
+                            else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
+                                string = string..char
+                            end
+
+                            if j == #lineTable[i] then -- If it's the end of the line, add the string to the table, always ends on a string
+                                table.insert(coloredTable,string)
+                                string = ""
+                            end
+                        else
+                            table.insert(coloredTable,lineTable[i])
                         end
                     end
                 end
