@@ -8,4 +8,5 @@ function love.conf(t)
 
     t.window.title = "Game Grumps: Joint Justice"
     t.window.resizable = false
+    t.window.icon = "icon.png"
 end
