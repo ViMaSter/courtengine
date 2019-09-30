@@ -261,12 +261,7 @@ function NewScene(scriptPath)
                 local coloredLine3 = {}
                 local string = ""
 
-                --[[
-                Supposed to iterate over each line, and then each character in
-                each line to formulate the colored table to be sent to print.
-                Doesn't work currently, Alex can't figure out why.
-                ]]
-
+                -- Supports colored text within lines, currently does not function over multiple lines
                 for i=1, #lineTable do
                     for j=1, #lineTable[i] do
                         if i == 1 then
@@ -280,20 +275,10 @@ function NewScene(scriptPath)
                         local char = string.sub(lineTable[i], j,j)
                         if string.gmatch(lineTable[i], "0") then
 
-                            --[[
-                            The way love.graphics.print() works is you can give it a
-                            table in the format of {colorTable,string,colorTable,string,...}
-                            and it will print it with the colors corresponding to the
-                            strings. This first line is just supposed to check if this
-                            is the first charcter, and if so, just add the regular color
-                            to the table to begin with, but for some reason if you
-                            active this, it will just print the color codes as their text.
-                            ]]
-                            ---[[
+                            -- Sets the default color at the beginning
                             if j == 1 then
                                 table.insert(coloredTable,self.textColor)
                             end
-                            --]]
 
                             if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
                                 table.insert(coloredTable,string)

@@ -29,7 +29,7 @@ SPEAK Mia
     "Wright!"
 
 SPEAK Phoenix
-    "Oh, h-hiya, 1Ch02ie03f.0"
+    "Oh, h-hiya, Chief."
 
 SPEAK Mia
     "Whew!#I'm glad I made it on time."
@@ -166,7 +166,7 @@ SPEAK Phoenix
     "Larry Butz... my best friend since grade school."
 
 SPEAK Phoenix
-    "Our school had a saying: $qWhen something smells, it's usually the Butz.$q"
+    "Our school had a saying: $q1When something smells, it's usually the Butz.0$q"
 
 SPEAK Phoenix
     "In the 23 years I've known him, it's usually been true."
