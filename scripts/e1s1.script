@@ -166,7 +166,7 @@ SPEAK Phoenix
     "Larry Butz... my best friend since grade school."
 
 SPEAK Phoenix
-    "Our school had a saying: $q1When something smells, it's usually the Butz.0$q"
+    "Our school had a saying: $q%1When something smells, it's usually the Butz.%0$q"
 
 SPEAK Phoenix
     "In the 23 years I've known him, it's usually been true."

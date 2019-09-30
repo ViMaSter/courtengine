@@ -260,8 +260,9 @@ function NewScene(scriptPath)
                 local coloredLine2 = {}
                 local coloredLine3 = {}
                 local string = ""
+                colorSetup = {}
 
-                -- Supports colored text within lines, currently does not function with normal numbers in the script
+                -- Supports colored text within lines
                 for i=1, #lineTable do
                     for j=1, #lineTable[i] do
                         if i == 1 then
@@ -287,30 +288,40 @@ function NewScene(scriptPath)
                             end
                         end
 
-                        if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
-                            table.insert(coloredTable,string)
-                            string = ""
-                            table.insert(coloredTable,self.textColor)
-                            colored = nil
-                        elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
-                            table.insert(coloredTable,string)
-                            string = ""
-                            tempColor = {1,0,0}
-                            table.insert(coloredTable,tempColor)
-                            colored = true
-                        elseif char == "2" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
-                            table.insert(coloredTable,string)
-                            string = ""
-                            tempColor = {0,1,0}
-                            table.insert(coloredTable,tempColor)
-                            colored = true
-                        elseif char == "3" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
-                            table.insert(coloredTable,string)
-                            string = ""
-                            tempColor = {0,0,1}
-                            table.insert(coloredTable,tempColor)
-                            colored = true
-                        else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
+                        -- Checks for script color setup character "%"
+                        if char == "%" then
+                            colorSetup = {}
+                            colorSetup["s"] = j+1
+                        end
+
+                        if colorSetup["s"] == j then
+                            if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
+                                table.insert(coloredTable,string)
+                                string = ""
+                                table.insert(coloredTable,self.textColor)
+                                colored = nil
+                            elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {1,0,0}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            elseif char == "2" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {0,1,0}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            elseif char == "3" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {0,0,1}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
+                                string = string..char
+                            end
+                        else
                             string = string..char
                         end
 
@@ -321,7 +332,9 @@ function NewScene(scriptPath)
                     end
                 end
 
+                -- Resets things between speak events
                 colored = nil
+                colorSetup = {}
 
                 -- If these lines are empty, adds a blank string to ensure it doesn't crash
                 if coloredLine2[1] == nil then coloredLine2[1] = "" end

@@ -91,7 +91,7 @@ SPEAK_FROM COURT_JUDGE
     "This test will consist of a few simple questions. Answer them clearly and concisely."
 
 SPEAK_FROM COURT_JUDGE
-    "Please state the name of 1the defendant0 in this case."
+    "Please state the name of %1the defendant%0 in this case."
 
 DEFINE DefendantPhoenix
     SPEAK_FROM COURT_DEFENSE
@@ -200,13 +200,13 @@ SPEAK_FROM COURT_ASSISTANT
     "Look, the defendant's name is listed in the Court Record."
 
 SPEAK_FROM COURT_ASSISTANT
-    "Just touch the 1Court Record button0 to check it at anytime, okay?"
+    "Just touch the %1Court Record button%0 to check it at anytime, okay?"
 
 SPEAK_FROM COURT_ASSISTANT
     "Remember to check it often.  Do it for me, please.  I'm begging you."
 
 SPEAK_FROM COURT_JUDGE
-    "Let's hear your answer.  Who is the 1victim0 in this case?"
+    "Let's hear your answer.  Who is the %1victim%0 in this case?"
 
 DEFINE VictimMia
     SPEAK_FROM COURT_DEFENSE
@@ -359,7 +359,7 @@ SPEAK_FROM COURT_ASSISTANT
     "That evidence is the only ammunition you have in court."
 
 SPEAK_FROM COURT_ASSISTANT
-    "Touch the 1Court Record button0 to check the Court Record frequently."
+    "Touch the %1Court Record button%0 to check the Court Record frequently."
 
 SPEAK_FROM COURT_JUDGE
     "Mr. Payne, the prosecution may call its first witness."
@@ -465,7 +465,7 @@ SPEAK_FROM COURT_PROSECUTION
     "We can clearly see what kind of woman this Ms. Stone was."
 
 SPEAK_FROM COURT_PROSECUTION
-    "Tell me, Mr. Butz, 1what do you think of her now?0"
+    "Tell me, Mr. Butz, %1what do you think of her now?%0"
 
 SPEAK_FROM COURT_ASSISTANT
     "Wright..."
@@ -592,7 +592,7 @@ DEFINE AnswerHonestly
         "Lying?"
 
     SPEAK_FROM COURT_PROSECUTION
-        "The prosecution would like to call a 1witness0 who can prove Mr. Butz is lying."
+        "The prosecution would like to call a %1witness%0 who can prove Mr. Butz is lying."
 END_DEFINE
 
 DEFINE StopHim
