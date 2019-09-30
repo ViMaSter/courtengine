@@ -259,29 +259,70 @@ function NewScene(scriptPath)
                 local coloredLine1 = {}
                 local coloredLine2 = {}
                 local coloredLine3 = {}
+                local string = ""
+
+                --[[
+                Supposed to iterate over each line, and then each character in
+                each line to formulate the colored table to be sent to print.
+                Doesn't work currently, Alex can't figure out why.
+                ]]
 
                 for i=1, #lineTable do
-
-                    for a=1, #i do
-                        if a == "0" then
-                            local colored == nil
-                        elseif a == "1" then
-                            local colored == true
-                            local color = {1,0,0,1}  
+                    for j=1, #lineTable[i] do
+                        if i == 1 then
+                            coloredTable = coloredLine1
+                        elseif i == 2 then
+                            coloredTable = coloredLine2
+                        elseif i == 3 then
+                            coloredTable = coloredLine3
                         end
 
-                        if colored == true then
+                        local char = string.sub(lineTable[i], i,i)
 
+                        --[[
+                        The way love.graphics.print() works is you can give it a
+                        table in the format of {colorTable,string,colorTable,string,...}
+                        and it will print it with the colors corresponding to the
+                        strings. This first line is just supposed to check if this
+                        is the first charcter, and if so, just add the regular color
+                        to the table to begin with, but for some reason if you
+                        active this, it will just print the color codes as their text.
+                        ]]
+                        --[[
+                        if j == 1 then
+                            table.insert(coloredTable,self.textColor)
+                        end
+                        ]]
+
+                        if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
+                            table.insert(coloredTable,string)
+                            table.insert(coloredTable,self.textColor)
+                        elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                            table.insert(coloredTable,string)
+                            local tempColor = {1,0,0}
+                            table.insert(coloredTable,tempColor)
+                        else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
+                            string = string..char
+                        end
+
+                        if j == #lineTable[i] then -- If it's the end of the line, add the string to the table, always ends on a string
+                            table.insert(coloredTable,string)
                         end
                     end
                 end
 
+                -- If these lines are empty, adds a blank string to ensure it doesn't crash
+                if coloredLine2[1] == nil then coloredLine2[1] = "" end
+                if coloredLine3[1] == nil then coloredLine3[1] = "" end
+
+                -- Combine the colored line tables into a single colored line table
                 local coloredLineTable = {coloredLine1,coloredLine2,coloredLine3}
 
+                -- Prints
                 for i=1, #lineTable do
-                    love.graphics.print(unpack(coloredLineTable[1]), 8, GraphicsHeight()-60 + (i-1)*16)
+                    love.graphics.print(unpack(coloredLineTable[i]), 8, GraphicsHeight()-60 + (i-1)*16)
                 end
-            -- Centered Text
+            -- Centered Text, untouched by inline colored text
             else
                 local lineTable = {"", "", ""}
                 local lineIndex = 1
