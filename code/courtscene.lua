@@ -277,9 +277,8 @@ function NewScene(scriptPath)
                             coloredTable = coloredLine3
                         end
 
-                        if string.match(lineTable[i], "0") then
-
-                            local char = string.sub(lineTable[i], j,j)
+                        local char = string.sub(lineTable[i], j,j)
+                        if string.gmatch(lineTable[i], "0") then
 
                             --[[
                             The way love.graphics.print() works is you can give it a
@@ -305,6 +304,16 @@ function NewScene(scriptPath)
                                 string = ""
                                 local tempColor = {1,0,0}
                                 table.insert(coloredTable,tempColor)
+                            elseif char == "2" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                local tempColor = {0,1,0}
+                                table.insert(coloredTable,tempColor)
+                            elseif char == "3" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                local tempColor = {0,0,1}
+                                table.insert(coloredTable,tempColor)
                             else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
                                 string = string..char
                             end
@@ -314,7 +323,7 @@ function NewScene(scriptPath)
                                 string = ""
                             end
                         else
-                            table.insert(coloredTable,lineTable[i])
+                            table.insert(coloredTable,char)
                         end
                     end
                 end
@@ -328,7 +337,7 @@ function NewScene(scriptPath)
 
                 -- Prints
                 for i=1, #lineTable do
-                    love.graphics.print(unpack(coloredLineTable[i]), 8, GraphicsHeight()-60 + (i-1)*16)
+                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
                 end
             -- Centered Text, untouched by inline colored text
             else
