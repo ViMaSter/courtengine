@@ -223,6 +223,7 @@ function NewScene(scriptPath)
                 local sidePadding = 20
                 local wrapWidth = self.textBoxSprite:getWidth() - (sidePadding * 2)
 
+                --
                 for i=1, #self.fullText do
                     local char = string.sub(self.fullText, i,i)
 
@@ -255,9 +256,98 @@ function NewScene(scriptPath)
                     lineTable[lineTableIndex] = lineTable[lineTableIndex] .. char
                 end
 
+                local coloredLine1 = {}
+                local coloredLine2 = {}
+                local coloredLine3 = {}
+                local string = ""
+                colorSetup = {}
+
+                -- Supports colored text within lines
                 for i=1, #lineTable do
-                    love.graphics.print(lineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+                    for j=1, #lineTable[i] do
+                        if i == 1 then
+                            coloredTable = coloredLine1
+                        elseif i == 2 then
+                            coloredTable = coloredLine2
+                        elseif i == 3 then
+                            coloredTable = coloredLine3
+                        end
+
+                        local char = string.sub(lineTable[i], j,j)
+
+                        -- Sets the color at the beginning of the line
+                        if i == 1 then
+                            if j == 1 then
+                                table.insert(coloredTable,self.textColor)
+                            end
+                        elseif j == 1 then
+                            if colored then -- Continues the color onto a newline
+                                table.insert(coloredTable,tempColor)
+                            else
+                                table.insert(coloredTable,self.textColor)
+                            end
+                        end
+
+                        -- Checks for script color setup character "%"
+                        if char == "%" then
+                            colorSetup = {}
+                            colorSetup["s"] = j+1
+                        end
+
+                        if colorSetup["s"] == j then
+                            if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
+                                table.insert(coloredTable,string)
+                                string = ""
+                                table.insert(coloredTable,self.textColor)
+                                colored = nil
+                            elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {1,0,0}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            elseif char == "2" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {0,1,0}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            elseif char == "3" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {0,0,1}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
+                                string = string..char
+                            end
+                        else
+                            string = string..char
+                        end
+
+                        if j == #lineTable[i] then -- If it's the end of the line, add the string to the table, always ends on a string
+                            table.insert(coloredTable,string)
+                            string = ""
+                        end
+                    end
                 end
+
+                -- Resets things between speak events
+                colored = nil
+                colorSetup = {}
+
+                -- If these lines are empty, adds a blank string to ensure it doesn't crash
+                if coloredLine2[1] == nil then coloredLine2[1] = "" end
+                if coloredLine3[1] == nil then coloredLine3[1] = "" end
+
+                -- Combine the colored line tables into a single colored line table
+                local coloredLineTable = {coloredLine1,coloredLine2,coloredLine3}
+
+                -- Prints
+                for i=1, #lineTable do
+                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+                end
+            -- Centered Text, untouched by inline colored text
             else
                 local lineTable = {"", "", ""}
                 local lineIndex = 1
@@ -284,6 +374,8 @@ function NewScene(scriptPath)
                         lineTableFull[lineIndex] = lineTableFull[lineIndex] .. char
                     end
                 end
+
+
 
                 for i=1, #lineTable do
                     local xText = GraphicsWidth()/2 - GameFont:getWidth(lineTableFull[i])/2

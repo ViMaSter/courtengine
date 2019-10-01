@@ -170,7 +170,7 @@ SPEAK Phoenix
     "Larry Butz... my best friend since grade school."
 
 SPEAK Phoenix
-    "Our school had a saying: $qWhen something smells, it's usually the Butz.$q"
+    "Our school had a saying: $q%1When something smells, it's usually the Butz.%0$q"
 
 POSE Butz Nervous
 SPEAK Phoenix
