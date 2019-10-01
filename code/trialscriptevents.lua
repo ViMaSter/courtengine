@@ -23,6 +23,95 @@ function NewShoutEvent(who, what)
     return self
 end
 
+function NewWitnessTestimonyEvent(queue)
+    local self = {}
+    local witnessTestimonySprite = Sprites["WitnessTestimony"]
+    -- TODO: add blinking Testimony sprite for upperlefthand corner
+    -- TODO: add flashback backgrounds
+    self.queue = queue
+    self.textScroll = 1
+    self.textIndex = 2
+    self.wasPressing = true
+    self.who = queue[1]
+    self.timer = 0
+    self.animationTime = 1.5
+
+    self.advanceText = function (self)
+        self.textIndex = self.textIndex + 1
+
+        self.textScroll = 1
+        self.wasPressing = true
+
+        if self.textIndex > #self.queue then  -- TODO: Terminate testimony
+            self.textIndex = 3
+        end
+    end
+
+    self.update = function (self, scene, dt)
+        self.timer = self.timer + dt
+
+        -- Text format & behavior
+        local text = self.queue[self.textIndex]
+
+        local lastScroll = self.textScroll
+        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
+
+        local inTitle = self.textIndex == 2
+
+        if inTitle then  -- Title formatting
+            scene.textColor = {1,0.5,0.4}
+            scene.textCentered = true
+        else  -- Dialogue formatting
+            scene.characters[self.who].frame = self.queue[self.textIndex+3]
+            if self.textScroll < #text then
+                scene.characterTalking = true
+            end
+            
+            scene.textColor = {1,1,1}
+        end
+        scene.text = string.sub(text, 1, math.floor(self.textScroll))
+        scene.fullText = text
+        scene.textTalker = self.who
+
+        local currentChar = string.sub(text, math.floor(self.textScroll), math.floor(self.textScroll))
+        if self.textScroll > lastScroll
+        and currentChar ~= " "
+        and currentChar ~= ","
+        and currentChar ~= "-" then
+            if scene.characters[scene.textTalker].gender == "MALE" then
+                Sounds.MALETALK:play()
+            else
+                Sounds.FEMALETALK:play()
+            end
+        end
+        -- End text format & behavior
+
+        -- Controls handling
+        local canAdvance = self.textScroll >= #text and self.timer > self.animationTime
+
+        local pressing = love.keyboard.isDown("x")  -- Advance text
+        if pressing
+        and not self.wasPressing
+        and canAdvance then
+            self:advanceText()
+        end
+        self.wasPressing = pressing
+        -- End controls handling
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        if self.timer < self.animationTime then
+            love.graphics.draw(witnessTestimonySprite, GraphicsWidth()/2, GraphicsHeight()/2 - 24, 0, 1, 1, witnessTestimonySprite:getWidth()/2, witnessTestimonySprite:getHeight()/2)
+        else
+            love.graphics.setColor(1,1,1)
+        end
+    end
+
+    return self
+end
+
 function NewCrossExaminationEvent(queue)
     local self = {}
     local crossExaminationSprite = Sprites["CrossExamination"]

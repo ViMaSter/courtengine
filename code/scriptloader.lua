@@ -11,6 +11,7 @@ function LoadScript(scene, scriptPath)
     local queuedSpeak = nil
     local queuedThink = nil
     local queuedTypewriter = nil
+    local witnessTestimonyQueue = nil
     local crossExaminationQueue = nil
     local choiceQueue = nil
     local fakeChoiceQueue = nil
@@ -24,6 +25,19 @@ function LoadScript(scene, scriptPath)
         else
             local lineParts = DisectLine(line)
             local canExecuteLine = true
+
+            if witnessTestimonyQueue ~= nil then
+                if #lineParts > 0 then
+                    for i=1, #lineParts do
+                        table.insert(witnessTestimonyQueue, lineParts[i])
+                    end
+                else
+                    AddToStack(events, sceneScript, NewWitnessTestimonyEvent(witnessTestimonyQueue), lineParts)
+                    witnessTestimonyQueue = nil
+                end
+
+                canExecuteLine = false
+            end
 
             if crossExaminationQueue ~= nil then
                 if #lineParts > 0 then
@@ -194,7 +208,9 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "SCREEN_SHAKE" then
                     AddToStack(events, sceneScript, NewScreenShakeEvent(), lineParts)
                 end
-
+                if lineParts[1] == "WITNESS_TESTIMONY" then
+                    witnessTestimonyQueue = {lineParts[2], lineParts[3]}
+                end
                 if lineParts[1] == "CROSS_EXAMINATION" then
                     crossExaminationQueue = {lineParts[2], lineParts[3], lineParts[4]}
                 end

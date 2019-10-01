@@ -69,7 +69,9 @@ SPEAK_FROM COURT_JUDGE
 SPEAK Judge  // Angry pose
     "Please tell the court what you saw on the day of the murder."
 
-// Witness testimony starts in courtroom; comments indicate background change
+JUMPCUT COURT_WITNESS
+PLAY_MUSIC QUESTIONING
+
 WITNESS_TESTIMONY Sahwit "-- Witness's Account --"
     "I was going door-to-door, selling subscriptions when I saw a man fleeing an apartment."
     "I thought he must be in a hurry because he left the door half-open behind him."  // Flashback BG 1
@@ -407,7 +409,6 @@ SPEAK_FROM COURT_JUDGE  // Angry pose
 // SAHWIT TESTIMONY 2
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Background starts in courtroom
 WITNESS_TESTIMONY Sahwit "-- The Time of Discovery --"
     "You see, when I found the body, I heard the time."
     "There was a voice saying the time... It was probably coming from the television."  // Flashback BG 2
