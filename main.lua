@@ -53,6 +53,9 @@ function love.load(arg)
     elseif arguments.script == nil then
         -- Title screen will take the player to the next scene on keypress
         screens.title.displayed = true
+        -- This normally is triggered on keypress, but since we're showing
+        -- the title manually, call this manually too
+        screens.title.onDisplay()
     end
 end
 
