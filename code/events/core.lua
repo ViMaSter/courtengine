@@ -128,15 +128,7 @@ function NewSpeakEvent(who, text, locorlit, color)
             end
         end
 
-        if self.color == "WHITE" then
-            scene.textColor = {1,1,1}
-        end
-        if self.color == "LTBLUE" then
-            scene.textColor = {0,0.75,1}
-        end
-        if self.color == "GREEN" then
-            scene.textColor = {0,1,0.25}
-        end
+        scene.textColor = colors[string.lower(self.color)]
 
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
@@ -192,7 +184,7 @@ function NewTypeWriterEvent(text)
 
     self.draw = function (self, scene)
         love.graphics.setColor(0,0,0)
-        love.graphics.rectangle('fill', 0,0,GraphicsWidth(),GraphicsHeight())
+        love.graphics.rectangle('fill', 0,0,GraphicsWidth,GraphicsHeight)
     end
 
     return self
@@ -281,7 +273,7 @@ function NewCourtRecordAddEvent(evidence)
     self.evidence = evidence
 
     self.update = function (self, scene, dt)
-        table.insert(scene.courtRecord, scene.evidence[self.evidence])
+        table.insert(Episode.courtRecords, scene.evidence[self.evidence])
         return false
     end
 
@@ -313,7 +305,7 @@ function NewClearExecuteDefinitionEvent(def)
     self.update = function (self, scene, dt)
         if not self.hasRun then
             self.hasRun = true
-            scene.events = {}
+            scene.stack = {}
             scene:runDefinition(self.def, 2)
         end
 
@@ -390,7 +382,7 @@ function NewChoiceEvent(options)
             if self.select == i then
                 love.graphics.setColor(0.8,0,0.2)
             end
-            love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth(),28)
+            love.graphics.rectangle("fill", 146,30+(i-1)*16 -4, GraphicsWidth,28)
             love.graphics.setColor(1,1,1)
             love.graphics.setFont(SmallFont)
             love.graphics.print(self.options[i], 150,30+(i-1)*16)
@@ -411,7 +403,7 @@ function NewSceneEndEvent()
     local self = {}
 
     self.update = function (self, scene, dt)
-        NextScene()
+        Episode:nextScene()
         return false
     end
 
@@ -434,7 +426,7 @@ function NewFadeToBlackEvent()
 
     self.draw = function (self, scene)
         love.graphics.setColor(0,0,0, self.timer)
-        love.graphics.rectangle("fill", 0,0, GraphicsWidth(),GraphicsHeight())
+        love.graphics.rectangle("fill", 0,0, GraphicsWidth,GraphicsHeight)
     end
 
     return self

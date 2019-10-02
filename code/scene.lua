@@ -1,12 +1,9 @@
-require "../config"
-
 function NewScene(scriptPath)
     local self = {}
     self.location = "NONE"
     self.characterLocations = {}
     self.characters = {}
     self.evidence = {}
-    self.courtRecord = {}
     self.flags = {}
 
     self.penalties = 5
@@ -17,9 +14,6 @@ function NewScene(scriptPath)
     self.textBoxSprite = Sprites["TextBox"]
     self.textColor = {1,1,1}
     self.textCentered = false
-    self.showCourtRecord = false
-    self.wasPressingCourtRecord = false
-    self.courtRecordIndex = 1
 
     self.charAnimIndex = 1
 
@@ -41,63 +35,25 @@ function NewScene(scriptPath)
 
         local definition = deepcopy(self.definitions[defName])
         for i=#definition, 1, -1 do
-            table.insert(self.events, loc, definition[i])
+            table.insert(self.stack, loc, definition[i])
         end
     end
 
     self.update = function (self, dt)
         -- update the active event
         self.textHidden = false
-        self.canShowCourtRecord = true
         self.canShowCharacter = true
         self.textCentered = false
         self.textBoxSprite = Sprites["TextBox"]
         self.characterTalking = false
         self.canShowBgTopLayer = true
 
-        while #self.events >= 1 and not self.events[1]:update(self, dt) do
-            table.remove(self.events, 1)
+        while #self.stack >= 1 and not self.stack[1].event:update(self, dt) do
+            table.remove(self.stack, 1)
             self.currentEventIndex = self.currentEventIndex + 1
         end
 
         self.charAnimIndex = self.charAnimIndex + dt*5
-
-        -- open and close the court record
-        local pressingCourtRecord = love.keyboard.isDown(controls.press_court_record)
-        if pressingCourtRecord and not self.wasPressingCourtRecord then
-            self.showCourtRecord = not self.showCourtRecord
-        end
-        self.wasPressingCourtRecord = pressingCourtRecord
-
-        if not self.canShowCourtRecord then
-            self.showCourtRecord = false
-        end
-
-        if not self.showCourtRecord then
-            self.courtRecordIndex = 1
-        end
-
-        -- move left and right through the court record
-        local pressingRight = love.keyboard.isDown(controls.press_right)
-        local pressingLeft = love.keyboard.isDown(controls.press_left)
-
-        if pressingRight and not self.wasPressingRight then
-            self.courtRecordIndex = self.courtRecordIndex + 1
-
-            if self.courtRecordIndex > #self.courtRecord then
-                self.courtRecordIndex = 1
-            end
-        end
-        if pressingLeft and not self.wasPressingLeft then
-            self.courtRecordIndex = self.courtRecordIndex - 1
-
-            if self.courtRecordIndex < 1 then
-                self.courtRecordIndex = #self.courtRecord
-            end
-        end
-
-        self.wasPressingRight = pressingRight
-        self.wasPressingLeft = pressingLeft
     end
 
     self.drawCharacterAt = function (self, characterLocation, x,y)
@@ -151,9 +107,9 @@ function NewScene(scriptPath)
         end
 
         love.graphics.setColor(1,1,1)
-        if #self.events >= 1 then
-            if self.events[1].characterDraw ~= nil then
-                self.events[1]:characterDraw(self)
+        if #self.stack >= 1 then
+            if self.stack[1].event.characterDraw ~= nil then
+                self.stack[1].event:characterDraw(self)
             end
         end
 
@@ -164,48 +120,20 @@ function NewScene(scriptPath)
 
         -- if the current event has an associated graphic, draw it
         love.graphics.setColor(1,1,1)
-        if #self.events >= 1 then
-            if self.events[1].draw ~= nil then
-                self.events[1]:draw(self)
-            end
-        end
-
-        -- draw the court record
-        if self.showCourtRecord then
-            love.graphics.setColor(0.2,0.2,0.2)
-            love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
-
-            love.graphics.setColor(0,0,0)
-            love.graphics.printf("Court Record", 0,0, GraphicsWidth(), "center")
-
-            love.graphics.setColor(1,1,1)
-            if #self.courtRecord >= self.courtRecordIndex then
-                local sprite = self.courtRecord[self.courtRecordIndex].sprite
-                love.graphics.draw(sprite,GraphicsWidth()/2,GraphicsHeight()/2 - 48, 0, 1,1, sprite:getWidth()/2,sprite:getHeight()/2)
-
-                local name = self.courtRecord[self.courtRecordIndex].externalName
-                local rectWidth = #name*8
-                love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2 -16, rectWidth, "center")
-
-                local name = self.courtRecord[self.courtRecordIndex].info
-                local rectWidth = #name*8
-                love.graphics.setFont(SmallFont)
-                love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
-                love.graphics.setFont(GameFont)
-
-            else
-                love.graphics.printf("empty", 0,48, GraphicsWidth(), "center")
+        if #self.stack >= 1 then
+            if self.stack[1].event.draw ~= nil then
+                self.stack[1].event:draw(self)
             end
         end
 
         -- draw the textbox
         if not self.textHidden then
             love.graphics.setColor(1,1,1)
-            love.graphics.draw(self.textBoxSprite,0,GraphicsHeight()-self.textBoxSprite:getHeight())
+            love.graphics.draw(self.textBoxSprite,0,GraphicsHeight-self.textBoxSprite:getHeight())
 
             -- draw who is talking
             love.graphics.setFont(SmallFont)
-            love.graphics.print(self.textTalker, 4, GraphicsHeight()-self.textBoxSprite:getHeight())
+            love.graphics.print(self.textTalker, 4, GraphicsHeight-self.textBoxSprite:getHeight())
             love.graphics.setFont(GameFont)
 
             -- draw the current scrolling text
@@ -345,7 +273,7 @@ function NewScene(scriptPath)
 
                 -- Prints
                 for i=1, #lineTable do
-                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight-60 + (i-1)*16)
                 end
             -- Centered Text, untouched by inline colored text
             else
@@ -378,8 +306,8 @@ function NewScene(scriptPath)
 
 
                 for i=1, #lineTable do
-                    local xText = GraphicsWidth()/2 - GameFont:getWidth(lineTableFull[i])/2
-                    love.graphics.print(lineTable[i], xText, GraphicsHeight()-60 + (i-1)*16)
+                    local xText = GraphicsWidth/2 - GameFont:getWidth(lineTableFull[i])/2
+                    love.graphics.print(lineTable[i], xText, GraphicsHeight-60 + (i-1)*16)
                 end
             end
         end
