@@ -102,7 +102,7 @@ function NewScene(scriptPath)
 
     self.drawCharacterAt = function (self, characterLocation, x,y)
         local character = self.characterLocations[characterLocation]
-        if character ~= nil 
+        if character ~= nil
         and self.characters[character.name].poses[character.frame] ~= nil then
             local char = self.characters[character.name]
             local pose = char.poses[character.frame]
@@ -114,8 +114,17 @@ function NewScene(scriptPath)
             if self.charAnimIndex >= #pose.anim then
                 self.charAnimIndex = 1
             end
-
-            love.graphics.draw(pose.source, pose.anim[math.max(math.floor(self.charAnimIndex +0.5), 1)], x,y)
+            local animIndex = math.max(math.floor(self.charAnimIndex +0.5), 1)
+            local nextPose = pose.anim[animIndex]
+            local curX, curY, width, height = nextPose:getViewport()
+            -- If x is 0, we expect we wanted to center the image. Right now, not
+            -- every asset has been updated to the correct aspect ratio, so calculate
+            -- the amount we need to move it over by based on the width of the frame
+            if x == 0 then
+                love.graphics.draw(pose.source, nextPose, GetCenterOffset(width),y)
+            else
+                love.graphics.draw(pose.source, nextPose, x,y)
+            end
         end
     end
 
@@ -167,7 +176,7 @@ function NewScene(scriptPath)
             love.graphics.rectangle("fill", 0,24,GraphicsWidth(),92)
 
             love.graphics.setColor(0,0,0)
-            love.graphics.printf("court record", 0,0, GraphicsWidth(), "center")
+            love.graphics.printf("Court Record", 0,0, GraphicsWidth(), "center")
 
             love.graphics.setColor(1,1,1)
             if #self.courtRecord >= self.courtRecordIndex then
@@ -180,7 +189,9 @@ function NewScene(scriptPath)
 
                 local name = self.courtRecord[self.courtRecordIndex].info
                 local rectWidth = #name*8
+                love.graphics.setFont(SmallFont)
                 love.graphics.printf(name, GraphicsWidth()/2 - rectWidth/2,GraphicsHeight()/2, rectWidth, "center")
+                love.graphics.setFont(GameFont)
 
             else
                 love.graphics.printf("empty", 0,48, GraphicsWidth(), "center")
@@ -208,8 +219,11 @@ function NewScene(scriptPath)
                 local lineTableIndex = 1
                 local fullwords = ""
                 local working = ""
-                local wrapWidth = 210
+                -- Space to allocate to the left and right of the text within the box
+                local sidePadding = 20
+                local wrapWidth = self.textBoxSprite:getWidth() - (sidePadding * 2)
 
+                --
                 for i=1, #self.fullText do
                     local char = string.sub(self.fullText, i,i)
 
@@ -242,9 +256,98 @@ function NewScene(scriptPath)
                     lineTable[lineTableIndex] = lineTable[lineTableIndex] .. char
                 end
 
+                local coloredLine1 = {}
+                local coloredLine2 = {}
+                local coloredLine3 = {}
+                local string = ""
+                colorSetup = {}
+
+                -- Supports colored text within lines
                 for i=1, #lineTable do
-                    love.graphics.print(lineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+                    for j=1, #lineTable[i] do
+                        if i == 1 then
+                            coloredTable = coloredLine1
+                        elseif i == 2 then
+                            coloredTable = coloredLine2
+                        elseif i == 3 then
+                            coloredTable = coloredLine3
+                        end
+
+                        local char = string.sub(lineTable[i], j,j)
+
+                        -- Sets the color at the beginning of the line
+                        if i == 1 then
+                            if j == 1 then
+                                table.insert(coloredTable,self.textColor)
+                            end
+                        elseif j == 1 then
+                            if colored then -- Continues the color onto a newline
+                                table.insert(coloredTable,tempColor)
+                            else
+                                table.insert(coloredTable,self.textColor)
+                            end
+                        end
+
+                        -- Checks for script color setup character "%"
+                        if char == "%" then
+                            colorSetup = {}
+                            colorSetup["s"] = j+1
+                        end
+
+                        if colorSetup["s"] == j then
+                            if char == "0" then --End of a colored segment, add the colored string to the table, then add the normal color back
+                                table.insert(coloredTable,string)
+                                string = ""
+                                table.insert(coloredTable,self.textColor)
+                                colored = nil
+                            elseif char == "1" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {1,0,0}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            elseif char == "2" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {0,1,0}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            elseif char == "3" then -- Start of a colored segment, add the string before the new color to the table, then add the new color
+                                table.insert(coloredTable,string)
+                                string = ""
+                                tempColor = {0,0,1}
+                                table.insert(coloredTable,tempColor)
+                                colored = true
+                            else -- If not the start or end of a colored segment, simply add the character to the string to be added to the table
+                                string = string..char
+                            end
+                        else
+                            string = string..char
+                        end
+
+                        if j == #lineTable[i] then -- If it's the end of the line, add the string to the table, always ends on a string
+                            table.insert(coloredTable,string)
+                            string = ""
+                        end
+                    end
                 end
+
+                -- Resets things between speak events
+                colored = nil
+                colorSetup = {}
+
+                -- If these lines are empty, adds a blank string to ensure it doesn't crash
+                if coloredLine2[1] == nil then coloredLine2[1] = "" end
+                if coloredLine3[1] == nil then coloredLine3[1] = "" end
+
+                -- Combine the colored line tables into a single colored line table
+                local coloredLineTable = {coloredLine1,coloredLine2,coloredLine3}
+
+                -- Prints
+                for i=1, #lineTable do
+                    love.graphics.print(coloredLineTable[i], 8, GraphicsHeight()-60 + (i-1)*16)
+                end
+            -- Centered Text, untouched by inline colored text
             else
                 local lineTable = {"", "", ""}
                 local lineIndex = 1
@@ -271,6 +374,8 @@ function NewScene(scriptPath)
                         lineTableFull[lineIndex] = lineTableFull[lineIndex] .. char
                     end
                 end
+
+
 
                 for i=1, #lineTable do
                     local xText = GraphicsWidth()/2 - GameFont:getWidth(lineTableFull[i])/2

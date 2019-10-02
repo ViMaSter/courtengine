@@ -89,27 +89,30 @@ function DrawCenteredRectangle(options)
         local buttonPadding = options.buttonPadding or 30
         local buttonSlantWidth = options.buttonSlantWidth or 30
         local buttonTabHeight = options.buttonHeight or 30
-        local buttonTabWidth = options.buttonTabWidth or 0
         local buttonTextPadding = options.buttonTextPadding or 5
 
         -- Approximate the width we'll need to display all the buttons
         -- Eventually this could just be an asset
-        if buttonTabWidth == 0 then
-            for i=1, #buttons do
-                buttonTabWidth = buttonTabWidth +
-                    (buttonPadding * 2) +
-                    #(buttons[i].key) +
-                    #(buttons[i].title) +
-                    (buttonTextPadding * 4)
-            end
+        local buttonTabWidth = 0
+        for i=1, #buttons do
+            local buttonKey = love.graphics.newText(GameFont, buttons[i].key)
+            local buttonTitle = love.graphics.newText(GameFont, buttons[i].title)
 
-            -- If there's only one button, we don't need extra padding
-            -- on the right
-            if #buttons > 2 then
-                buttonTabWidth = buttonTabWidth + buttonPadding
-            end
+            local keyLen = #(buttons[i].key)
+            local keyHeight = buttonTabHeight - (buttonTextPadding * 2)
+            local keyWidth = keyLen > 1 and buttonKey:getWidth() + (buttonTextPadding * 2) or keyHeight
+
+            buttonTabWidth = buttonTabWidth +
+                (i > 1 and buttonPadding or 0) +
+                keyWidth +
+                buttonTitle:getWidth() + (buttonTextPadding * 2)
         end
 
+        -- If there's only one button, we don't need extra padding
+        -- on the right
+        -- if #buttons > 2 then
+        --     buttonTabWidth = buttonTabWidth + buttonPadding
+        -- end
 
         local bottomRightX = topLeftX + width
         local bottomRightY = topLeftY + height
@@ -129,12 +132,15 @@ function DrawCenteredRectangle(options)
         )
 
         local lastX = bottomRightX - buttonTabWidth
+        local keyY = bottomRightY - buttonTabHeight + buttonTextPadding
+        local keyHeight = buttonTabHeight - (buttonTextPadding * 2)
         for i=1, #buttons do
+            local buttonKey = love.graphics.newText(GameFont, GetKeyDisplayName(buttons[i].key))
+            local buttonTitle = love.graphics.newText(GameFont, buttons[i].title)
+
             local keyLen = #(buttons[i].key)
-            local keyX = lastX + (buttonPadding * (i - 1)) + buttonTextPadding
-            local keyY = bottomRightY - buttonTabHeight + buttonTextPadding
-            local keyHeight = buttonTabHeight - (buttonTextPadding * 2)
-            local keyWidth = keyLen > 1 and (#(buttons[i].key) * 10) or keyHeight
+            local keyX = lastX + (i > 1 and buttonPadding or 0)
+            local keyWidth = keyLen > 1 and buttonKey:getWidth() + (buttonTextPadding * 2) or keyHeight
 
             -- Button key indicator
             love.graphics.setColor(unpack(buttonKeyBackgroundColorAlpha))
@@ -150,14 +156,14 @@ function DrawCenteredRectangle(options)
 
             -- Button key text
             love.graphics.setColor(unpack(buttonKeyColorAlpha))
-            love.graphics.print(buttons[i].key, keyX + (keyLen > 1 and buttonTextPadding or (keyWidth / 2 - 4)), keyY + 2, 0, 1, 1)
+            love.graphics.draw(buttonKey, keyX + buttonTextPadding, keyY + 2, 0, 1, 1)
 
             -- Button command text
             love.graphics.setColor(unpack(buttonColorAlpha))
-            love.graphics.print(buttons[i].title, keyX + keyWidth + buttonTextPadding, keyY + 2, 0, 1, 1)
+            love.graphics.draw(buttonTitle, keyX + keyWidth + buttonTextPadding, keyY + 2, 0, 1, 1)
 
             -- Keep track of where this button ended so we know where to start
-            lastX = keyX + keyWidth + (#(buttons[i].title) * 5)
+            lastX = keyX + keyWidth + buttonTextPadding + buttonTitle:getWidth()
         end
     end
 end
@@ -178,32 +184,46 @@ function DrawPauseScreen(self)
                 title = "Back",
                 key = controls.pause
             },
+            {
+                title = "Court Records",
+                key = controls.press_court_record
+            },
+            {
+                title = "Grump Out",
+                key = "delete"
+            },
+            {
+                title = "Cheat Codes",
+                key = "lctrl"
+            }
         },
     })
 
     -- Temporary text where the settings should go
+    local pauseHeader = love.graphics.newText(GameFont, "THE GAME IS PAUSED")
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print("THE GAME IS PAUSED", love.graphics.getWidth()/3 + 15, 120, 0, 2, 2)
+    love.graphics.draw(pauseHeader, GetCenterOffset(pauseHeader:getWidth() * 2, false), 120, 0, 2, 2)
 
     -- Temporary(?) tools for easier developing/testing
-    love.graphics.print("Scene Script - navigate with arrow keys", 240, 220, 0, 1, 1)
+    local scriptHeader = love.graphics.newText(GameFont, "Scene Script - navigate with arrow keys")
+    love.graphics.draw(scriptHeader, GetCenterOffset(scriptHeader:getWidth(), false), 220)
     local boxWidth = love.graphics.getWidth() * 3/5 - 70
-    local boxHeight = 400
+    local boxHeight = 360
     love.graphics.setColor(0.5, 0.5, 0.5)
     love.graphics.rectangle(
         "fill",
-        240,
+        240 + 33.25,
         240,
         boxWidth,
         boxHeight
     )
 
-    -- Only show up to 10 events for them to go back and forth between
+    -- Only a few events for them to go back and forth between
     love.graphics.setColor(1, 1, 1)
 
     local firstIndex = NavigationIndex > 5 and (NavigationIndex - 5) or 1
     local displayedIndex = 1
-    for i=firstIndex, firstIndex + 9 do
+    for i=firstIndex, firstIndex + 8 do
         if i < #CurrentScene.sceneScript then
             local label = i
             for j=1, #CurrentScene.sceneScript[i].lineParts do
@@ -216,8 +236,19 @@ function DrawPauseScreen(self)
                 love.graphics.setColor(1, 1, 1)
             end
 
-            love.graphics.print(label, 245, 250 + 40 * (displayedIndex - 1), 0, 1, 1)
+            love.graphics.print(label, 245 + 33.25, 250 + 40 * (displayedIndex - 1), 0, 1, 1)
             displayedIndex = displayedIndex + 1
         end
+    end
+end
+
+-- Given the width of the drawable, return the x value to use to center the element
+-- on the screen
+function GetCenterOffset(elementWidth, isScaled)
+    isScaled = isScaled == nil and true or isScaled
+    if isScaled then
+        return ((dimensions.window_width / dimensions.graphics_scale) - elementWidth) / 2
+    else
+        return (dimensions.window_width - elementWidth) / 2
     end
 end
