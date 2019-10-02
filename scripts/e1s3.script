@@ -52,7 +52,7 @@ DEFINE TRIAL_FAIL
 END_DEFINE
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SAHWIT TESTIMONY
+// SCENE START
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 JUMPCUT COURT_WITNESS  // Need to hold on him for a few seconds
@@ -68,6 +68,10 @@ SPEAK_FROM COURT_JUDGE
 
 SPEAK Judge  // Angry pose
     "Please tell the court what you saw on the day of the murder."
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SAHWIT TESTIMONY
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
@@ -94,7 +98,7 @@ SPEAK_FROM COURT_JUDGE  // Angry pose
     "Hmm..."
 
 JUMPCUT COURT_DEFENSE
-// ANIMATION DeskSlam - Not working
+// ANIMATION Phoenix DeskSlam
 THINK Phoenix
     "(Larry! Why didn't you tell the truth?)"
 
@@ -187,7 +191,7 @@ DEFINE PressA1
         "Er... heh. I don't know. He just seemed strange to me, that's all. Like he was mad, and yet frightened at the same time. Just like... a criminal fleeing the scene of a crime!"
     
     JUMPCUT COURT_DEFENSE
-    ANIMATION Phoenix DeskSlam
+    // ANIMATION Phoenix DeskSlam
     SCREEN_SHAKE
     SPEAK Phoenix
         "The defense requests that the witness refrain from conjecture!"
@@ -230,7 +234,7 @@ END_DEFINE
 DEFINE PressA4
     SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
-    ANIMATION Phoenix DeskSlam
+    // ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
         "Are you sure she was dead?"
 
@@ -260,7 +264,7 @@ END_DEFINE
 DEFINE PressA6
     SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
-    ANIMATION Phoenix DeskSlam
+    // ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
         "You "thought" to call the police? Does that mean you didn't actually call them!?"
 
@@ -301,7 +305,7 @@ END_DEFINE
 DEFINE PressA9
     SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
-    ANIMATION Phoenix DeskSlam
+    // ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
         "1:00 PM! Are you certain?"
 
@@ -319,7 +323,7 @@ END_DEFINE
 DEFINE PressA10
     SHOUT Phoenix holdit
     JUMPCUT COURT_DEFENSE
-    ANIMATION Phoenix DeskSlam
+    // ANIMATION Phoenix DeskSlam
     SPEAK Phoenix
         "Are you absolutely, 100% positive?"
     
@@ -364,7 +368,7 @@ WITNESS_EVENT CrossExamination Sahwit "-- Witness's Account --" CrossExamFail
 // "That's all of it. There must be a contradiction in there somewhere. Examine the %1Court Record%0 button if something strikes you as being suspicious. Then, find the evidence that contradictsh is testimony, and %1present%0 it to him!"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// CONTINUING TRIAL
+// END CROSS EXAMINATION
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 SHOUT Phoenix objection
@@ -377,7 +381,7 @@ SPEAK_FROM COURT_WITNESS
     "Yes. It was 1:00 PM, for certain."
 
 JUMPCUT COURT_DEFENSE
-ANIMATION DeskSlam
+// ANIMATION Phoenix DeskSlam
 SPEAK Phoenix
     "Frankly,"
 
@@ -389,7 +393,7 @@ SPEAK Phoenix  // Tapping paper pose
     "Your statement directly contradicts the autopsy report."
 
 SPEAK Phoenix  // Tapping paper pose
-    "The autopsy notes the time of death at sometime after 4PM. There was nobody to... er... no "body" to find at 1:00 PM!"
+    "The autopsy notes the time of death at sometime after 4PM. There was nobody to... er... no $qbody$q to find at 1:00 PM!"
 
 POSE Phoenix Confident
 SPEAK Phoenix
@@ -417,7 +421,13 @@ SPEAK_FROM COURT_WITNESS  // Sweaty pose
     "I... er... well, I... Gee, that's a really good question!"
 
 SPEAK_FROM COURT_ASSISTANT
-    "Great job, Wright! Way to put him on the spot! That's all you have to do: point out contradictions! Lies always beget more lies! See through one and their whole story falls apart!"
+    "Great job, Wright! Way to put him on the spot!"
+
+SPEAK Mia    
+    "That's all you have to do: point out contradictions!"
+    
+SPEAK Mia
+    "Lies always beget more lies! See through one and their whole story falls apart!"
 
 JUMPCUT COURT_WITNESS
 SCREEN_SHAKE
@@ -431,6 +441,9 @@ SPEAK_FROM COURT_JUDGE  // Angry pose
 // SAHWIT TESTIMONY 2
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+JUMPCUT COURT_WITNESS
+PLAY_MUSIC QUESTIONING
+
 WITNESS_EVENT WitnessTestimony Sahwit "-- The Time of Discovery --"
     "You see, when I found the body, I heard the time."
     "There was a voice saying the time... It was probably coming from the television."  // Flashback BG 2
@@ -438,6 +451,12 @@ WITNESS_EVENT WitnessTestimony Sahwit "-- The Time of Discovery --"
     "I guess the victim must have been watching a video of a taped program!"
     "That's why I thought it was 1:00 PM!"  // Courtroom
     "Terribly sorry about the misunderstanding..."
+
+STOP_MUSIC
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// END TESTIMONY
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 SPEAK_FROM COURT_JUDGE  // Angry pose
     "Hmm... I see. You heard a voice saying the time on a taped program. Mr. Wright, you may cross-examine the witness."
