@@ -193,10 +193,11 @@ function NewCrossExaminationEvent(queue)
         end
 
         if love.keyboard.isDown("up")
-        and scene.showCourtRecord
+        and screens.courtRecords.displayed
         and not inTitle then
-            scene.showCourtRecord = false
-            if scene.courtRecord[scene.courtRecordIndex].name == self.queue[self.textIndex+2] then
+            screens.courtRecords.displayed = false
+
+            if Episode.courtRecords[CourtRecordIndex].name == self.queue[self.textIndex+2] then
                 return false
             else
                 scene:runDefinition(self.queue[3])
@@ -209,7 +210,7 @@ function NewCrossExaminationEvent(queue)
 
     self.draw = function (self, scene)
         if self.timer < self.animationTime then
-            love.graphics.draw(crossExaminationSprite, GraphicsWidth()/2,GraphicsHeight()/2 -24, 0, 1,1, crossExaminationSprite:getWidth()/2,crossExaminationSprite:getHeight()/2)
+            love.graphics.draw(crossExaminationSprite, GraphicsWidth/2,GraphicsHeight/2 -24, 0, 1,1, crossExaminationSprite:getWidth()/2,crossExaminationSprite:getHeight()/2)
         else
             love.graphics.setColor(1,1,1)
             for i=1, scene.penalties do
@@ -346,7 +347,7 @@ function NewGavelEvent()
     self.draw = function (self, scene)
         local gavelAnimation = Sprites["GavelAnimation"]
         local spr = gavelAnimation[self.index]
-        love.graphics.draw(spr, 0,0, 0, GraphicsWidth()/spr:getWidth(),GraphicsHeight()/spr:getHeight())
+        love.graphics.draw(spr, 0,0, 0, GraphicsWidth/spr:getWidth(),GraphicsHeight/spr:getHeight())
     end
     return self
 end
@@ -358,20 +359,20 @@ function NewPanEvent(from, to)
         self.xStart = 0
     end
     if from == "COURT_PROSECUTION" then
-        self.xStart = courtPanSprite:getWidth() - GraphicsWidth()
+        self.xStart = courtPanSprite:getWidth() - GraphicsWidth
     end
     if from == "COURT_WITNESS" then
-        self.xStart = courtPanSprite:getWidth()/2 - GraphicsWidth()/2
+        self.xStart = courtPanSprite:getWidth()/2 - GraphicsWidth/2
     end
 
     if to == "COURT_DEFENSE" then
         self.xTo = 0
     end
     if to == "COURT_PROSECUTION" then
-        self.xTo = courtPanSprite:getWidth() - GraphicsWidth()
+        self.xTo = courtPanSprite:getWidth() - GraphicsWidth
     end
     if to == "COURT_WITNESS" then
-        self.xTo = courtPanSprite:getWidth()/2 - GraphicsWidth()/2
+        self.xTo = courtPanSprite:getWidth()/2 - GraphicsWidth/2
     end
     self.x = self.xStart
 
@@ -392,10 +393,10 @@ function NewPanEvent(from, to)
         love.graphics.draw(courtPanSprite, -1*self.x, 0)
         scene:drawCharacterAt("COURT_DEFENSE", -1*self.x, 0)
         scene:drawBackgroundTopLayer("COURT_DEFENSE", -1*self.x, 0)
-        scene:drawCharacterAt("COURT_PROSECUTION", courtPanSprite:getWidth() - GraphicsWidth() -1*self.x, 0)
-        scene:drawBackgroundTopLayer("COURT_PROSECUTION", courtPanSprite:getWidth() - GraphicsWidth() -1*self.x, 0)
-        scene:drawCharacterAt("COURT_WITNESS", courtPanSprite:getWidth()/2 - GraphicsWidth()/2 -1*self.x, 0)
-        scene:drawBackgroundTopLayer("COURT_WITNESS", courtPanSprite:getWidth()/2 - GraphicsWidth()/2 -1*self.x, 0)
+        scene:drawCharacterAt("COURT_PROSECUTION", courtPanSprite:getWidth() - GraphicsWidth -1*self.x, 0)
+        scene:drawBackgroundTopLayer("COURT_PROSECUTION", courtPanSprite:getWidth() - GraphicsWidth -1*self.x, 0)
+        scene:drawCharacterAt("COURT_WITNESS", courtPanSprite:getWidth()/2 - GraphicsWidth/2 -1*self.x, 0)
+        scene:drawBackgroundTopLayer("COURT_WITNESS", courtPanSprite:getWidth()/2 - GraphicsWidth/2 -1*self.x, 0)
     end
 
     return self

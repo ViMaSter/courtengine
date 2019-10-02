@@ -1,40 +1,40 @@
-function LoadBackgrounds()
+function LoadBackgrounds(directoryName)
     Backgrounds = {
         NONE = {},
     }
 
-    files = love.filesystem.getDirectoryItems("backgrounds/")
+    files = love.filesystem.getDirectoryItems(directoryName)
 
     for b, i in ipairs(files) do
         if string.match(i,".png") then
             if string.match(i,"_1") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_1","")
-                Backgrounds[a] = {love.graphics.newImage("backgrounds/"..i)}
+                Backgrounds[a] = {love.graphics.newImage(directoryName..i)}
             elseif string.match(i,"_2") then
                 local a = i:gsub(".png","")
                 local a = a:gsub("_2","")
-                table.insert(Backgrounds[a],love.graphics.newImage("backgrounds/"..i))
+                table.insert(Backgrounds[a],love.graphics.newImage(directoryName..i))
             else
                 local a = i:gsub(".png","")
-                Backgrounds[a] = {love.graphics.newImage("backgrounds/"..i)}
+                Backgrounds[a] = {love.graphics.newImage(directoryName..i)}
             end
         end
     end
 end
 
-function LoadMusic()
+function LoadMusic(directoryName)
     Music = {}
 
-    files = love.filesystem.getDirectoryItems("music/")
+    files = love.filesystem.getDirectoryItems(directoryName)
 
     for b, i in ipairs(files) do
         if string.match(i,".mp3") then
             local a = i:gsub(".mp3",""):upper()
-            Music[a] = love.audio.newSource("music/"..i, "static")
+            Music[a] = love.audio.newSource(directoryName..i, "static")
         elseif string.match(i,".wav") then
             local a = i:gsub(".wav",""):upper()
-            Music[a] = love.audio.newSource("music/"..i, "static")
+            Music[a] = love.audio.newSource(directoryName..i, "static")
         end
     end
 
@@ -44,10 +44,10 @@ function LoadMusic()
     end
 end
 
-function LoadSprites()
+function LoadSprites(directoryName)
     Sprites = {}
 
-    files = love.filesystem.getDirectoryItems("sprites/")
+    files = love.filesystem.getDirectoryItems(directoryName)
 
     for b, i in ipairs(files) do
         if string.match(i,".png") then
@@ -56,68 +56,68 @@ function LoadSprites()
                     local a = i:gsub(".png","")
                     local a = a:gsub("_1","")
                     local a = a.."Animation"
-                    Sprites[a] = {love.graphics.newImage("sprites/"..i)}
+                    Sprites[a] = {love.graphics.newImage(directoryName..i)}
                 elseif string.match(i,"_2") then
                     local a = i:gsub(".png","")
                     local a = a:gsub("_2","")
                     local a = a.."Animation"
-                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                    table.insert(Sprites[a],love.graphics.newImage(directoryName..i))
                 elseif string.match(i,"_3") then
                     local a = i:gsub(".png","")
                     local a = a:gsub("_3","")
                     local a = a.."Animation"
-                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                    table.insert(Sprites[a],love.graphics.newImage(directoryName..i))
                 elseif string.match(i,"_4") then
                     local a = i:gsub(".png","")
                     local a = a:gsub("_4","")
                     local a = a.."Animation"
-                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                    table.insert(Sprites[a],love.graphics.newImage(directoryName..i))
                 elseif string.match(i,"_5") then
                     local a = i:gsub(".png","")
                     local a = a:gsub("_5","")
                     local a = a.."Animation"
-                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                    table.insert(Sprites[a],love.graphics.newImage(directoryName..i))
                 elseif string.match(i,"_6") then
                     local a = i:gsub(".png","")
                     local a = a:gsub("_6","")
                     local a = a.."Animation"
-                    table.insert(Sprites[a],love.graphics.newImage("sprites/"..i))
+                    table.insert(Sprites[a],love.graphics.newImage(directoryName..i))
                 end
             elseif string.match(i,"Font") then
                 False = false
             else
                 local a = i:gsub(".png","")
-                Sprites[a] = love.graphics.newImage("sprites/"..i)
+                Sprites[a] = love.graphics.newImage(directoryName..i)
             end
         end
     end
 end
 
-function LoadShouts()
+function LoadShouts(directoryName)
     Shouts = {}
 
-    files = love.filesystem.getDirectoryItems("sprites/shouts/")
+    files = love.filesystem.getDirectoryItems(directoryName)
 
     for b, i in ipairs(files) do
         if string.match(i,".png") then
             local a = i:gsub(".png","")
-            Shouts[a] = love.graphics.newImage("sprites/shouts/"..i)
+            Shouts[a] = love.graphics.newImage(directoryName..i)
         end
     end
 end
 
-function LoadSFX()
+function LoadSFX(directoryName)
     Sounds = {}
 
-    files = love.filesystem.getDirectoryItems("sounds/")
+    files = love.filesystem.getDirectoryItems(directoryName)
 
     for b, i in ipairs(files) do
         if string.match(i,".mp3") then
             local a = i:gsub(".mp3",""):upper()
-            Sounds[a] = love.audio.newSource("sounds/"..i, "static")
+            Sounds[a] = love.audio.newSource(directoryName..i, "static")
         elseif string.match(i,".wav") then
             local a = i:gsub(".wav",""):upper()
-            Sounds[a] = love.audio.newSource("sounds/"..i, "static")
+            Sounds[a] = love.audio.newSource(directoryName..i, "static")
         end
     end
 
@@ -135,10 +135,10 @@ function LoadMisc()
 end
 
 function LoadAssets()
-    LoadBackgrounds()
-    LoadMusic()
-    LoadSprites()
-    LoadShouts()
-    LoadSFX()
+    LoadBackgrounds(settings.background_directory)
+    LoadMusic(settings.music_directory)
+    LoadSprites(settings.sprite_directory)
+    LoadShouts(settings.shouts_directory)
+    LoadSFX(settings.sfx_directory)
     LoadMisc()
 end
