@@ -72,7 +72,7 @@ SPEAK Judge  // Angry pose
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
 
-WITNESS_TESTIMONY Sahwit "-- Witness's Account --"
+WITNESS_EVENT WitnessTestimony Sahwit "-- Witness's Account --"
     "I was going door-to-door, selling subscriptions when I saw a man fleeing an apartment."
     "I thought he must be in a hurry because he left the door half-open behind him."  // Flashback BG 1
     "Thinking it strange, I looked inside the apartment." 
@@ -83,6 +83,8 @@ WITNESS_TESTIMONY Sahwit "-- Witness's Account --"
     "I went to a nearby park and found a public phone."
     "I remember the time exactly: It was 1:00 PM."  // Courtroom
     "The man who ran was, without a doubt, the defendant sitting right over there."
+
+STOP_MUSIC
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // END TESTIMONY
@@ -97,7 +99,7 @@ THINK Phoenix
     "(Larry! Why didn't you tell the truth?)"
 
 POSE Phoenix Sweaty
-SPEAK Phoenix
+THINK Phoenix
     "(I can't defend you against a testimony like that!)"
 
 SPEAK_FROM COURT_JUDGE  // Angry pose
@@ -155,13 +157,22 @@ SPEAK Phoenix
     "!!! How do I prove he's not?"
 
 SPEAK Mia
-    "You hold the key! It's in the evidence! Compare the witness's testimony to the %1evidence%0 at hand. There's bound to be a %1contradiction%0 in there! First, find contradictions between the %1Court Record%0 and the witness's testimony. Then, once you'v found the contradicting %1evidence%0... %1present%0 it and rub it in the witness's face!"
+    "You hold the key! It's in the evidence!"
+
+SPEAK Mia    
+    "Compare the witness's testimony to the %1evidence%0 at hand. There's bound to be a %1contradiction%0 in there! 
+    
+SPEAK Mia
+    "First, find contradictions between the %1Court Record%0 and the witness's testimony." 
+    
+SPEAK Mia
+    "Then, once you've found the contradicting %1evidence%0... %1present%0 it and rub it#in the witness's face!"
 
 SPEAK Phoenix
     "Um... okay."
 
 SPEAK Mia
-    "Touch the %1Court Record%0 button and point out %1contradictions%0 in the testimony!"
+    "Open the %1Court Record%0 and point out %1contradictions%0 in the testimony!"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CROSS EXAMINATION
@@ -337,7 +348,7 @@ END_DEFINE
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
 
-CROSS_EXAMINATION Sahwit "-- Witness's Account --" CrossExamFail
+WITNESS_EVENT CrossExamination Sahwit "-- Witness's Account --" CrossExamFail
     "I was going door-to-door, selling subscriptions when I saw a man fleeing an apartment." PressA1 0
     "I thought he must be in a hurry because he left the door half-open behind him." PressA2 0
     "Thinking it strange, I looked inside the apartment." PressA3 0
@@ -420,7 +431,7 @@ SPEAK_FROM COURT_JUDGE  // Angry pose
 // SAHWIT TESTIMONY 2
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WITNESS_TESTIMONY Sahwit "-- The Time of Discovery --"
+WITNESS_EVENT WitnessTestimony Sahwit "-- The Time of Discovery --"
     "You see, when I found the body, I heard the time."
     "There was a voice saying the time... It was probably coming from the television."  // Flashback BG 2
     "Oh, but it was three hours off, wasn't it?"
@@ -544,7 +555,7 @@ END_DEFINE
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
 
-CROSS_EXAMINATION Sahwit "-- The Time of Discovery --" CrossExamFail
+WITNESS_EVENT CrossExamination Sahwit "-- The Time of Discovery --" CrossExamFail
     "You see, when I found the body, I heard the time." PressB1 0
     "There was a voice saying the time... It was probably coming from the television." PressB2 0
     "Oh, but it was three hours off, wasn't it?" PressB3 0

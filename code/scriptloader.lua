@@ -9,8 +9,7 @@ function LoadScript(scene, scriptPath)
     local queuedSpeak = nil
     local queuedThink = nil
     local queuedTypewriter = nil
-    local witnessTestimonyQueue = nil
-    local crossExaminationQueue = nil
+    local witnessQueue = nil
     local choiceQueue = nil
     local fakeChoiceQueue = nil
     local invMenuQueue = nil
@@ -24,27 +23,14 @@ function LoadScript(scene, scriptPath)
             local lineParts = DisectLine(line)
             local canExecuteLine = true
 
-            if witnessTestimonyQueue ~= nil then
+            if witnessQueue ~= nil then
                 if #lineParts > 0 then
                     for i=1, #lineParts do
-                        table.insert(witnessTestimonyQueue, lineParts[i])
+                        table.insert(witnessQueue, lineParts[i])
                     end
                 else
-                    AddToStack(events, sceneScript, NewWitnessTestimonyEvent(witnessTestimonyQueue), lineParts)
-                    witnessTestimonyQueue = nil
-                end
-
-                canExecuteLine = false
-            end
-
-            if crossExaminationQueue ~= nil then
-                if #lineParts > 0 then
-                    for i=1, #lineParts do
-                        table.insert(crossExaminationQueue, lineParts[i])
-                    end
-                else
-                    AddToStack(stack, NewCrossExaminationEvent(crossExaminationQueue), lineParts)
-                    crossExaminationQueue = nil
+                    AddToStack(stack, NewWitnessEvent(witnessQueue), lineParts)
+                    witnessQueue = nil
                 end
 
                 canExecuteLine = false
@@ -212,11 +198,8 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "SCREEN_SHAKE" then
                     AddToStack(stack, NewScreenShakeEvent(), lineParts)
                 end
-                if lineParts[1] == "WITNESS_TESTIMONY" then
-                    witnessTestimonyQueue = {lineParts[2], lineParts[3]}
-                end
-                if lineParts[1] == "CROSS_EXAMINATION" then
-                    crossExaminationQueue = {lineParts[2], lineParts[3], lineParts[4]}
+                if lineParts[1] == "WITNESS_EVENT" then
+                    witnessQueue = {lineParts[2], lineParts[3], lineParts[4]}
                 end
                 if lineParts[1] == "CHOICE" then
                     choiceQueue = {}

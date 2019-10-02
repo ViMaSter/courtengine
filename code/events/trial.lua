@@ -23,23 +23,43 @@ function NewShoutEvent(who, what)
     return self
 end
 
-function NewWitnessTestimonyEvent(queue)
+function NewWitnessEvent(queue)
     local self = {}
-    local witnessTestimonySprite = Sprites["WitnessTestimony"]
-    local testimonySprite = Sprites["Testimony"]
-    -- TODO: add flashback backgrounds
     self.queue = queue
+    self.eventType = queue[1]
     self.textScroll = 1
-    self.textIndex = 2
+    self.textIndex = 3
     self.wasPressing = true
-    self.who = queue[1]
+    self.who = queue[2]
     self.timer = 0
     self.animationTime = 1.5
+    local introSprite = Sprites[queue[1]]
+    local cornerSprite = nil
+    if self.eventType == "WitnessTestimony" then
+        cornerSprite = Sprites["Testimony"]
+    else  -- "CrossExamination"
+        cornerSprite = Sprites["Penalty"]
+    end
 
     self.advanceText = function (self)
-        self.textIndex = self.textIndex + 1
-        self.textScroll = 1
-        self.wasPressing = true
+        if self.eventType == "WitnessTestimony" then
+            self.textIndex = self.textIndex + 1
+            self.textScroll = 1
+            self.wasPressing = true
+        else  -- "CrossExamination"
+            if self.textIndex == 3 then
+                self.textIndex = 4
+            else
+                self.textIndex = self.textIndex + 3
+            end
+      
+            self.textScroll = 1
+            self.wasPressing = true
+      
+            if self.textIndex > #self.queue then  -- Loop cross examination
+                self.textIndex = 4
+            end
+        end
     end
 
     self.update = function (self, scene, dt)
@@ -49,29 +69,34 @@ function NewWitnessTestimonyEvent(queue)
         local text = self.queue[self.textIndex]
         local lastScroll = self.textScroll
 
-        if text == nil then  -- Terminate testimony
+        if not text then  -- Terminate witness testimony
             return false
         end
 
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
 
-        local inTitle = self.textIndex == 2
+        local inTitle = self.textIndex == 3
         if inTitle then  -- Title formatting
-            scene.textColor = {1,0.6,0.3}
+            scene.textColor = {1, 0.5, 0}
             scene.textCentered = true
         else  -- Dialogue formatting
-            -- scene.characters[self.who].frame = self.queue[self.textIndex+3]  Character pose
             if self.textScroll < #text then
                 scene.characterTalking = true
             end
-            
-            scene.textColor = {1,1,1}
+
+            if self.eventType == "WitnessTestimony" then
+                scene.textColor = {1, 1, 1}
+            else  -- "CrossExamination"
+                scene.textColor = {0, 1, 0}
+            end
         end
+
         scene.text = string.sub(text, 1, math.floor(self.textScroll))
         scene.fullText = text
         scene.textTalker = self.who
 
         local currentChar = string.sub(text, math.floor(self.textScroll), math.floor(self.textScroll))
+
         if self.textScroll > lastScroll
         and currentChar ~= " "
         and currentChar ~= ","
@@ -86,13 +111,39 @@ function NewWitnessTestimonyEvent(queue)
 
         -- Controls handling
         local canAdvance = self.textScroll >= #text and self.timer > self.animationTime
-        local pressing = love.keyboard.isDown("x")  -- Advance text
-        if pressing
+
+        -- Advance text
+        local pressing = love.keyboard.isDown("x")
+        if pressing 
         and not self.wasPressing
         and canAdvance then
             self:advanceText()
         end
         self.wasPressing = pressing
+
+        if self.eventType == "CrossExamination" then
+            -- Press witness
+            if love.keyboard.isDown("c")
+            and canAdvance
+            and not inTitle then
+                scene:runDefinition(self.queue[self.textIndex+1])
+                self:advanceText()
+            end
+
+            -- Present evidence
+            if love.keyboard.isDown("up")
+            and screens.courtRecords.displayed
+            and not inTitle then
+                screens.courtRecords.displayed = false
+
+                if Episode.courtRecords[CourtRecordIndex].name == self.queue[self.textIndex+2] then
+                    return false
+                else
+                    scene:runDefinition(self.queue[3])
+                    self:advanceText()
+                end
+            end
+        end
         -- End controls handling
 
         return true
@@ -100,121 +151,16 @@ function NewWitnessTestimonyEvent(queue)
 
     self.draw = function (self, scene)
         if self.timer < self.animationTime then
-            love.graphics.draw(witnessTestimonySprite, GraphicsWidth()/2, GraphicsHeight()/2 - 24, 0, 1, 1, witnessTestimonySprite:getWidth()/2, witnessTestimonySprite:getHeight()/2)
+            love.graphics.draw(introSprite, GraphicsWidth/2, GraphicsHeight/2 - 24, 0, 1, 1, introSprite:getWidth()/2, introSprite:getHeight()/2)
         else
             love.graphics.setColor(1,1,1)
-            love.graphics.draw(testimonySprite, 0 + 2, 2)  -- TODO: blinking animation
-        end
-    end
 
-    return self
-end
-
-function NewCrossExaminationEvent(queue)
-    local self = {}
-    local crossExaminationSprite = Sprites["CrossExamination"]
-    local penaltySprite = Sprites["Penalty"]
-    self.queue = queue
-    self.textScroll = 1
-    self.textIndex = 2
-    self.wasPressing = true
-    self.who = queue[1]
-    self.timer = 0
-    self.animationTime = 1.5
-
-    self.advanceText = function (self)
-        if self.textIndex == 2 then
-            self.textIndex = 4
-        else
-            self.textIndex = self.textIndex + 4
-        end
-
-        self.textScroll = 1
-        self.wasPressing = true
-
-        if self.textIndex > #self.queue then
-            self.textIndex = 4
-        end
-    end
-
-    self.update = function (self, scene, dt)
-        self.timer = self.timer + dt
-
-        local text = self.queue[self.textIndex]
-
-        local lastScroll = self.textScroll
-        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
-
-        local inTitle = self.textIndex == 2
-
-        if inTitle then
-            scene.textColor = {1,0.5,0}
-            scene.textCentered = true
-        else
-            scene.characters[self.who].frame = self.queue[self.textIndex+3]
-            if self.textScroll < #text then
-                scene.characterTalking = true
-            end
-
-            scene.textColor = {0,1,0.25}
-        end
-        scene.text = string.sub(text, 1, math.floor(self.textScroll))
-        scene.fullText = text
-        scene.textTalker = self.who
-
-        local currentChar = string.sub(text, math.floor(self.textScroll), math.floor(self.textScroll))
-        if self.textScroll > lastScroll
-        and currentChar ~= " "
-        and currentChar ~= ","
-        and currentChar ~= "-" then
-            if scene.characters[scene.textTalker].gender == "MALE" then
-                Sounds.MALETALK:play()
-            else
-                Sounds.FEMALETALK:play()
-            end
-        end
-
-
-        local canAdvance = self.textScroll >= #text and self.timer > self.animationTime
-
-        local pressing = love.keyboard.isDown("x")
-        if pressing
-        and not self.wasPressing
-        and canAdvance then
-            self:advanceText()
-        end
-        self.wasPressing = pressing
-
-        if love.keyboard.isDown("c")
-        and canAdvance
-        and not inTitle then
-            scene:runDefinition(self.queue[self.textIndex+1])
-            self:advanceText()
-        end
-
-        if love.keyboard.isDown("up")
-        and screens.courtRecords.displayed
-        and not inTitle then
-            screens.courtRecords.displayed = false
-
-            if Episode.courtRecords[CourtRecordIndex].name == self.queue[self.textIndex+2] then
-                return false
-            else
-                scene:runDefinition(self.queue[3])
-                self:advanceText()
-            end
-        end
-
-        return true
-    end
-
-    self.draw = function (self, scene)
-        if self.timer < self.animationTime then
-            love.graphics.draw(crossExaminationSprite, GraphicsWidth/2,GraphicsHeight/2 -24, 0, 1,1, crossExaminationSprite:getWidth()/2,crossExaminationSprite:getHeight()/2)
-        else
-            love.graphics.setColor(1,1,1)
-            for i=1, scene.penalties do
-                love.graphics.draw(penaltySprite, (i-1)*12 +2,2)
+            if self.eventType == "WitnessTestimony" then
+                love.graphics.draw(cornerSprite, 0 + 2, 2)  -- TODO: blinking animation
+            else  -- "CrossExamination"
+                for i=1, scene.penalties do
+                    love.graphics.draw(cornerSprite, (i-1)*12 +2,2)
+                end
             end
         end
     end
