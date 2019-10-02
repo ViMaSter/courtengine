@@ -24,12 +24,10 @@ function NewShoutEvent(who, what)
 end
 
 function NewWitnessTestimonyEvent(queue)
-    -- TODO: End event once lines are exhausted
-    -- TODO: add blinking Testimony sprite for upperlefthand corner
-    -- TODO: add flashback backgrounds
-
     local self = {}
     local witnessTestimonySprite = Sprites["WitnessTestimony"]
+    local testimonySprite = Sprites["Testimony"]
+    -- TODO: add flashback backgrounds
     self.queue = queue
     self.textScroll = 1
     self.textIndex = 2
@@ -40,13 +38,8 @@ function NewWitnessTestimonyEvent(queue)
 
     self.advanceText = function (self)
         self.textIndex = self.textIndex + 1
-
         self.textScroll = 1
         self.wasPressing = true
-
-        if self.textIndex > #self.queue then  -- TODO: Terminate testimony
-            self.textIndex = 3
-        end
     end
 
     self.update = function (self, scene, dt)
@@ -54,14 +47,17 @@ function NewWitnessTestimonyEvent(queue)
 
         -- Text format & behavior
         local text = self.queue[self.textIndex]
-
         local lastScroll = self.textScroll
+
+        if text == nil then  -- Terminate testimony
+            return false
+        end
+
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #text)
 
         local inTitle = self.textIndex == 2
-
         if inTitle then  -- Title formatting
-            scene.textColor = {1,0.5,0.4}
+            scene.textColor = {1,0.6,0.3}
             scene.textCentered = true
         else  -- Dialogue formatting
             -- scene.characters[self.who].frame = self.queue[self.textIndex+3]  Character pose
@@ -90,7 +86,6 @@ function NewWitnessTestimonyEvent(queue)
 
         -- Controls handling
         local canAdvance = self.textScroll >= #text and self.timer > self.animationTime
-
         local pressing = love.keyboard.isDown("x")  -- Advance text
         if pressing
         and not self.wasPressing
@@ -108,6 +103,7 @@ function NewWitnessTestimonyEvent(queue)
             love.graphics.draw(witnessTestimonySprite, GraphicsWidth()/2, GraphicsHeight()/2 - 24, 0, 1, 1, witnessTestimonySprite:getWidth()/2, witnessTestimonySprite:getHeight()/2)
         else
             love.graphics.setColor(1,1,1)
+            love.graphics.draw(testimonySprite, 0 + 2, 2)  -- TODO: blinking animation
         end
     end
 
@@ -200,7 +196,6 @@ function NewCrossExaminationEvent(queue)
         and scene.showCourtRecord
         and not inTitle then
             scene.showCourtRecord = false
-
             if scene.courtRecord[scene.courtRecordIndex].name == self.queue[self.textIndex+2] then
                 return false
             else

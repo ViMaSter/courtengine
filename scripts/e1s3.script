@@ -92,7 +92,7 @@ SPEAK_FROM COURT_JUDGE  // Angry pose
     "Hmm..."
 
 JUMPCUT COURT_DEFENSE
-ANIMATION DeskSlam
+// ANIMATION DeskSlam - Not working
 THINK Phoenix
     "(Larry! Why didn't you tell the truth?)"
 
@@ -319,7 +319,20 @@ DEFINE PressA10
         "The witness says he's certain!"
 END_DEFINE
 
-// TODO: Define fail case CrossExamFail
+// TODO: redefine fail condition
+DEFINE CrossExamFail
+    SHOUT Phoenix objection
+    POSE Phoenix Confident
+    SPEAK_FROM COURT_DEFENSE
+        "I object to that!"
+
+    SPEAK_FROM COURT_JUDGE
+        "Sorry Wright. I can see no contradictions there."
+
+    ISSUE_PENALTY
+    POSE Phoenix Normal
+    JUMPCUT COURT_WITNESS
+END_DEFINE
 
 JUMPCUT COURT_WITNESS
 PLAY_MUSIC QUESTIONING
