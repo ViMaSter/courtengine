@@ -24,10 +24,12 @@ function NewShoutEvent(who, what)
 end
 
 function NewWitnessTestimonyEvent(queue)
-    local self = {}
-    local witnessTestimonySprite = Sprites["WitnessTestimony"]
+    -- TODO: End event once lines are exhausted
     -- TODO: add blinking Testimony sprite for upperlefthand corner
     -- TODO: add flashback backgrounds
+
+    local self = {}
+    local witnessTestimonySprite = Sprites["WitnessTestimony"]
     self.queue = queue
     self.textScroll = 1
     self.textIndex = 2
@@ -62,7 +64,7 @@ function NewWitnessTestimonyEvent(queue)
             scene.textColor = {1,0.5,0.4}
             scene.textCentered = true
         else  -- Dialogue formatting
-            scene.characters[self.who].frame = self.queue[self.textIndex+3]
+            -- scene.characters[self.who].frame = self.queue[self.textIndex+3]  Character pose
             if self.textScroll < #text then
                 scene.characterTalking = true
             end

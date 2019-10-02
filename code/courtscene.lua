@@ -104,6 +104,7 @@ function NewScene(scriptPath)
         local character = self.characterLocations[characterLocation]
         if character ~= nil
         and self.characters[character.name].poses[character.frame] ~= nil then
+            print("courtscene.lua", character.name, character.frame)
             local char = self.characters[character.name]
             local pose = char.poses[character.frame]
 
