@@ -131,10 +131,10 @@ SPEAK_FROM COURT_DEFENSE
     "Yes! Er... yes, Your Honor?"
 
 SPEAK_FROM COURT_JUDGE  // Angry pose
-    "You may begin your cross-examination."  // "cross-examination" is red
+    "You may begin your %1cross-examination%0."
 
 SPEAK_FROM COURT_DEFENSE  // Thinking pose
-    "C-Cross-examination, Your Honor?"  // "cross-examination" is red
+    "%1C-Cross-examination%0, Your Honor?"
 
 SPEAK_FROM COURT_ASSISTANT  // Side profile pose
     "Alright, Wright, this is it. The real deal."
@@ -143,7 +143,7 @@ SPEAK Phoenix
     "Uh... what exactly am I supposed to do?"
 
 SPEAK Mia
-    "Why, you expose the lies in the testimony the witness just gave!"  // "lies" is red
+    "Why, you expose the %1lies%0 in the testimony the witness just gave!"
 
 SPEAK Phoenix
     "Lies! What?! He was lying!?"
@@ -155,13 +155,13 @@ SPEAK Phoenix
     "!!! How do I prove he's not?"
 
 SPEAK Mia
-    "You hold the key! It's in the evidence! Compare the witness's testimony to the evidence at hand. There's bound to be a contradiction in there! First, find contradictions between the Court Record and the witness's testimony. Then, once you'v found the contradicting evidence... present it and rub it in the witness's face!"  // "evidence," "contradiction," "Court Record," "evidence" (again), "present" are red
+    "You hold the key! It's in the evidence! Compare the witness's testimony to the %1evidence%0 at hand. There's bound to be a %1contradiction%0 in there! First, find contradictions between the %1Court Record%0 and the witness's testimony. Then, once you'v found the contradicting %1evidence%0... %1present%0 it and rub it in the witness's face!"
 
 SPEAK Phoenix
     "Um... okay."
 
 SPEAK Mia
-    "Touch the Court Record button and point out contradictions in the testimony!"  // "Court Record" and "contradictions" are red
+    "Touch the %1Court Record%0 button and point out %1contradictions%0 in the testimony!"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CROSS EXAMINATION
@@ -302,7 +302,7 @@ DEFINE PressA9
         "(Hmm... He seems really confident.)"
 
     SPEAK_FROM COURT_ASSISTANT
-        "1:00 PM? Wright. Doesn't that seem strange to you? Present some evidence to contradict him!"  // "1:00 PM," "evidence," and "contradict" are red
+        "%11:00 PM%0? Wright. Doesn't that seem strange to you? Present some %1evidence%0 to %1contradict%0 him!"
 END_DEFINE
 
 DEFINE PressA10
@@ -337,8 +337,7 @@ CROSS_EXAMINATION Sahwit "-- Witness's Account --" CrossExamFail
     "The man who ran was, without a doubt, the defendant sitting right over there." PressA10 0
 
 // TODO: Mia makes a comment before looping back to start of cross examination
-// "That's all of it. There must be a contradiction in there somewhere. Examine the Court Record button if something strikes you as being suspicious. Then, find the evidence that contradictsh is testimony, and present it to him!"
-// "Court Record" and "present" are red
+// "That's all of it. There must be a contradiction in there somewhere. Examine the %1Court Record%0 button if something strikes you as being suspicious. Then, find the evidence that contradictsh is testimony, and %1present%0 it to him!"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CONTINUING TRIAL
@@ -379,9 +378,8 @@ SPEAK Sahwit  // Sweaty pose
     "Oh, that! Oh, er..."
 
 SHOUT Payne objection
-JUMPCUT COURT_PROSECUTION
 POSE Payne Sweaty
-SPEAK Payne
+SPEAK_FROM COURT_PROSECUTION
     "This is trivial! The witness merely forgot the time!"
 
 // Judge shaking head animation
@@ -445,9 +443,8 @@ DEFINE PressB1
         "So you're saying you $qheard$q something. But if you were so shocked by the body, you wouldn't hear anything at all!"
 
     SHOUT Payne objection
-    JUMPCUT COURT_PROSECUTION
     POSE Payne Sweaty
-    SPEAK Payne
+    SPEAK_FROM COURT_PROSECUTION
         "The witness did say he actually heard the time. It's ludicrous to suggest he $qwouldn't hear anything$q!"
 
     SPEAK_FROM COURT_JUDGE  // Angry pose
@@ -474,9 +471,8 @@ END_DEFINE
 
 DEFINE PressB3
     SHOUT Phoenix holdit
-    JUMPCUT COURT_DEFENSE
     POSE Phoenix Point
-    SPEAK Phoenix
+    SPEAK_FROM COURT_DEFENSE
         "How do you explain the gap!"
 
     SPEAK_FROM COURT_JUDGE  // Angry pose
@@ -512,9 +508,8 @@ DEFINE PressB5
     SPEAK_FROM COURT_JUDGE  // Angry pose
         "Mr. Payne, has the prosecution verified this testimony?"
 
-    JUMPCUT COURT_PROSECUTION
     POSE Payne Sweaty
-    SPEAK Payne
+    SPEAK_FROM COURT_PROSECUTION
         "My apologies, Your Honor. I, too, have only just learned that the witness $qheard$q the time."
 
     SPEAK_FROM COURT_WITNESS
@@ -523,9 +518,8 @@ END_DEFINE
 
 DEFINE PressB6
     SHOUT Phoenix holdit
-    JUMPCUT COURT_DEFENSE
     POSE Phoenix Point
-    SPEAK Phoenix
+    SPEAK_FROM COURT_DEFENSE
         "Well, you just watch it!"
 
     THINK Phoenix  // Thinking pose
