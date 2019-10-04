@@ -14,7 +14,7 @@ settings = {
     shouts_directory = "sprites/shouts/";
     sfx_directory = "sounds/";
 
-    main_logo_path = "main_logo.png";
+    main_logo_path = "main_logo_1024_flipped.png";
     episode_path = "scripts/episode1.meta";
 }
 
