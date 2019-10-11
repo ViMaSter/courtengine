@@ -134,6 +134,11 @@ function NewSpeakEvent(who, text, locorlit, color)
         and currentChar ~= "."
         and currentChar ~= "?"
         and currentChar ~= "!"
+        and currentChar ~= "'"
+        and currentChar ~= ":"
+        and currentChar ~= ";"
+        and currentChar ~= ")"
+        and currentChar ~= "("
         and self.speaks then
             if scene.characters[scene.textTalker].gender == "MALE" then
                 Sounds.MALETALK:play()
