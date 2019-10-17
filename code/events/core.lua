@@ -97,11 +97,23 @@ function NewSpeakEvent(who, text, locorlit, color)
 
         local lastScroll = self.textScroll
         local scrollSpeed = TextScrollSpeed
+        local currentChar = string.sub(self.text, math.floor(self.textScroll), math.floor(self.textScroll))
+
         if controls.debug then
             scrollSpeed = scrollSpeed*8
-        end
-        if love.keyboard.isDown("lshift") then
+        elseif love.keyboard.isDown("lshift") then
             scrollSpeed = scrollSpeed*8
+        else
+            if currentChar == "."
+            or currentChar == "!"
+            or currentChar == "?"
+            then
+                scrollSpeed = scrollSpeed*0.15
+            elseif currentChar == "," then
+                scrollSpeed = scrollSpeed*0.25
+            elseif currentChar == " " then
+                scrollSpeed = scrollSpeed*0.75
+            end
         end
         self.textScroll = math.min(self.textScroll + dt*scrollSpeed, #self.text)
 
@@ -115,11 +127,18 @@ function NewSpeakEvent(who, text, locorlit, color)
             scene.textTalker = scene.characterLocations[self.who].name
         end
 
-        local currentChar = string.sub(self.text, math.floor(self.textScroll), math.floor(self.textScroll))
         if self.textScroll > lastScroll
         and currentChar ~= " "
         and currentChar ~= ","
         and currentChar ~= "-"
+        and currentChar ~= "."
+        and currentChar ~= "?"
+        and currentChar ~= "!"
+        and currentChar ~= "'"
+        and currentChar ~= ":"
+        and currentChar ~= ";"
+        and currentChar ~= ")"
+        and currentChar ~= "("
         and self.speaks then
             if scene.characters[scene.textTalker].gender == "MALE" then
                 Sounds.MALETALK:play()
