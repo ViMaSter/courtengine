@@ -29,6 +29,7 @@ controls = {
     press_right = "right";
     press_left = "left";
     press_confirm = "up";
+    press_toggle_profiles = "down";
 }
 
 dimensions = {
