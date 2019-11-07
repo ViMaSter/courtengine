@@ -287,12 +287,18 @@ function NewPlaySoundEvent(sound)
     return self
 end
 
-function NewCourtRecordAddEvent(evidence)
+function NewCourtRecordAddEvent(itemType, name)
     local self = {}
-    self.evidence = evidence
+    self.itemType = itemType
+    self.name = name
 
     self.update = function (self, scene, dt)
-        table.insert(Episode.courtRecords, scene.evidence[self.evidence])
+        if self.itemType == "EVIDENCE" then
+            table.insert(Episode.courtRecords.evidence, scene.evidence[self.name])
+        elseif self.itemType == "PROFILE" then
+            table.insert(Episode.courtRecords.profiles, scene.profiles[self.name])
+        end
+
         return false
     end
 

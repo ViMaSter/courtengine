@@ -4,6 +4,7 @@ function NewScene(scriptPath)
     self.characterLocations = {}
     self.characters = {}
     self.evidence = {}
+    self.profiles = {}
     self.flags = {}
 
     self.penalties = 5

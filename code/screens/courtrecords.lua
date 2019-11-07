@@ -1,11 +1,12 @@
 function DrawCourtRecords(ui)
     local bodyOptions = {}
-    for i=1, #Episode.courtRecords do
-        table.insert(bodyOptions, Episode.courtRecords[i].sprite)
-    end
 
     if ui == "evidence" then
         -- Draw evidence UI
+        for i=1, #Episode.courtRecords.evidence do
+            table.insert(bodyOptions, Episode.courtRecords.evidence[i].sprite)
+        end
+        
         DrawCenteredRectangle({
             width = love.graphics.getWidth() * 4/5,
             height = love.graphics.getHeight() - 120,
@@ -26,15 +27,19 @@ function DrawCourtRecords(ui)
             title = "Evidence",
             body = {
                 selected = {
-                    image = Episode.courtRecords[CourtRecordIndex].sprite,
-                    title = Episode.courtRecords[CourtRecordIndex].externalName,
-                    details = Episode.courtRecords[CourtRecordIndex].info
+                    image = Episode.courtRecords.evidence[CourtRecordIndex].sprite,
+                    title = Episode.courtRecords.evidence[CourtRecordIndex].externalName,
+                    details = Episode.courtRecords.evidence[CourtRecordIndex].info
                 },
                 options = bodyOptions
             }
         })
     else
         -- Draw profiles UI
+        for i=1, #Episode.courtRecords.profiles do
+            table.insert(bodyOptions, Episode.courtRecords.profiles[i].sprite)
+        end
+        
         DrawCenteredRectangle({
             width = love.graphics.getWidth() * 4/5,
             height = love.graphics.getHeight() - 120,
@@ -55,9 +60,9 @@ function DrawCourtRecords(ui)
             title = "Profiles",
             body = {
                 selected = {
-                    image = Episode.courtRecords[CourtRecordIndex].sprite,
-                    title = Episode.courtRecords[CourtRecordIndex].externalName,
-                    details = Episode.courtRecords[CourtRecordIndex].info
+                    image = Episode.courtRecords.profiles[CourtRecordIndex].sprite,
+                    title = Episode.courtRecords.profiles[CourtRecordIndex].characterName .. " (Age: " .. Episode.courtRecords.profiles[CourtRecordIndex].age .. ")",
+                    details = Episode.courtRecords.profiles[CourtRecordIndex].info
                 },
                 options = bodyOptions
             }
