@@ -15,6 +15,8 @@ COURT_RECORD_ADD EVIDENCE Badge
 
 PROFILE_INITIALIZE Mia "Mia Fey" 27 "Chief Attorney at Fey & Co. My boss, and a very good defense attorney." profiles/mia.png
 COURT_RECORD_ADD PROFILE Mia
+PROFILE_INITIALIZE Butz "Larry Butz" 23 "The defendant in this case. A likeable guy who was my friend in grade school." profiles/butz.png
+COURT_RECORD_ADD PROFILE Butz
 
 TYPEWRITER
     "August 3rd, 9:47AM#District Court#Defendant Lobby No. 2"
