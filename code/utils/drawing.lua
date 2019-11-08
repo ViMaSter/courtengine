@@ -112,7 +112,7 @@ function DrawCenteredRectangle(options)
                 body.selected.details,
                 detailTextX,
                 detailTextY - 35,
-                selectedDetailsWidth / 2,
+                selectedDetailsWidth / 2 - selectedDetailHorizontalPadding,
                 left,
                 0,
                 2,

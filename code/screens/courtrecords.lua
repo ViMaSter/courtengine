@@ -85,11 +85,16 @@ CourtRecordsConfig = {
     onKeyPressed = function (key)
         if key == controls.press_left and CourtRecordIndex > 1 then
             CourtRecordIndex = CourtRecordIndex - 1
-        elseif key == controls.press_right and CourtRecordIndex < #Episode.courtRecords then
-            CourtRecordIndex = CourtRecordIndex + 1
+        elseif key == controls.press_right then
+            if menu_type == "evidence" and CourtRecordIndex < #Episode.courtRecords.evidence then
+                CourtRecordIndex = CourtRecordIndex + 1
+            elseif menu_type == "profiles" and CourtRecordIndex < #Episode.courtRecords.profiles then
+                CourtRecordIndex = CourtRecordIndex + 1
+            end
         elseif key == controls.press_confirm then
             -- TODO: Implement what happens when you confirm?
         elseif key == controls.press_toggle_profiles then
+            CourtRecordIndex = 1
             if menu_type == "evidence" then
                 -- Toggle on profiles UI
                 menu_type = "profiles"
