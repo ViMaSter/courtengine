@@ -115,3 +115,26 @@ function NewEvidenceInitEvent(name, externalName, info, file)
 
     return self
 end
+
+function NewProfileInitEvent(name, characterName, age, info, file)
+    local self = {}
+    self.name = name
+    self.characterName = characterName
+    self.age = age
+    self.info = info
+    self.file = file
+
+    self.update = function (self, scene, dt)
+        scene.profiles[self.name] = {
+            name = self.name,
+            characterName = self.characterName,
+            age = self.age,
+            info = self.info,
+            sprite = love.graphics.newImage(self.file),
+        }
+
+        return false
+    end
+
+    return self
+end

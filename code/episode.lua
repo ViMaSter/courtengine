@@ -3,7 +3,10 @@ function NewEpisode(episodePath)
         loaded = false,
         scenes = {},
         sceneIndex = 0,
-        courtRecords = {},
+        courtRecords = {
+            evidence = {},
+            profiles = {}
+        }
     }
 
     for line in love.filesystem.lines(episodePath) do

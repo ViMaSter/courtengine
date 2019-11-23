@@ -126,8 +126,13 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "EVIDENCE_INITIALIZE" then
                     AddToStack(stack, NewEvidenceInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5]), lineParts)
                 end
+                if lineParts[1] == "PROFILE_INITIALIZE" then
+                    -- 2: internal name, 3: in-game title (character name), 4: age, 5: description, 6: profile icon
+                    AddToStack(stack, NewProfileInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5], lineParts[6]), lineParts)
+                end
                 if lineParts[1] == "COURT_RECORD_ADD" then
-                    AddToStack(stack, NewCourtRecordAddEvent(lineParts[2]), lineParts)
+                    -- 2: court record item type (evidence or profile), 3: internal name of initialized item
+                    AddToStack(stack, NewCourtRecordAddEvent(lineParts[2], lineParts[3]), lineParts)
                 end
 
                 if lineParts[1] == "SET_SCENE_TYPE" then

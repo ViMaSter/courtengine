@@ -107,12 +107,13 @@ function DrawCenteredRectangle(options)
             DrawDashedLine(detailX, detailTextY + detailTextLineHeight * 2, detailX + selectedDetailsWidth, detailTextY + detailTextLineHeight * 2, dashLength, dashSpaceSize)
 
             -- Write the details
-            -- TODO: This should write onto three lines, but may require us to update how evidence is being initialized,
-            -- so only write onto one line for now
-            love.graphics.print(
+            GameFont:setLineHeight(1.9)
+            love.graphics.printf(
                 body.selected.details,
                 detailTextX,
                 detailTextY - 35,
+                selectedDetailsWidth / 2 - selectedDetailHorizontalPadding,
+                left,
                 0,
                 2,
                 2
