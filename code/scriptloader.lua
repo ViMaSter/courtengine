@@ -7,6 +7,7 @@ function LoadScript(scene, scriptPath)
     local definitions = {}
 
     local queuedSpeak = nil
+    local queuedInterruptedSpeak = nil
     local queuedThink = nil
     local queuedTypewriter = nil
     local witnessQueue = nil
@@ -91,6 +92,13 @@ function LoadScript(scene, scriptPath)
             if canExecuteLine and queuedSpeak ~= nil then
                 AddToStack(stack, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2], queuedSpeak[3]), {"queuedSpeak "..queuedSpeak[1], unpack(lineParts)})
                 queuedSpeak = nil
+
+                canExecuteLine = false
+            end
+
+            if canExecuteLine and queuedInterruptedSpeak ~= nil then
+                AddToStack(stack, NewInterruptedSpeakEvent(queuedInterruptedSpeak[1], lineParts[1], queuedInterruptedSpeak[2], queuedInterruptedSpeak[3]), {"queuedInterruptedSpeak "..queuedInterruptedSpeak[1], unpack(lineParts)})
+                queuedInterruptedSpeak = nil
 
                 canExecuteLine = false
             end
@@ -252,6 +260,13 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CLEAR_LOCATION" then
                     AddToStack(stack, NewClearLocationEvent(lineParts[2]), lineParts)
                 end
+                if lineParts[1] == "HIDE_TEXT" then
+                    AddToStack(stack, NewHideTextEvent(lineParts[2]), lineParts)
+                end
+                if lineParts[1] == "INTERRUPTED_SPEAK" then
+                    queuedInterruptedSpeak = {lineParts[2], "literal", lineParts[3]}
+                end
+                
             end
         end
     end

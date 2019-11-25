@@ -42,7 +42,6 @@ function NewScene(scriptPath)
 
     self.update = function (self, dt)
         -- update the active event
-        self.textHidden = false
         self.canShowCharacter = true
         self.textCentered = false
         self.textBoxSprite = Sprites["TextBox"]

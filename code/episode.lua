@@ -28,10 +28,6 @@ function NewEpisode(episodePath)
 
     self.nextScene = function ()
         self.sceneIndex = self.sceneIndex + 1
-
-        for i,v in pairs(Music) do
-            v:stop()
-        end
         
         if self.sceneIndex <= #self.scenes then
             CurrentScene = NewScene(self.scenes[self.sceneIndex])

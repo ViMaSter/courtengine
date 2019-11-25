@@ -55,7 +55,9 @@ function DrawCenteredRectangle(options)
         local selectedTopLeftX = topLeftX + borderSize + bodyPadding
         local selectedTopLeftY = topLeftY + borderSize + bodyPadding + titleHeight
         local selectedPadding = 30
-        local selectedDetailsWidth = width - (borderSize * 2 + body.selected.image:getWidth() * 4 + selectedPadding * 2 + bodyPadding)
+        -- TODO: Default styling for an empty Evidence/Profiles UI (if that ever happens)
+        local imageWidth = body.selected ~= nil and body.selected.image:getWidth() or 200
+        local selectedDetailsWidth = width - (borderSize * 2 + imageWidth * 4 + selectedPadding * 2 + bodyPadding)
         local selectedDetailHorizontalPadding = 15
         local selectedDetailVerticalPadding = 80
 
@@ -72,7 +74,7 @@ function DrawCenteredRectangle(options)
             )
 
             local detailTitleHeight = 40
-            local detailX = selectedTopLeftX + body.selected.image:getWidth() * 4 + selectedPadding
+            local detailX = selectedTopLeftX + imageWidth * 4 + selectedPadding
             local detailTextX = detailX + selectedDetailHorizontalPadding
 
             -- Highlight title

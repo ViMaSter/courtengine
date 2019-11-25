@@ -77,10 +77,11 @@ function NewCutToEvent(cutTo)
     return self
 end
 
-function NewSpeakEvent(who, text, locorlit, color)
+function NewSpeakEvent(who, text, locorlit, color, needsPressing)
     local self = {}
     self.text = text
     self.textScroll = 1
+    self.needsPressing = needsPressing ~= nil and needsPressing or true
     self.wasPressing = true
     self.who = who
     self.locorlit = locorlit
@@ -93,6 +94,7 @@ function NewSpeakEvent(who, text, locorlit, color)
     self.speaks = true
 
     self.update = function (self, scene, dt)
+        scene.textHidden = false
         scene.fullText = self.text
 
         local lastScroll = self.textScroll
@@ -152,13 +154,27 @@ function NewSpeakEvent(who, text, locorlit, color)
         scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
 
         local pressing = love.keyboard.isDown("x")
-        if pressing and not self.wasPressing and self.textScroll >= #self.text then
-            return false
+        -- What to do at the end of dialogue
+        if self.textScroll >= #self.text then
+            if self.needsPressing == false then
+                -- This dialogue doesn't need the button to continue, like a run-on sentence
+                return false
+            elseif pressing and not self.wasPressing then
+                -- This dialogue needs the button, and the button was just pressed
+                return false
+            end
         end
-        self.wasPressing = pressing
 
+        self.wasPressing = pressing
         return true
     end
+
+    return self
+end
+
+function NewInterruptedSpeakEvent(who, text, locorlit)
+    local self = NewSpeakEvent(who, text, locorlit)
+    self.needsPressing = false
 
     return self
 end
@@ -171,6 +187,16 @@ function NewThinkEvent(who, text, locorlit)
     return self
 end
 
+function NewHideTextEvent()
+    local self = {}
+    self.update = function (self, scene, dt)
+        scene.textHidden = true;
+        return false;
+    end
+
+    return self
+end
+
 function NewTypeWriterEvent(text)
     local self = {}
     self.text = text
@@ -178,6 +204,7 @@ function NewTypeWriterEvent(text)
     self.wasPressing = true
 
     self.update = function (self, scene, dt)
+        scene.textHidden = false
         local lastScroll = self.textScroll
         self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
 
@@ -249,10 +276,15 @@ function NewPlayMusicEvent(music)
 
     self.update = function (self, scene, dt)
         for i,v in pairs(Music) do
-            v:stop()
+            -- Don't stop the current track before attempting to
+            -- play it. This allows us to have consequtive scripts
+            -- play the same music without the track restarting
+            if i == self.music then
+                v:play()
+            else
+                v:stop()
+            end
         end
-
-        Music[self.music]:play()
 
         return false
     end
@@ -502,7 +534,7 @@ end
 function NewWaitEvent(seconds)
     local self = {}
     self.timer = 0
-    self.seconds = seconds
+    self.seconds = tonumber(seconds)
 
     self.update = function (self, scene, dt)
         self.timer = self.timer + dt
