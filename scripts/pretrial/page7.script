@@ -1,0 +1,69 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// INITIALIZE SCENE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SET_SCENE_TYPE INVESTIGATION
+
+CHARACTER_INITIALIZE Arin arin MALE
+CHARACTER_INITIALIZE Dan dan FEMALE
+CHARACTER_INITIALIZE Jory jory MALE
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
+COURT_RECORD_ADD EVIDENCE Badge
+
+PLAY_MUSIC PRELUDE
+JUMPCUT LOBBY
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START SCRIPT
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CHARACTER_LOCATION Jory LOBBY
+SPEAK Jory
+    "Wow, thanks guys.#I guess I'll head to the, uh, %1$qCourtroom$q%0 then."
+SPEAK Jory
+    "They turned the main grumps office space into a makeshift courtroom just for this."
+SPEAK Jory
+    "So uh, see you there."
+
+HIDE_TEXT
+CLEAR_LOCATION LOBBY
+SFX Dooropens
+WAIT 2
+
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "Wow, I didn't expect you to change your mind so quickly like that."
+SPEAK Dan
+    "I guess what Jory Sr. said about trust and love made a difference, huh?"
+
+POSE Dan Ohmy
+SPEAK Arin
+    "Yea, trust and love and whatever.#What do you think Jory Sr. is going to give us when we win?"
+
+SPEAK Dan
+    "Arin!"
+SPEAK Arin
+    "WHAT? We're helping him aren't we?#That's the whole point, right?!"
+SPEAK Dan
+    "You are just... UN..."
+SPEAK Arin
+    "...#...#..."
+INTERRUPTED_SPEAK Arin
+    "I'm wha---"
+
+SCREEN_SHAKE
+POSE Dan Normal
+SPEAK Dan
+    "BELIEVEABLE!"
+SPEAK Arin
+    "Ok, ok, let's get ready."
+SPEAK Arin
+    "I just got a new suit just for something like this.#You're gonna love it."
+
+WAIT 1
+FADE_TO_BLACK
+JUMPCUT BLACK_SCREEN
+WAIT 3
+
+END_SCENE

@@ -1,0 +1,88 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// INITIALIZE SCENE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SET_SCENE_TYPE INVESTIGATION
+
+CHARACTER_INITIALIZE Arin arin MALE
+CHARACTER_INITIALIZE Dan dan FEMALE
+CHARACTER_INITIALIZE Jory jory MALE
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
+COURT_RECORD_ADD EVIDENCE Badge
+
+PLAY_MUSIC PRELUDE
+JUMPCUT LOBBY
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START SCRIPT
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CHARACTER_LOCATION Dan LOBBY
+POSE Dan Ohmy
+SPEAK Dan
+    "Oh yea, I remember that!"
+
+POSE Dan Normal
+SPEAK Dan
+    "We bothered everyone in the office for the whole episode, only to find out it was you!"
+
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory Normal
+SPEAK Jory
+    "Yea, well that's how we planned it to go down."
+SPEAK Jory
+    "It was a good episode."
+SPEAK Arin
+    "Yea it was.#So everyone thinks you did it now?
+
+POSE Jory Nervous
+SPEAK Jory
+    "Yea, everyone is calling for my goodboy coins to be taken, after all the work I put into getting these."
+SPEAK Jory
+    "They're even having Brent come to the office on his day off today, and he says he'll hold a trial for it and everything!"
+SPEAK Jory
+    "And I've got nobody in my corner!"
+
+POSE Jory Sweaty
+SPEAK Arin
+    "That sucks dude."
+
+CHARACTER_LOCATION Dan LOBBY
+POSE Dan Normal
+SPEAK Dan
+    "Arin, don't you get it?"
+SPEAK Arin
+    "Get what?"
+SPEAK Dan
+    "He wants US to defend him in this trial!#Right, Jory?"
+
+POSE Jory ThumbsUp
+CHARACTER_LOCATION Jory LOBBY
+
+SCREEN_SHAKE
+SPEAK Arin
+    "Whaaaat?!"
+
+WAIT 1
+SPEAK Jory
+    "Well, I guess so."
+SPEAK Jory
+    "I didn't really know what to do, and you guys know I'd never do anything like that."
+SPEAK Arin
+    "Well, you ARE in the dunk tank for this episode..."
+
+CHARACTER_LOCATION Dan LOBBY
+POSE Dan Ohmy
+SPEAK Dan
+    "ARIN!"
+
+POSE Dan Normal
+SPEAK Dan
+    "Cmon bro, be a bro and bro this one out for our bro... Brory."
+
+POSE Dan Ohmy
+SPEAK Arin
+    "This is no time for hilarious jokes Dan, this is serious!"
+
+END_SCENE
