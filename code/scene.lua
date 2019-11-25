@@ -1,6 +1,8 @@
 function NewScene(scriptPath)
     local self = {}
+    self.scriptPath = scriptPath
     self.location = "NONE"
+    self.music = "NONE"
     self.characterLocations = {}
     self.characters = {}
     self.evidence = {}

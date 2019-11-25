@@ -9,6 +9,7 @@ settings = {
     text_scroll_speed = 30;
 
     background_directory = "backgrounds/";
+    character_directory = "characters/";
     music_directory = "music/";
     sprite_directory = "sprites/";
     shouts_directory = "sprites/shouts/";

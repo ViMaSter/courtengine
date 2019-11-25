@@ -275,6 +275,8 @@ function NewPlayMusicEvent(music)
     self.music = music
 
     self.update = function (self, scene, dt)
+        scene.music = music
+
         for i,v in pairs(Music) do
             -- Don't stop the current track before attempting to
             -- play it. This allows us to have consequtive scripts
@@ -296,6 +298,8 @@ function NewStopMusicEvent()
     local self = {}
 
     self.update = function (self, scene, dt)
+        scene.music = nil
+
         for i,v in pairs(Music) do
             v:stop()
         end
