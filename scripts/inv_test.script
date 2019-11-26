@@ -1,14 +1,14 @@
 SET_SCENE_TYPE INVESTIGATION 
 
-CHARACTER_INITIALIZE Phoenix characters/phoenix MALE
+CHARACTER_INITIALIZE Phoenix phoenix MALE
 CHARACTER_LOCATION Phoenix NONE
 
-CHARACTER_INITIALIZE Mia characters/mia FEMALE
+CHARACTER_INITIALIZE Mia mia FEMALE
 CHARACTER_INITIALIZE_POSE Mia Ohmy
 CHARACTER_LOCATION Mia LOBBY
 
 EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possesion." evidence/badge.png
-COURT_RECORD_ADD Badge
+COURT_RECORD_ADD EVIDENCE Badge
 EVIDENCE_INITIALIZE Autopsy "Autopsy Report" "Time: Yesterday, Cause: Yes" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
 

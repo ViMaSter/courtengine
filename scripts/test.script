@@ -3,10 +3,10 @@
 
 // CHARACTER_INITIALIZE format: 
 // name, folder location
-CHARACTER_INITIALIZE Arin characters/phoenix 
-CHARACTER_INITIALIZE Edgeworth characters/edgeworth 
-CHARACTER_INITIALIZE Judge characters/judge 
-CHARACTER_INITIALIZE Gumshoe characters/gumshoe 
+CHARACTER_INITIALIZE Arin arin
+CHARACTER_INITIALIZE Edgeworth edgeworth
+CHARACTER_INITIALIZE Judge judge
+CHARACTER_INITIALIZE Gumshoe gumshoe
 
 // set characters to a background, so when you cut to that background they are there
 CHARACTER_LOCATION Arin COURT_DEFENSE

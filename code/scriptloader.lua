@@ -7,6 +7,7 @@ function LoadScript(scene, scriptPath)
     local definitions = {}
 
     local queuedSpeak = nil
+    local queuedInterruptedSpeak = nil
     local queuedThink = nil
     local queuedTypewriter = nil
     local witnessQueue = nil
@@ -89,28 +90,35 @@ function LoadScript(scene, scriptPath)
             end
 
             if canExecuteLine and queuedSpeak ~= nil then
-                AddToStack(stack, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2], queuedSpeak[3]), {"queuedSpeak "..queuedSpeak[1], unpack(lineParts)})
+                AddToStack(stack, NewSpeakEvent(queuedSpeak[1], lineParts[1], queuedSpeak[2], queuedSpeak[3]), {"SPEAK "..queuedSpeak[1], unpack(lineParts)})
                 queuedSpeak = nil
 
                 canExecuteLine = false
             end
 
+            if canExecuteLine and queuedInterruptedSpeak ~= nil then
+                AddToStack(stack, NewInterruptedSpeakEvent(queuedInterruptedSpeak[1], lineParts[1], queuedInterruptedSpeak[2], queuedInterruptedSpeak[3]), {"queuedInterruptedSpeak "..queuedInterruptedSpeak[1], unpack(lineParts)})
+                queuedInterruptedSpeak = nil
+
+                canExecuteLine = false
+            end
+
             if canExecuteLine and queuedThink ~= nil then
-                AddToStack(stack, NewThinkEvent(queuedThink[1], lineParts[1], queuedThink[2], queuedThink[3]), {"queuedThink "..queuedThink[1], unpack(lineParts)})
+                AddToStack(stack, NewThinkEvent(queuedThink[1], lineParts[1], queuedThink[2], queuedThink[3]), {"THINK "..queuedThink[1], unpack(lineParts)})
                 queuedThink = nil
 
                 canExecuteLine = false
             end
 
             if canExecuteLine and queuedTypewriter ~= nil then
-                AddToStack(stack, NewTypeWriterEvent(lineParts[1]), {"queuedTypewriter", unpack(lineParts)})
+                AddToStack(stack, NewTypeWriterEvent(lineParts[1]), {"TYPEWRITER", unpack(lineParts)})
                 queuedTypewriter = nil
 
                 canExecuteLine = false
             end
 
             if canExecuteLine and evidenceAddQueue ~= nil then
-                AddToStack(stack, NewAddToCourtRecordAnimationEvent(lineParts[1], evidenceAddQueue[1]), {"evidenceAddQueue "..evidenceAddQueue[1], unpack(lineParts)})
+                AddToStack(stack, NewAddToCourtRecordAnimationEvent(lineParts[1], evidenceAddQueue[1]), {"COURT_RECORD_ADD EVIDENCE "..evidenceAddQueue[1], unpack(lineParts)})
                 evidenceAddQueue = nil
 
                 canExecuteLine = false
@@ -252,6 +260,13 @@ function LoadScript(scene, scriptPath)
                 if lineParts[1] == "CLEAR_LOCATION" then
                     AddToStack(stack, NewClearLocationEvent(lineParts[2]), lineParts)
                 end
+                if lineParts[1] == "HIDE_TEXT" then
+                    AddToStack(stack, NewHideTextEvent(lineParts[2]), lineParts)
+                end
+                if lineParts[1] == "INTERRUPTED_SPEAK" then
+                    queuedInterruptedSpeak = {lineParts[2], "literal", lineParts[3]}
+                end
+                
             end
         end
     end

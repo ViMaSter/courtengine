@@ -1,0 +1,91 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// INITIALIZE SCENE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SET_SCENE_TYPE INVESTIGATION
+
+CHARACTER_INITIALIZE Arin arin MALE
+CHARACTER_INITIALIZE Dan dan FEMALE
+CHARACTER_INITIALIZE Jory jory MALE
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
+COURT_RECORD_ADD EVIDENCE Badge
+
+PLAY_MUSIC PRELUDE
+JUMPCUT LOBBY
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START SCRIPT
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+POSE Dan Ohmy
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Arin
+    "uhhhhhhhhhhhhhhhhhhh, anyway, yea, it's from Jory Sr. for sure."
+
+POSE Dan Normal
+SPEAK Dan
+    "What does it say?"
+SPEAK Arin
+    "*ahem*"
+SPEAK Arin GREEN
+    "$qHello Grumps, first of all I want to thank you for all the hard work you've done taking care of my son, Jory Jr.$q"
+
+POSE Dan Ohmy
+SPEAK Dan
+    "You've gotta be kidding me."
+SPEAK Arin GREEN
+    "$qI've heard what happened to my son with the dinosaurs.$q"
+SPEAK Arin GREEN
+    "$qWhile I know it looks bad, I know my son is a good son who only does good things.$q"
+SPEAK Arin GREEN
+    "$qI know you know that too.#So please, defend him in court.$q"
+SPEAK Arin GREEN
+    "$qShow the world he is innocent of such a heinous and despicable crime and find out who the real culprit is.$q"
+
+POSE Dan Normal
+SPEAK Dan
+    "Wow, that was beautiful."
+SPEAK Arin GREEN
+    "$qP.S., remember, the second most important thing to winning this case is love and trust!$q"
+
+POSE Dan Ohmy
+SPEAK Arin GREEN
+    "$qAnd the most important thing is I have something for you if you win!$q"
+SPEAK Dan
+    "Wow... that was... beautiful?"
+SPEAK Arin
+    "Wait, there's one more thing."
+SPEAK Arin GREEN
+    "$qP.S.S., I hope you two have been continuing to provide my boy with wholesome food as well.$q"
+SPEAK Arin GREEN
+    "$qAnd I hope you've been avoiding giving him milk as he's deathly allergic to it.$q"
+SPEAK Dan
+    "Huh..."
+
+HIDE_TEXT
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory Sweaty
+WAIT 2
+SPEAK Arin
+    "..."
+
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "...#So...?"
+SPEAK Arin
+    "Isn't it obvious, Dan?"
+SPEAK Arin
+    "Jory, don't worry, we're on it buddy, because we trust you!"
+
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory Normal
+SPEAK Jory
+    "Oh, uh, ok."
+
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "Really Arin?"
+SPEAK Arin
+    "Yep! I have no doubt we'll clear your good name, Jory!"
+
+END_SCENE

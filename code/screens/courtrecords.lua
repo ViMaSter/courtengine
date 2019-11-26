@@ -1,73 +1,76 @@
 function DrawCourtRecords(ui)
     local bodyOptions = {}
+    local bodySelected = nil
+    local menuButtons = {
+        {
+            title = "Back",
+            key = controls.press_court_record
+        },
+        -- TODO: Can you present a profile?
+        {
+            title = "Present",
+            key = controls.press_confirm
+        },
+    }
+    local menuTitle
 
     if ui == "evidence" then
+        menuTitle = "Evidence"
+
         -- Draw evidence UI
         for i=1, #Episode.courtRecords.evidence do
             table.insert(bodyOptions, Episode.courtRecords.evidence[i].sprite)
         end
         
-        DrawCenteredRectangle({
-            width = love.graphics.getWidth() * 4/5,
-            height = love.graphics.getHeight() - 120,
-            buttons = {
-                {
-                    title = "Back",
-                    key = controls.press_court_record
-                },
-                {
-                    title = "Present",
-                    key = controls.press_confirm
-                },
-                {
-                    title = "Profiles",
-                    key = controls.press_toggle_profiles
-                }
-            },
-            title = "Evidence",
-            body = {
-                selected = {
-                    image = Episode.courtRecords.evidence[CourtRecordIndex].sprite,
-                    title = Episode.courtRecords.evidence[CourtRecordIndex].externalName,
-                    details = Episode.courtRecords.evidence[CourtRecordIndex].info
-                },
-                options = bodyOptions
+        table.insert(
+            menuButtons,
+            {
+                title = "Profiles",
+                key = controls.press_toggle_profiles
             }
-        })
+        )
+
+        if Episode.courtRecords.evidence[CourtRecordIndex] ~= nil then
+            bodySelected = {
+                image = Episode.courtRecords.evidence[CourtRecordIndex].sprite,
+                title = Episode.courtRecords.evidence[CourtRecordIndex].externalName,
+                details = Episode.courtRecords.evidence[CourtRecordIndex].info
+            }
+        end
     else
+        menuTitle = "Profiles"
+
         -- Draw profiles UI
         for i=1, #Episode.courtRecords.profiles do
             table.insert(bodyOptions, Episode.courtRecords.profiles[i].sprite)
         end
-        
-        DrawCenteredRectangle({
-            width = love.graphics.getWidth() * 4/5,
-            height = love.graphics.getHeight() - 120,
-            buttons = {
-                {
-                    title = "Back",
-                    key = controls.press_court_record
-                },
-                {
-                    title = "Present",
-                    key = controls.press_confirm
-                },
-                {
-                    title = "Evidence",
-                    key = controls.press_toggle_profiles
-                }
-            },
-            title = "Profiles",
-            body = {
-                selected = {
-                    image = Episode.courtRecords.profiles[CourtRecordIndex].sprite,
-                    title = Episode.courtRecords.profiles[CourtRecordIndex].characterName .. " (Age: " .. Episode.courtRecords.profiles[CourtRecordIndex].age .. ")",
-                    details = Episode.courtRecords.profiles[CourtRecordIndex].info
-                },
-                options = bodyOptions
+        table.insert(
+            menuButtons,
+            {
+                title = "Evidence",
+                key = controls.press_toggle_profiles
             }
-        })
+        )
+
+        if Episode.courtRecords.profiles[CourtRecordIndex] ~= nil then
+            bodySelected = {
+                image = Episode.courtRecords.profiles[CourtRecordIndex].sprite,
+                title = Episode.courtRecords.profiles[CourtRecordIndex].characterName .. " (Age: " .. Episode.courtRecords.profiles[CourtRecordIndex].age .. ")",
+                details = Episode.courtRecords.profiles[CourtRecordIndex].info
+            }
+        end
     end
+
+    DrawCenteredRectangle({
+        width = love.graphics.getWidth() * 4/5,
+        height = love.graphics.getHeight() - 120,
+        buttons = menuButtons,
+        title = menuTitle,
+        body= {
+            selected = bodySelected,
+            options = bodyOptions
+        }
+    })
 end
 
 CourtRecordsConfig = {
@@ -75,7 +78,6 @@ CourtRecordsConfig = {
     displayKey = controls.press_court_record;
     displayCondition = function ()
         -- You can only view your court records
-        print()
         return true;
     end;
     onDisplay = function ()

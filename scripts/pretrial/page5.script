@@ -1,0 +1,89 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// INITIALIZE SCENE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SET_SCENE_TYPE INVESTIGATION
+
+CHARACTER_INITIALIZE Arin arin MALE
+CHARACTER_INITIALIZE Dan dan FEMALE
+CHARACTER_INITIALIZE Jory jory MALE
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
+COURT_RECORD_ADD EVIDENCE Badge
+
+PLAY_MUSIC PRELUDE
+JUMPCUT LOBBY
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START SCRIPT
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory Nervous
+SPEAK Arin
+    "The thing is, Jory, we don't know anything about defending anyone in a trial."
+SPEAK Arin
+    "We're just idiots who say stupid things for laughs on the internet.#How're we supposed to help you?"
+SPEAK Jory
+    "Yea... I don't know, I didn't really have a plan or anything."
+SPEAK Jory
+    "The whole thing has just thrown me for a loop and I'm kind of grasping here..."
+
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "Sorry dude, but Arin's right.#We'd probably just screw it up."
+SPEAK Dan
+    "We're not lawyers.#The closest thing we've been playing is that Penix Wright(tm) game."
+SPEAK Dan
+    "And that's just a stupid game that everyone likes and is in love with!"
+SPEAK Arin
+    "Sorry Jory, but if we could help you we would."
+
+CHARACTER_LOCATION Jory LOBBY
+SPEAK Jory
+    "Yea, I understand guys."
+
+SFX Dooropens
+POSE Jory Normal
+SPEAK Jory
+    "Huh? What's this?"
+SPEAK Arin
+    "A letter?#Who's it from?"
+SPEAK Jory
+    "Huh, it's from...#My dad?"
+
+CHARACTER_LOCATION Dan LOBBY
+POSE Dan Ohmy
+SPEAK Dan
+    "From %1Jory Sr.?%0"
+SPEAK Arin
+    "Open it up, what does it say?"
+
+SFX Pageturn
+CHARACTER_LOCATION Jory LOBBY
+SPEAK Jory
+    "....#It's from my dad alright, but it's addressed to you two!"
+
+SFX Realization
+SPEAK Arin
+    "Us? Like... me and Dan?"
+
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "I thought we made that up for our episodes."
+
+CHARACTER_LOCATION Jory LOBBY
+SPEAK Jory
+    "Well, judging from the handwriting and the way it's written, I think it's the real deal."
+SPEAK Arin
+    "Let me see that!"
+
+SFX Pageturn
+SPEAK Arin
+    "...#Damn, he's right. Penix Wright!"
+
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "..."
+
+END_SCENE

@@ -33,7 +33,7 @@ function NewCharInitEvent(name, location, gender)
     if string.match(location,"/") then
         self.location = location
     else
-        self.location = "characters/"..location
+        self.location = settings.character_directory..location
     end
 
     -- grabs the files in the character directory

@@ -1,6 +1,8 @@
 function NewScene(scriptPath)
     local self = {}
+    self.scriptPath = scriptPath
     self.location = "NONE"
+    self.music = "NONE"
     self.characterLocations = {}
     self.characters = {}
     self.evidence = {}
@@ -42,7 +44,6 @@ function NewScene(scriptPath)
 
     self.update = function (self, dt)
         -- update the active event
-        self.textHidden = false
         self.canShowCharacter = true
         self.textCentered = false
         self.textBoxSprite = Sprites["TextBox"]

@@ -1,0 +1,95 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// INITIALIZE SCENE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SET_SCENE_TYPE INVESTIGATION
+
+CHARACTER_INITIALIZE Arin arin MALE
+CHARACTER_INITIALIZE Dan dan FEMALE
+CHARACTER_INITIALIZE Jory jory MALE
+
+EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
+COURT_RECORD_ADD EVIDENCE Badge
+
+PLAY_MUSIC PRELUDE
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// START SCRIPT
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+JUMPCUT LOBBY
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory Sweaty
+
+SCREEN_SHAKE
+SPEAK Arin
+    "Did you take them?"
+    
+CHARACTER_LOCATION Dan LOBBY
+POSE Dan Ohmy
+SPEAK Dan
+    "ARIN!"
+SPEAK Arin
+    "What?!#Don't $qArin$q me like you're my gosh dang-el mother, it's a legitimate question!"
+SPEAK Dan
+    "Obviously he didn't do it, look at his face!#Is that the face of someone who is guilty?"
+
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory ThumbsUp
+SPEAK Arin
+    "..."
+
+WAIT 1
+SPEAK Arin
+    "Yes?"
+
+SFX Stab
+CHARACTER_LOCATION Dan LOBBY
+SPEAK Dan
+    "No! Why would he come to us then if he's guilty?#Tell us what happened, Jory."
+
+CHARACTER_LOCATION Jory LOBBY
+POSE Jory Nervous
+SPEAK Jory
+    "Well... uh, the long and short of it is that we were about to set up to film the next 10 minute power hour."
+SPEAK Jory
+    "But we couldn't find the plastic dinos."
+SPEAK Jory    
+    "And as you know, the office rules state that no 10 minute power hour can be filmed without the dinos being present first..."
+
+POSE Jory Sweaty
+SPEAK Arin
+    "We owe all our channel's success to those dinos.#It's a good rule."
+
+POSE Jory Nervous
+SPEAK Jory
+    "Yea... anyway, we couldn't find the dinos so we started searching for them."
+SPEAK Jory
+    "10 minutes of looking later, Ross found them in my backpack."
+
+CHARACTER_LOCATION Dan LOBBY
+POSE Dan Ohmy
+SPEAK Dan
+    "Ross found them? Really?"
+
+CHARACTER_LOCATION Jory LOBBY
+SPEAK Jory
+    "Yea I know."
+
+POSE Jory Nervous
+SPEAK Jory
+    "What's worse is that he called me out on it."
+SPEAK Jory
+    "He said I was trying to prevent today's episode from happening, just like last time."
+
+POSE Jory Sweaty
+SPEAK Arin
+    "Last time?"
+
+POSE Jory Nervous
+SPEAK Jory
+    "Yea, don't you remember? I took the dinos last time for a 10 MPH episode."
+SPEAK Jory
+    "Y'know, the whodunnit episode?"
+
+END_SCENE

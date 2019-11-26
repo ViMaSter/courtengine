@@ -11,7 +11,7 @@ CHARACTER_LOCATION Judge COURT_JUDGE
 CHARACTER_LOCATION Mia COURT_ASSISTANT
 
 EVIDENCE_INITIALIZE Badge "Attorney's Badge" "My prized possession." evidence/badge.png
-COURT_RECORD_ADD Badge
+COURT_RECORD_ADD EVIDENCE Badge
 EVIDENCE_INITIALIZE Autopsy "Cindy's Autopsy Report" "7/31 4-5PM, Blunt Trauma" evidence/autopsy.png
 COURT_RECORD_ADD Autopsy
 
@@ -386,7 +386,7 @@ THINK_FROM COURT_DEFENSE
 // BUTZ TIME
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CHARACTER_INITIALIZE Butz characters/butz MALE
+CHARACTER_INITIALIZE Butz butz MALE
 CHARACTER_INITIALIZE_POSE Butz Sweaty UNPADDED
 CHARACTER_INITIALIZE_POSE Butz Nervous UNPADDED
 CHARACTER_INITIALIZE_POSE Butz ThumbsUp UNPADDED
