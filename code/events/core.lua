@@ -329,9 +329,35 @@ function NewCourtRecordAddEvent(itemType, name)
     self.name = name
 
     self.update = function (self, scene, dt)
+        -- Returns whether item table, as identified by given item name,
+        -- exists in given container table
+        function ItemExistsInTable(item_name, container_name)
+            -- Check if container is empty
+            if container_name[1] == nil then
+                return false
+            end
+
+            for _, item_table in ipairs(container_name) do
+                if item_table["name"] == item_name then
+                    return true
+                end
+            end
+
+            return false
+        end
+
         if self.itemType == "EVIDENCE" then
+            if ItemExistsInTable(self.name, Episode.courtRecords.evidence) then
+                return false
+            end
+
             table.insert(Episode.courtRecords.evidence, scene.evidence[self.name])
+
         elseif self.itemType == "PROFILE" then
+            if ItemExistsInTable(self.name, Episode.courtRecords.profiles) then
+                return false
+            end
+
             table.insert(Episode.courtRecords.profiles, scene.profiles[self.name])
         end
 
