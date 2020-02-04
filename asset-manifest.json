@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/courtengine/demo/courtengine-script-editor/static/css/main.d1b05096.chunk.css",
+    "main.js": "/courtengine/demo/courtengine-script-editor/static/js/main.fce45c61.chunk.js",
+    "main.js.map": "/courtengine/demo/courtengine-script-editor/static/js/main.fce45c61.chunk.js.map",
+    "runtime-main.js": "/courtengine/demo/courtengine-script-editor/static/js/runtime-main.21ff31c9.js",
+    "runtime-main.js.map": "/courtengine/demo/courtengine-script-editor/static/js/runtime-main.21ff31c9.js.map",
+    "static/js/2.91447e2a.chunk.js": "/courtengine/demo/courtengine-script-editor/static/js/2.91447e2a.chunk.js",
+    "static/js/2.91447e2a.chunk.js.map": "/courtengine/demo/courtengine-script-editor/static/js/2.91447e2a.chunk.js.map",
+    "index.html": "/courtengine/demo/courtengine-script-editor/index.html",
+    "precache-manifest.0f3645bfc19cbc9bb5f6f24a3cab1a6a.js": "/courtengine/demo/courtengine-script-editor/precache-manifest.0f3645bfc19cbc9bb5f6f24a3cab1a6a.js",
+    "service-worker.js": "/courtengine/demo/courtengine-script-editor/service-worker.js",
+    "static/css/main.d1b05096.chunk.css.map": "/courtengine/demo/courtengine-script-editor/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.91447e2a.chunk.js.LICENSE.txt": "/courtengine/demo/courtengine-script-editor/static/js/2.91447e2a.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/courtengine/demo/courtengine-script-editor/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.21ff31c9.js",
+    "static/js/2.91447e2a.chunk.js",
+    "static/css/main.d1b05096.chunk.css",
+    "static/js/main.fce45c61.chunk.js"
+  ]
+}
