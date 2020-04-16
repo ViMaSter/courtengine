@@ -16,6 +16,11 @@ CHARACTER_LOCATION JudgeBrent COURT_JUDGE
 CHARACTER_LOCATION TutorialBoy COURT_PROSECUTION
 CHARACTER_LOCATION Jory COURT_WITNESS
 
+EVIDENCE_INITIALIZE LivestreamRecording "Livestream Recording" "A record of major events during the livestream on the day of the crime." evidence/grapes.png
+EVIDENCE_INITIALIZE JorysBackpack "Jory's Backpack" "The backpack that Jory keeps his Good Boy coins in. The dinos were found inside." evidence/grapes.png
+EVIDENCE_INITIALIZE StolenDinos "Stolen Dinos" "The classic 10 Minute Power Hour dinos. They have a mysterious white stain covering them." evidence/grapes.png
+EVIDENCE_INITIALIZE BentCoins "Bent Coins" "Jory’s Good Boy Coins. They’re scuffed and bent out of shape." evidence/grapes.png
+
 DEFINE TRIAL_FAIL
     JUMPCUT BLACK_SCREEN
 END_DEFINE
@@ -134,9 +139,9 @@ POSE TutorialBoy Sweaty
 SPEAK TutorialBoy
     "W-well, you don't have to be so rude about it! Fine, it's been added to the court record."
 
-EVIDENCE_INITIALIZE LivestreamRecording "Livestream Recording" "A record of major events during the livestream on the day of the crime." evidence/grapes.png
 COURT_RECORD_ADD_ANIMATION EVIDENCE LivestreamRecording
 
+POSE TutorialBoy Normal
 SPEAK TutorialBoy
     "Now... where was I?"
 SPEAK TutorialBoy
@@ -151,13 +156,11 @@ SPEAK TutorialBoy
 SPEAK TutorialBoy
     "At the time the defendant was carrying this backpack, which I will submit to the court record at this time."
 
-EVIDENCE_INITIALIZE JorysBackpack "Jory's Backpack" "The backpack that Jory keeps his Good Boy coins in. The dinos were found inside." evidence/grapes.png
 COURT_RECORD_ADD_ANIMATION EVIDENCE JorysBackpack
 
 SPEAK TutorialBoy
     "However, when these dinos went missing, they were suspiciously found in the defendant's backpack!"
 
-EVIDENCE_INITIALIZE StolenDinos "Stolen Dinos" "The classic 10 Minute Power Hour dinos. They have a mysterious white stain covering them." evidence/grapes.png
 COURT_RECORD_ADD_ANIMATION EVIDENCE StolenDinos
 
 SPEAK TutorialBoy
@@ -331,7 +334,6 @@ PAN COURT_WITNESS COURT_PROSECUTION
 SPEAK_FROM COURT_PROSECUTION
     "Would those coins happen to look like… THIS?!?!"
 
-EVIDENCE_INITIALIZE BentCoins "Bent Coins" "Jory’s Good Boy Coins. They’re scuffed and bent out of shape." evidence/grapes.png
 COURT_RECORD_ADD_ANIMATION EVIDENCE BentCoins
 
 JUMPCUT COURT_WITNESS

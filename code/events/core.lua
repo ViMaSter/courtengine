@@ -236,40 +236,6 @@ function NewTypeWriterEvent(text)
     return self
 end
 
-function NewAddToCourtRecordAnimationEvent(evidenceSpriteName, evidenceDisplayName)
-    local self = {}
-    self.textScroll = 1
-    self.evidence = evidenceSpriteName
-    self.text = evidenceDisplayName.." added to#the Court Record."
-    self.wasPressing = true
-
-    self.update = function (self, scene, dt)
-        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
-        scene.fullText = self.text
-        scene.textCentered = true
-        local r,g,b = RGBColorConvert(107,198,247)
-        scene.textColor = {r,g,b}
-        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
-        scene.textTalker = ""
-        scene.textBoxSprite = Sprites["AnonTextBox"]
-
-        local pressing = love.keyboard.isDown("x")
-        if pressing and not self.wasPressing and self.textScroll >= #self.text then
-            return false
-        end
-        self.wasPressing = pressing
-
-        return true
-    end
-
-    self.draw = function (self, scene)
-        love.graphics.setColor(1,1,1)
-        love.graphics.draw(scene.evidence[self.evidence].sprite, 16,16)
-    end
-
-    return self
-end
-
 function NewPlayMusicEvent(music)
     local self = {}
     self.music = music
@@ -362,6 +328,40 @@ function NewCourtRecordAddEvent(itemType, name)
         end
 
         return false
+    end
+
+    return self
+end
+
+function NewAddToCourtRecordAnimationEvent(evidenceSpriteName)
+    local self = {}
+    self.textScroll = 1
+    self.evidence = evidenceSpriteName
+    self.wasPressing = true
+
+    self.update = function (self, scene, dt)
+        self.text = scene.evidence[self.evidence].externalName.." added to#the Court Record."
+        self.textScroll = math.min(self.textScroll + dt*TextScrollSpeed, #self.text)
+        scene.fullText = self.text
+        scene.textCentered = true
+        local r,g,b = RGBColorConvert(107,198,247)
+        scene.textColor = {r,g,b}
+        scene.text = string.sub(self.text, 1, math.floor(self.textScroll))
+        scene.textTalker = ""
+        scene.textBoxSprite = Sprites["AnonTextBox"]
+
+        local pressing = love.keyboard.isDown("x")
+        if pressing and not self.wasPressing and self.textScroll >= #self.text then
+            return false
+        end
+        self.wasPressing = pressing
+
+        return true
+    end
+
+    self.draw = function (self, scene)
+        love.graphics.setColor(1,1,1)
+        love.graphics.draw(scene.evidence[self.evidence].sprite, 16,16)
     end
 
     return self

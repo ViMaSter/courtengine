@@ -138,9 +138,14 @@ function LoadScript(scene, scriptPath)
                     -- 2: internal name, 3: in-game title (character name), 4: age, 5: description, 6: profile icon
                     AddToStack(stack, NewProfileInitEvent(lineParts[2], lineParts[3], lineParts[4], lineParts[5], lineParts[6]), lineParts)
                 end
+
                 if lineParts[1] == "COURT_RECORD_ADD" then
                     -- 2: court record item type (evidence or profile), 3: internal name of initialized item
                     AddToStack(stack, NewCourtRecordAddEvent(lineParts[2], lineParts[3]), lineParts)
+                end
+                if lineParts[1] == "COURT_RECORD_ADD_ANIMATION" then
+                    AddToStack(stack, NewCourtRecordAddEvent(lineParts[2], lineParts[3]), lineParts)
+                    AddToStack(stack, NewAddToCourtRecordAnimationEvent(lineParts[3]), lineParts)
                 end
 
                 if lineParts[1] == "SET_SCENE_TYPE" then
@@ -252,14 +257,6 @@ function LoadScript(scene, scriptPath)
                 end
                 if lineParts[1] == "TYPEWRITER" then
                     queuedTypewriter = {}
-                end
-                if lineParts[1] == "COURT_RECORD_ADD_ANIMATION" then
-                    AddToStack(stack, NewCourtRecordAddEvent(lineParts[2]), lineParts)
-                    local displayName = lineParts[2]
-                    if lineParts[3] then
-                        displayName = lineParts[3]
-                    end
-                    AddToStack(stack, NewAddToCourtRecordAnimationEvent(lineParts[2], displayName), lineParts)
                 end
                 if lineParts[1] == "CLEAR_LOCATION" then
                     AddToStack(stack, NewClearLocationEvent(lineParts[2]), lineParts)
