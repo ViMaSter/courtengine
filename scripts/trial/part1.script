@@ -67,7 +67,7 @@ SPEAK_FROM COURT_JUDGE
 SPEAK_FROM COURT_PROSECUTION
     "Mr. Hansen, Mr. Avidan, it's been a long time..."
 
-// POSE Arin Thinking
+POSE Arin Thinking
 THINK_FROM COURT_DEFENSE
     "(Who exactly is this? He seems familiar but I can't put my finger on it...)"
 
@@ -268,9 +268,40 @@ SPEAK Dan
 SPEAK Arin
     "Hm..."
 
-/////////////////////
-// CHOICES GO HERE //
-/////////////////////
+DEFINE PlayerObjects
+    WAIT 1  // This is a temporary workaround
+    SHOUT Arin Objection
+    JUMPCUT COURT_DEFENSE
+    ANIMATION Arin DeskSlam
+    SPEAK Arin
+        "My client's behavior during the livestream isn't suspicious in the least!"
+    SPEAK Arin
+        "Jory is a great employee who works hard for the team! The prosecution is twisting the truth here, Your Honor!"
+
+    // POSE "Judge Brent" Thinking
+    SPEAK_FROM COURT_JUDGE
+        "Hm..."
+    POSE "Judge Brent" Normal
+    SPEAK "Judge Brent"
+        "Objection sustained. Mr. Boy you will refrain from $qflowery language$q when questioning your witness."
+
+    // POSE "Tutorial Boy" Sweating
+    SPEAK_FROM COURT_PROSECUTION
+        "Er... Y-yes, Your Honor. The spirit of justice took hold of me and I got carried away."
+END_DEFINE
+
+DEFINE PlayerDoesntObject
+    WAIT 1  // This is a temporary workaround
+    SPEAK Arin
+        "This line needs to show up for the love of God."
+    SPEAK Arin
+        "Nah, we good I think."
+END_DEFINE
+
+FAKE_CHOICE
+    "Object!" PlayerObjects
+    "Nah, we gucci." PlayerDoesntObject
+END_CHOICE
 
 SPEAK_FROM COURT_DEFENSE 
     "Please don't slam your head into the desk again."
