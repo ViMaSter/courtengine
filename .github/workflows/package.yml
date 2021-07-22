@@ -3,10 +3,10 @@ name: Generate executables
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch:
       
 jobs:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: vimaster/love-build@v2
+    - uses: nhartland/love-build@v1-beta2
       id: love-build
       with:
         app_name: 'Game Grumps - Joint Justice'
