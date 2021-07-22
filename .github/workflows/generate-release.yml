@@ -1,0 +1,32 @@
+name: Generate release
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+      
+jobs:
+  build-upload:
+    name: Generate self-contained archives
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nhartland/love-build@v1-beta2
+      id: love-build
+      with:
+        app_name: 'Game Grumps - Joint Justice'
+        love_version: '11.3'
+    - uses: ncipollo/release-action@v1.8.6
+      with:
+        artifacts: |
+          ${{ steps.love-build.outputs.macos-filename }},
+          ${{ steps.love-build.outputs.win32-filename }},
+          ${{ steps.love-build.outputs.win64-filename }},
+          ${{ steps.love-build.outputs.love-filename }}
+        tag: "${{ github.run_number }}"
+        name: "Development release #${{ github.run_number }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
