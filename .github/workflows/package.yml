@@ -10,14 +10,12 @@ on:
   workflow_dispatch:
       
 jobs:
-  # This workflow contains a single job called "build"
   build-upload:
-    name: Generate 
-    # The type of runner that the job will run on
+    name: Generate self-contained archives
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nhartland/love-build@v1-beta2
+    - uses: vimaster/love-build@v2
       id: love-build
       with:
         app_name: 'Game Grumps - Joint Justice'
