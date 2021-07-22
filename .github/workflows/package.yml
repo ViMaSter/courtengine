@@ -28,5 +28,4 @@ jobs:
           ${{ steps.love-build.outputs.win64-filename }},
           ${{ steps.love-build.outputs.love-filename }}
         tag: ${{ github.run_number }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
