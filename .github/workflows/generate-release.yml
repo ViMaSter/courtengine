@@ -27,5 +27,6 @@ jobs:
           ${{ steps.love-build.outputs.win32-filename }},
           ${{ steps.love-build.outputs.win64-filename }},
           ${{ steps.love-build.outputs.love-filename }}
-        tag: "Development version #${{ github.run_number }}"
+        tag: "${{ github.run_number }}"
+        name: "Development release #${{ github.run_number }}"
         token: ${{ secrets.GITHUB_TOKEN }}
